@@ -6,6 +6,10 @@ We can make Rocketbar more useful and improve productivity for the user via exte
 
 We could backport it to awesomebar on Firefox, Firefox for Android/iOS if its been proven useful.
 
+Prototype: https://jsfiddle.net/gasolin/02gfow19/
+
+Able to **Open** installed app and **Search** through search providers.
+
 ## What Rocketbar is capable of
 
 Elements: search field, categorized suggestion list
