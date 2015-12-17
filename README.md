@@ -4,6 +4,8 @@
 
 We can make Rocketbar more useful and improve productivity for the user via extendable verb commands.
 
+We could backport it to awesomebar on Firefox, Firefox for Android/iOS if its been proven useful.
+
 ## What Rocketbar is capable of
 
 Elements: search field, categorized suggestion list
@@ -49,8 +51,15 @@ Moonbar maintain a defined verbs set on `device`.
 ## Approach land rocket to moonbar
 
 (what firefox for android will do)
+
 1. show instant search via tags
 2. show all search options in suggestion list
+
 (new)
+
 3. search through target search provider via partial type (ex: `y moz` should trigger yahoo search)
 4. introduce more `verb + noun` pattern
+
+(ubiquity)
+
+5. allow developer add their `verb + noun` pattern to moonbar
