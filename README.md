@@ -14,7 +14,7 @@ Add ability to **Open** installed app and **Search** through search providers.
 
 Elements: search field, categorized suggestion list
 
-Entrance: When user tap the Rocketbar at the top left, it trigger the whole page, with no content.
+Entrance: When user tap the Rocketbar at the top left, it trigger the whole page, `with no content`.
 
 Start Input: key in to get instant results from several resources:
 
@@ -33,15 +33,15 @@ When user tap some characters, the instant search returns several set of results
 
 Elements: search field, categorized suggestion list, `tags`
 
-Entrance: When user tap the Moonbar at the top left, it trigger the whole page, with a defined verbs set* (visually shown as tags under the search field). User typing will auto matching the verbs + nouns.
+Entrance: When user tap the Moonbar at the top left, it trigger the whole page, and list ` a supported verbs set`* (visually shown as tags under the search field). User typing will auto matching the `verbs + nouns` pattern.
 
-* `Search` and `Open` are the default verbs, we don't need to show or type them.
+* `Search` and `Open` are the default verbs, we don't need to type them manually.
 * `Search providers` are exposed as default verbs. (ex: user could use `wikipedia <keyword>`/`w <keyword>` to search wikipedia directly)
 
-Start Input:
+User is able to found what she needs quickly through keyboard and tags:
 * key in to get instant results from several resources, or
 * Tap verb tag then select from the list, or
-* key in to filter verb tags, use space to match verb + noun
+* key in to filter verb tags, use space to match `verb + noun` pattern
 
 ## Rules
 
