@@ -45,15 +45,17 @@ Start Input:
 
 ## Rules
 
-1. verb + noun
+1. respect existing searchbar interactions, so user no need to relearn.
+
+2. use verb + noun format to execute new commands
 
 Moonbar maintain a defined verbs set on `device`.
 
 `noun` (search term)
 
-2. show all available verb tags when no user input
+3. show all available verb tags when no user input
 
-3. while user typing, they can tap tag to scope the suggestions
+4. while user typing, they can tap tag to scope the suggestions
 
 
 ## Approach land rocket to moonbar
