@@ -8,7 +8,7 @@ We could backport it to awesomebar on Firefox, Firefox for Android/iOS if its be
 
 Prototype: https://jsfiddle.net/gasolin/02gfow19/
 
-Able to **Open** installed app and **Search** through search providers.
+Add ability to **Open** installed app and **Search** through search providers.
 
 ## What Rocketbar is capable of
 
@@ -50,6 +50,10 @@ Start Input:
 Moonbar maintain a defined verbs set on `device`.
 
 `noun` (search term)
+
+2. show all available verb tags when no user input
+
+3. while user typing, they can tap tag to scope the suggestions
 
 
 ## Approach land rocket to moonbar
