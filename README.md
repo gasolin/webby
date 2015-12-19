@@ -34,7 +34,7 @@ When user tap some characters, the instant search returns several set of results
 
 ## Moonbar Interaction
 
-Elements: search field, categorized suggestion list, `tags`
+Elements: search field, categorized suggestion list, `verb tags` and instant search tags
 
 Entrance: When user tap the Moonbar at the top left, it trigger the whole page, and list ` a supported verbs set`* (visually shown as tags under the search field). User typing will auto matching the `verbs + nouns` pattern.
 
@@ -42,8 +42,10 @@ Entrance: When user tap the Moonbar at the top left, it trigger the whole page, 
 * `Search providers` are exposed as default verbs. (ex: user could use `wikipedia <keyword>`/`w <keyword>` to search wikipedia directly)
 
 User is able to found what she needs quickly through keyboard and tags:
-* key in to get instant results from several resources, or
-* Tap verb tag then select from the list, or
+* key in on input field to get instant results from several resources
+** the tag field will show correspondent action tags
+** the suggestion field will show available suggestions
+* Tap verb tag will further scoping the selections
 * key in to filter verb tags, use space to match `verb + noun` pattern
 
 ## Rules
