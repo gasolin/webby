@@ -6,9 +6,11 @@ We can make Rocketbar more useful and improve productivity for the user via exte
 
 We could backport it to awesomebar on Firefox, Firefox for Android/iOS if its been proven useful.
 
-Prototype: https://jsfiddle.net/gasolin/02gfow19/
+The [Prototype](https://jsfiddle.net/gasolin/02gfow19/) is able to:
+ * **Open** installed app
+ * **Search** through default search provider
+ * **Search** through different search provider
 
-Add ability to **Open** installed app and **Search** through search providers.
 Refer [Test Cases](https://github.com/gasolin/moonbar/blob/master/TEXTCASES.md) to figure out the usage.
 
 ## What Rocketbar is capable of
