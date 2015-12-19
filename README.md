@@ -6,7 +6,7 @@ We can make Rocketbar more useful and improve productivity for the user via exte
 
 We could backport it to awesomebar on Firefox, Firefox for Android/iOS if its been proven useful.
 
-The [Prototype](https://jsfiddle.net/gasolin/02gfow19/) is able to:
+The [Prototype](https://gasolin.github.io/moonbar) is able to:
  * **Open** installed app
  * **Search** through default search provider
  * **Search** through different search provider
@@ -78,3 +78,11 @@ Moonbar maintain a defined verbs set on `device`.
 (ubiquity)
 
 5. allow developer add their `verb + noun` pattern to moonbar
+
+
+## Willing to Contribute?
+
+File a issue to discuss a possible new verb and its usage.
+
+If you are a programmer, try [jsfiddle](https://jsfiddle.net/gasolin/02gfow19/
+) to prototype your verbs. Or clone the project, send a Pull Request to fix the issue you encountered when you use moonbar.

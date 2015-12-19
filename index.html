@@ -1,0 +1,76 @@
+<!-- derived from https://github.com/webapplate/webapplate -->
+<!DOCTYPE html>
+<html lang="en">
+<!--
+Exchange the line above for this to enable offline support
+<html lang="en" manifest="manifest.appcache">
+-->
+  <head>
+    <meta charset="UTF-8">
+    <link rel="manifest" href="manifest.json">
+    <title></title>
+    <meta name="description" content="">
+    <!-- remove maximum-scale for mobile web -->
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,minimal-ui">
+    <!-- installable from browser -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!-- icons -->
+    <link rel="icon" href="style/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" sizes="128x128" href="apple-touch-icon-precomposed.png">
+    <link rel="style/icons/apple-touch-icon-precomposed" href="apple-touch-icon-precomposed.png">
+
+    <!-- IE compatibility -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--[if IE]><link rel="shortcut icon" href="style/icons/favicon.ico"  type="image/x-icon"><![endif]-->
+    <!-- <meta name="defaultLanguage" content="en-US">
+    <meta name="availableLanguages" content="en-US, zh-TW">
+    <link rel="localization" href="locales/locales.{locale}.l20n">
+    <script defer src="vendor/l20n/dist/compat/web/l20n.min.js"></script> -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/ripples.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/material.min.css">
+    <!-- build:css style/app.min.css -->
+    <link rel="stylesheet" href="style/main.css">
+    <!-- endbuild -->
+
+    <!-- build:js js/app.min.js -->
+    <!-- endbuild -->
+    <!-- web component
+    <script defer src="vendor/platform/platform.js"></script>
+    <link rel="import" href="parts/app-main.html">
+    -->
+    <!-- uncomment to enable stress test
+    <script src="vendor/gremlins.js/gremlins.min.js"></script>
+    <script>
+      gremlins.createHorde().unleash();
+    </script>
+    -->
+  </head>
+  <body fullbleed unresolved>
+    <header id="header" class="navbar navbar-fixed-top shadow-z-3">
+      <a class="navbar-brand" href="#">Moonbar</a>
+      <ul class="nav navbar-nav pull-left">
+      </ul>
+    </header>
+    <section id="content" class="well">
+      <!-- Add your site or application content here -->
+      <input id="search" class="form-control" placeholder="Search or enter address"/>
+      <span id="suggestion-tags"></span>
+      <ul id="suggestions-select"></ul>
+      <div id="tip" class="alert alert-info hidden"></div>
+    </section>
+
+    <!-- build:js js/body.min.js -->
+    <!-- vendor libraries -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/ripples.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/material.min.js"></script>
+    <script defer src="https://people.mozilla.org/~lchang/js-spatial-navigation/spatial_navigation.js"></script>
+    <!-- polyfill -->
+    <!-- custom script -->
+    <script defer src="js/main.js"></script>
+  </body>
+</html>
