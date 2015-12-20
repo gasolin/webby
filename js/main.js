@@ -158,7 +158,21 @@ var tagHandler = function(evt) {
   if (tip.classList.contains('hidden')) {
     tip.classList.remove('hidden');
   }
-  tip.textContent = "tap the label should help you further scoping the suggestions around " + evt.target.textContent;
+  if(evt.target) {
+    var verbs = evt.target.dataset.key;
+    switch(verbs) {
+      case 'open':
+        searchfield.focus();
+        tip.textContent = "tap the open label show app list";
+        break;
+      default:
+        searchfield.value = verbs + ' ';
+        processInputs();
+        searchfield.focus();
+        tip.textContent = "tap the label should help you further scoping the suggestions around " + evt.target.textContent;
+        break;
+    }
+  }
 };
 
 var clickHandler = function(evt) {
@@ -180,7 +194,7 @@ var clickHandler = function(evt) {
         reverseMap[evt.target.id].idx
       ].url;
       //console.log('open ' + url + evt.target.dataset.key);
-      window.open(url + evt.targetdataset.key, '_blank');
+      window.open(url + evt.target.dataset.key, '_blank');
       break;
   }
 };
@@ -195,7 +209,7 @@ var resetUI = function() {
 
 renderLabels(suggestionTags);
 
-searchfield.addEventListener('input', function() {
+var processInputs = function() {
   var [verb, restTerm, results] = huxian.parse(searchfield.value, searchPool);
   resetUI();
   renderLabels(suggestionTags, verb, results);
@@ -244,7 +258,9 @@ searchfield.addEventListener('input', function() {
 
   // make everything navigatable
   $('.focusable').SpatialNavigation();
-});
+};
+
+searchfield.addEventListener('input', processInputs);
 
 // when press enter key, run the first suggestion
 searchfield.addEventListener('keydown', function(evt) {
