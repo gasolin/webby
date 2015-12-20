@@ -39,7 +39,8 @@ var verbOpen = {
   }, {
     name: 'Music',
     url: 'http://douban.fm/'
-  }]
+  }],
+  default: 0
 };
 
 var renderTags = function(element, verbs, results) {
@@ -115,9 +116,9 @@ var registerKeyboardHandlers = function() {
         break;
         // Navigation hacks
         case 40: //down
-          if(suggestionTags.hasChildNodes()) {
-            //console.log('has tags' + suggestionTags.childNodes[0].id);
-            suggestionTags.childNodes[0].focus();
+          if(suggestionsSelect.hasChildNodes()) {
+            //console.log('has tags' + suggestionsSelect.childNodes[0].id);
+            suggestionsSelect.childNodes[0].focus();
           }
           break;
     }
@@ -210,11 +211,7 @@ var resetUI = function() {
   }
 };
 
-var processInputs = function() {
-  var [verb, restTerm, results] = huxian.parse(searchfield.value, searchPool);
-  resetUI();
-  renderTags(suggestionTags, verb, results);
-
+var renderSuggestions = function(verb, restTerm, results) {
   // show default verb tags
   if (searchfield.value.length == 0) {
     return;
@@ -256,7 +253,13 @@ var processInputs = function() {
     li.addEventListener('click', clickHandler);
     suggestionsSelect.appendChild(li);
   }
+};
 
+var processInputs = function() {
+  var [verb, restTerm, results] = huxian.parse(searchfield.value, searchPool);
+  resetUI();
+  renderTags(suggestionTags, verb, results);
+  renderSuggestions(verb, restTerm, results);
   // make everything navigatable
   $('.focusable').SpatialNavigation();
 };
