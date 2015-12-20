@@ -42,59 +42,7 @@ var verbOpen = {
   }]
 };
 
-// init start
-var searchfield = document.getElementById('search');
-var suggestionsSelect = document.getElementById('suggestions-select');
-var suggestionTags = document.getElementById('suggestion-tags');
-var tip = document.getElementById('tip');
-
-// the universal verb tags pool
-var searchPool = [];
-// the referece map to origin provider object
-var reverseMap = {};
-
-var defaultSearchProvider = 'google';
-
-var actionMap = {
-  'open': verbOpen.providers,
-  'search': verbSearch.providers
-}
-
-// TODO: could do in worker
-verbSearch.providers.forEach(function(ele, idx) {
-  searchPool.push(ele.name.toLowerCase());
-  reverseMap[ele.name.toLowerCase()] = {
-    'name': ele.name,
-    'type': 'search',
-    'idx': idx
-  };
-});
-
-verbOpen.providers.forEach(function(ele, idx) {
-  searchPool.push(ele.name.toLowerCase());
-  reverseMap[ele.name.toLowerCase()] = {
-    'name': ele.name,
-    'type': 'open',
-    'idx': idx
-  };
-});
-
-searchfield.focus();
-// init end
-
-var huxian = {
-  parse: function p_parse(input, pedia) {
-    var keys = input.trimRight().split(' ');
-    var verb = keys[0].toLowerCase();
-    var restTerm = input.trimRight().slice(verb.length);
-    var results = pedia.filter(function(element) {
-      return element.indexOf(verb) > -1;
-    });
-    return [verb, restTerm, results];
-  }
-};
-
-var renderLabels = function(element, verbs, results) {
+var renderTags = function(element, verbs, results) {
   // render default labels
   if (!verbs || verbs.length == 0) {
     var span = document.createElement('span');
@@ -152,7 +100,62 @@ var renderLabels = function(element, verbs, results) {
       element.innerHTML += '<span id="c" class="label focusable">Suggestions</span> ';
     }
   }
+};
+
+// init start
+var searchfield = document.getElementById('search');
+var suggestionsSelect = document.getElementById('suggestions-select');
+var suggestionTags = document.getElementById('suggestion-tags');
+var tip = document.getElementById('tip');
+
+// the universal verb tags pool
+var searchPool = [];
+// the referece map to origin provider object
+var reverseMap = {};
+
+var defaultSearchProvider = 'google';
+
+var actionMap = {
+  'open': verbOpen.providers,
+  'search': verbSearch.providers
 }
+
+// TODO: could do in worker
+verbSearch.providers.forEach(function(ele, idx) {
+  searchPool.push(ele.name.toLowerCase());
+  reverseMap[ele.name.toLowerCase()] = {
+    'name': ele.name,
+    'type': 'search',
+    'idx': idx
+  };
+});
+
+verbOpen.providers.forEach(function(ele, idx) {
+  searchPool.push(ele.name.toLowerCase());
+  reverseMap[ele.name.toLowerCase()] = {
+    'name': ele.name,
+    'type': 'open',
+    'idx': idx
+  };
+});
+
+renderTags(suggestionTags);
+searchfield.addEventListener('input', processInputs);
+searchfield.focus();
+registerKeyboardHandlers();
+// init end
+
+var huxian = {
+  parse: function p_parse(input, pedia) {
+    var keys = input.trimRight().split(' ');
+    var verb = keys[0].toLowerCase();
+    var restTerm = input.trimRight().slice(verb.length);
+    var results = pedia.filter(function(element) {
+      return element.indexOf(verb) > -1;
+    });
+    return [verb, restTerm, results];
+  }
+};
 
 var tagHandler = function(evt) {
   if (tip.classList.contains('hidden')) {
@@ -207,12 +210,10 @@ var resetUI = function() {
   }
 };
 
-renderLabels(suggestionTags);
-
 var processInputs = function() {
   var [verb, restTerm, results] = huxian.parse(searchfield.value, searchPool);
   resetUI();
-  renderLabels(suggestionTags, verb, results);
+  renderTags(suggestionTags, verb, results);
 
   // show default verb tags
   if (searchfield.value.length == 0) {
@@ -260,45 +261,45 @@ var processInputs = function() {
   $('.focusable').SpatialNavigation();
 };
 
-searchfield.addEventListener('input', processInputs);
-
-// when press enter key, run the first suggestion
-searchfield.addEventListener('keydown', function(evt) {
-  switch (evt.keyCode) {
-    case 13: //enter
-      if (suggestionsSelect.hasChildNodes()) {
-        clickHandler({
-          target: suggestionsSelect.childNodes[0]
-        });
-      }
-      break;
-      // Navigation hacks
-      case 40: //down
-        if(suggestionTags.hasChildNodes()) {
-          //console.log('has tags' + suggestionTags.childNodes[0].id);
-          suggestionTags.childNodes[0].focus();
+var registerKeyboardHandlers = function() {
+  // when press enter key, run the first suggestion
+  searchfield.addEventListener('keydown', function(evt) {
+    switch (evt.keyCode) {
+      case 13: //enter
+        if (suggestionsSelect.hasChildNodes()) {
+          clickHandler({
+            target: suggestionsSelect.childNodes[0]
+          });
         }
         break;
-  }
-});
+        // Navigation hacks
+        case 40: //down
+          if(suggestionTags.hasChildNodes()) {
+            //console.log('has tags' + suggestionTags.childNodes[0].id);
+            suggestionTags.childNodes[0].focus();
+          }
+          break;
+    }
+  });
 
-// Navigation hacks
-suggestionTags.addEventListener('keydown', function(evt) {
-  switch (evt.keyCode) {
-    case 38: //up
-      console.log('focus to input field');
-      searchfield.focus();
-      break;
-  }
-});
+  // Navigation hacks
+  suggestionTags.addEventListener('keydown', function(evt) {
+    switch (evt.keyCode) {
+      case 38: //up
+        console.log('focus to input field');
+        searchfield.focus();
+        break;
+    }
+  });
 
-// Navigation hacks
-suggestionsSelect.addEventListener('keydown', function(evt) {
-  switch (evt.keyCode) {
-    case 13: //enter
-      clickHandler({
-        target: evt.target
-      });
-      break;
-  }
-});
+  // Navigation hacks
+  suggestionsSelect.addEventListener('keydown', function(evt) {
+    switch (evt.keyCode) {
+      case 13: //enter
+        clickHandler({
+          target: evt.target
+        });
+        break;
+    }
+  });
+};
