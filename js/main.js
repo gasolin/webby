@@ -102,48 +102,48 @@ var renderTags = function(element, verbs, results) {
   }
 };
 
-// init start
-var searchfield = document.getElementById('search');
-var suggestionsSelect = document.getElementById('suggestions-select');
-var suggestionTags = document.getElementById('suggestion-tags');
-var tip = document.getElementById('tip');
+var registerKeyboardHandlers = function() {
+  // when press enter key, run the first suggestion
+  searchfield.addEventListener('keydown', function(evt) {
+    switch (evt.keyCode) {
+      case 13: //enter
+        if (suggestionsSelect.hasChildNodes()) {
+          clickHandler({
+            target: suggestionsSelect.childNodes[0]
+          });
+        }
+        break;
+        // Navigation hacks
+        case 40: //down
+          if(suggestionTags.hasChildNodes()) {
+            //console.log('has tags' + suggestionTags.childNodes[0].id);
+            suggestionTags.childNodes[0].focus();
+          }
+          break;
+    }
+  });
 
-// the universal verb tags pool
-var searchPool = [];
-// the referece map to origin provider object
-var reverseMap = {};
+  // Navigation hacks
+  suggestionTags.addEventListener('keydown', function(evt) {
+    switch (evt.keyCode) {
+      case 38: //up
+        console.log('focus to input field');
+        searchfield.focus();
+        break;
+    }
+  });
 
-var defaultSearchProvider = 'google';
-
-var actionMap = {
-  'open': verbOpen.providers,
-  'search': verbSearch.providers
-}
-
-// TODO: could do in worker
-verbSearch.providers.forEach(function(ele, idx) {
-  searchPool.push(ele.name.toLowerCase());
-  reverseMap[ele.name.toLowerCase()] = {
-    'name': ele.name,
-    'type': 'search',
-    'idx': idx
-  };
-});
-
-verbOpen.providers.forEach(function(ele, idx) {
-  searchPool.push(ele.name.toLowerCase());
-  reverseMap[ele.name.toLowerCase()] = {
-    'name': ele.name,
-    'type': 'open',
-    'idx': idx
-  };
-});
-
-renderTags(suggestionTags);
-searchfield.addEventListener('input', processInputs);
-searchfield.focus();
-registerKeyboardHandlers();
-// init end
+  // Navigation hacks
+  suggestionsSelect.addEventListener('keydown', function(evt) {
+    switch (evt.keyCode) {
+      case 13: //enter
+        clickHandler({
+          target: evt.target
+        });
+        break;
+    }
+  });
+};
 
 var huxian = {
   parse: function p_parse(input, pedia) {
@@ -248,7 +248,7 @@ var processInputs = function() {
     //suggestionsSelect.innerHTML = '<li>' + 'Search ' + searchfield.value + '</li>';
     var restTerm = searchfield.value;
     var li = document.createElement('li');
-    li.id = defaultSearchProvider;
+    li.id = verbSearch.providers[verbSearch.default].name.toLowerCase();
     li.dataset.type = 'search';
     li.classList.add('focusable');
     li.dataset.key = encodeURI(restTerm);
@@ -261,45 +261,43 @@ var processInputs = function() {
   $('.focusable').SpatialNavigation();
 };
 
-var registerKeyboardHandlers = function() {
-  // when press enter key, run the first suggestion
-  searchfield.addEventListener('keydown', function(evt) {
-    switch (evt.keyCode) {
-      case 13: //enter
-        if (suggestionsSelect.hasChildNodes()) {
-          clickHandler({
-            target: suggestionsSelect.childNodes[0]
-          });
-        }
-        break;
-        // Navigation hacks
-        case 40: //down
-          if(suggestionTags.hasChildNodes()) {
-            //console.log('has tags' + suggestionTags.childNodes[0].id);
-            suggestionTags.childNodes[0].focus();
-          }
-          break;
-    }
-  });
+// init start
+var searchfield = document.getElementById('search');
+var suggestionsSelect = document.getElementById('suggestions-select');
+var suggestionTags = document.getElementById('suggestion-tags');
+var tip = document.getElementById('tip');
 
-  // Navigation hacks
-  suggestionTags.addEventListener('keydown', function(evt) {
-    switch (evt.keyCode) {
-      case 38: //up
-        console.log('focus to input field');
-        searchfield.focus();
-        break;
-    }
-  });
+// the universal verb tags pool
+var searchPool = [];
+// the referece map to origin provider object
+var reverseMap = {};
 
-  // Navigation hacks
-  suggestionsSelect.addEventListener('keydown', function(evt) {
-    switch (evt.keyCode) {
-      case 13: //enter
-        clickHandler({
-          target: evt.target
-        });
-        break;
-    }
-  });
-};
+var actionMap = {
+  'open': verbOpen.providers,
+  'search': verbSearch.providers
+}
+
+// TODO: could do in worker
+verbSearch.providers.forEach(function(ele, idx) {
+  searchPool.push(ele.name.toLowerCase());
+  reverseMap[ele.name.toLowerCase()] = {
+    'name': ele.name,
+    'type': 'search',
+    'idx': idx
+  };
+});
+
+verbOpen.providers.forEach(function(ele, idx) {
+  searchPool.push(ele.name.toLowerCase());
+  reverseMap[ele.name.toLowerCase()] = {
+    'name': ele.name,
+    'type': 'open',
+    'idx': idx
+  };
+});
+
+renderTags(suggestionTags);
+searchfield.addEventListener('input', processInputs);
+searchfield.focus();
+registerKeyboardHandlers();
+// init end
