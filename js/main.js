@@ -127,6 +127,11 @@ var registerKeyboardHandlers = function() {
   // Navigation hacks
   suggestionTags.addEventListener('keydown', function(evt) {
     switch (evt.keyCode) {
+      case 13: //enter
+        tagHandler({
+          target: evt.target
+        });
+        break;
       case 38: //up
         console.log('focus to input field');
         searchfield.focus();
