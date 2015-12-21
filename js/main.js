@@ -7,16 +7,20 @@ var verbSearch = {
   actionVerb: 'search',
   providers: [{
     name: 'Google',
-    url: 'https://www.google.com/search?q='
+    url: 'https://www.google.com/search?q=',
+    suggest: 'https://www.google.com/complete/search?client=firefox&q='
   }, {
     name: 'Yahoo',
-    url: 'https://search.yahoo.com/search?p='
+    url: 'https://search.yahoo.com/search?p=',
+    suggest: 'https://search.yahoo.com/sugg/ff?output=fxjson&command='
   }, {
     name: 'Bing',
-    url: 'https://www.bing.com/search?q='
+    url: 'https://www.bing.com/search?q=',
+    suggest: 'https://www.bing.com/osjson.aspx?query='
   }, {
     name: 'Wikipedia',
-    url: 'https://en.wikipedia.org/w/index.php?search='
+    url: 'https://en.wikipedia.org/w/index.php?search=',
+    suggest: 'http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&format=json&titles='
   }],
   default: 0
 };
