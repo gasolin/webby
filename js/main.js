@@ -292,7 +292,7 @@ var reverseMap = {};
 var actionMap = {
   'open': verbOpen.providers,
   'search': verbSearch.providers
-}
+};
 
 // TODO: could do in worker
 // Initialize action verbs mapping
