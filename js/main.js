@@ -4,6 +4,7 @@ $.material.ripples();
 // Check https://github.com/gasolin/moonbar for more detail
 // lets hack apps/search/js/providers/suggestions
 var verbSearch = {
+  actionVerb: 'search',
   providers: [{
     name: 'Google',
     url: 'https://www.google.com/search?q='
@@ -21,6 +22,7 @@ var verbSearch = {
 };
 
 var verbOpen = {
+  actionVerb: 'open',
   providers: [{
     name: 'Facebook',
     url: 'http://www.facebook.com/'
@@ -275,6 +277,9 @@ var suggestionsSelect = document.getElementById('suggestions-select');
 var suggestionTags = document.getElementById('suggestion-tags');
 var tip = document.getElementById('tip');
 
+// define all supported verbs
+var verbAddons = [verbSearch, verbOpen];
+
 // the universal verb tags pool
 var searchPool = [];
 // the referece map to origin provider object
@@ -286,22 +291,16 @@ var actionMap = {
 }
 
 // TODO: could do in worker
-verbSearch.providers.forEach(function(ele, idx) {
-  searchPool.push(ele.name.toLowerCase());
-  reverseMap[ele.name.toLowerCase()] = {
-    'name': ele.name,
-    'type': 'search',
-    'idx': idx
-  };
-});
-
-verbOpen.providers.forEach(function(ele, idx) {
-  searchPool.push(ele.name.toLowerCase());
-  reverseMap[ele.name.toLowerCase()] = {
-    'name': ele.name,
-    'type': 'open',
-    'idx': idx
-  };
+// Initialize action verbs mapping
+verbAddons.forEach(function(verb) {
+  verb.providers.forEach(function(ele, idx) {
+    searchPool.push(ele.name.toLowerCase());
+    reverseMap[ele.name.toLowerCase()] = {
+      'name': ele.name,
+      'type': verb.actionVerb,
+      'idx': idx
+    };
+  });
 });
 
 renderTags(suggestionTags);
