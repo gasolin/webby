@@ -216,7 +216,7 @@ var resetUI = function() {
   }
 };
 
-var renderSuggestions = function(verb, restTerm, results) {
+var renderSuggestions = function(element, verb, restTerm, results) {
   // show default verb tags
   if (searchfield.value.length == 0) {
     return;
@@ -234,7 +234,7 @@ var renderSuggestions = function(verb, restTerm, results) {
           //suggestionsSelect.innerHTML += '<li>Open ' + noun.name + '</li>';
           li.textContent = 'Open ' + noun.name;
           li.addEventListener('click', clickHandler);
-          suggestionsSelect.appendChild(li);
+          element.appendChild(li);
           break;
         default: //'search'
           //suggestionsSelect.innerHTML += '<li>Search ' + restTerm + ' with ' + noun.name + '</li>';
@@ -242,7 +242,7 @@ var renderSuggestions = function(verb, restTerm, results) {
           li.dataset.key = encodeURI(restTerm);
           li.textContent = 'Search ' + restTerm + ' with ' + noun.name;
           li.addEventListener('click', clickHandler);
-          suggestionsSelect.appendChild(li);
+          element.appendChild(li);
           break;
       }
     });
@@ -256,7 +256,7 @@ var renderSuggestions = function(verb, restTerm, results) {
     li.dataset.key = encodeURI(restTerm);
     li.textContent = 'Search ' + restTerm;
     li.addEventListener('click', clickHandler);
-    suggestionsSelect.appendChild(li);
+    element.appendChild(li);
   }
 };
 
@@ -264,7 +264,7 @@ var processInputs = function() {
   var [verb, restTerm, results] = huxian.parse(searchfield.value, searchPool);
   resetUI();
   renderTags(suggestionTags, verb, results);
-  renderSuggestions(verb, restTerm, results);
+  renderSuggestions(suggestionsSelect, verb, restTerm, results);
   // make everything navigatable
   $('.focusable').SpatialNavigation();
 };
