@@ -1,4 +1,3 @@
-//document.body.classList.remove('hidden');
 $.material.ripples();
 
 // Check https://github.com/gasolin/moonbar for more detail
@@ -280,13 +279,6 @@ var processInputs = function() {
 };
 
 // init start
-/* MOVED TO ui.js
-var searchfield = document.getElementById('search');
-var suggestionsSelect = document.getElementById('suggestions-select');
-var suggestionTags = document.getElementById('suggestion-tags');
-var tip = document.getElementById('tip');
-*/
-
 // define all supported verbs
 var verbAddons = [verbSearch, verbOpen];
 
@@ -312,11 +304,4 @@ verbAddons.forEach(function(verb) {
     };
   });
 });
-
-/*
-renderTags(suggestionTags);
-searchfield.addEventListener('input', processInputs);
-searchfield.focus();
-registerKeyboardHandlers();
-*/
 // init end
