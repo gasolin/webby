@@ -52,6 +52,15 @@ var verbOpen = {
   default: 0
 };
 
+var queryInstantSuggestions = function(term) {
+  if (term) {
+    //XXX mock for suggestion tags
+    return [term, term + ' xxx', term + ' abc'];
+  } else {
+    return [];
+  }
+};
+
 var renderTags = function(element, verbs, results) {
   // render default labels
   if (!verbs || verbs.length == 0) {
@@ -104,10 +113,19 @@ var renderTags = function(element, verbs, results) {
         }
       });
     } else {
-      //XXX mock for suggestion tags
-      element.innerHTML += '<span id="a" class="label focusable">Instant</span> ';
-      element.innerHTML += '<span id="b" class="label focusable">Search</span> ';
-      element.innerHTML += '<span id="c" class="label focusable">Suggestions</span> ';
+      var suggestions = queryInstantSuggestions(verbs);
+      // element.innerHTML += '<span id="a" class="label focusable">' + verbs + '</span> ';
+      suggestions.forEach(function(result) {
+        var span = document.createElement('span');
+        span.classList.add('label');
+        span.classList.add('focusable');
+        span.dataset.type = 'search';
+        span.id = verbSearch.providers[verbSearch.default].name.toLowerCase();
+        span.dataset.key = result;
+        span.textContent = result;
+        span.addEventListener('click', tagHandler);
+        element.appendChild(span);
+      });
     }
   }
 };
@@ -172,23 +190,50 @@ var huxian = {
   }
 };
 
+var executeCommand = function(target) {
+  var type = target.dataset.type;
+  var id = target.id;
+
+  switch (type) {
+    case 'open':
+      var url = actionMap[type][
+        reverseMap[id].idx
+      ].url;
+      //console.log('open '+ url);
+      window.open(url, '_blank');
+      break;
+    default:
+      var url = actionMap['search'][
+        reverseMap[id].idx
+      ].url;
+      //console.log('open ' + url + evt.target.dataset.key);
+      window.open(url + target.dataset.key, '_blank');
+      break;
+  }
+};
+
 var tagHandler = function(evt) {
   if (tip.classList.contains('hidden')) {
     tip.classList.remove('hidden');
   }
   if(evt.target) {
-    var verbs = evt.target.dataset.key;
-    switch(verbs) {
-      case 'open':
-        searchfield.focus();
-        tip.textContent = "tap the open label show app list";
-        break;
-      default:
-        searchfield.value = verbs + ' ';
-        processInputs();
-        searchfield.focus();
-        tip.textContent = "tap the label should help you further scoping the suggestions around " + evt.target.textContent;
-        break;
+    var type = evt.target.dataset.type;
+    if (type) {
+      executeCommand(evt.target);
+    } else {
+      var verbs = evt.target.dataset.key;
+      switch(verbs) {
+        case 'open':
+          searchfield.focus();
+          tip.textContent = "tap the open label show app list";
+          break;
+        default:
+          searchfield.value = verbs + ' ';
+          processInputs();
+          searchfield.focus();
+          tip.textContent = "tap the label should help you further scoping the suggestions around " + evt.target.textContent;
+          break;
+      }
     }
   }
 };
@@ -197,24 +242,9 @@ var clickHandler = function(evt) {
   if (tip.classList.contains('hidden')) {
     tip.classList.remove('hidden');
   }
-  var type = evt.target.dataset.type;
-  tip.textContent = "tap the row should " + type + ' ' + evt.target.id;
-  switch (type) {
-    case 'open':
-      var url = actionMap[type][
-        reverseMap[evt.target.id].idx
-      ].url;
-      //console.log('open '+ url);
-      window.open(url, '_blank');
-      break;
-    default:
-      var url = actionMap['search'][
-        reverseMap[evt.target.id].idx
-      ].url;
-      //console.log('open ' + url + evt.target.dataset.key);
-      window.open(url + evt.target.dataset.key, '_blank');
-      break;
-  }
+  var target = evt.target;
+  tip.textContent = "tap the row should " + target.dataset.type + ' ' + target.id;
+  executeCommand(target);
 };
 
 var resetUI = function() {
