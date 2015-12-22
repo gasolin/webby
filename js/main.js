@@ -21,6 +21,10 @@ var verbSearch = {
     name: 'Wikipedia',
     url: 'https://en.wikipedia.org/w/index.php?search=',
     suggest: 'http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&format=json&titles='
+  }, {
+    name: 'GitHub',
+    url: 'https://github.com/search?utf8=✓&q=',
+    suggest: ''
   }],
   default: 0
 };
