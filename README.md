@@ -86,3 +86,16 @@ File a issue to discuss a possible new verb and its usage.
 
 If you are a programmer, try [jsfiddle](https://jsfiddle.net/gasolin/02gfow19/
 ) to prototype your verbs. Or clone the project, send a Pull Request to fix the issue you encountered when you use moonbar.
+
+## Testing
+
+Install dependencies
+```
+npm install .
+npm install -g karma-cli
+```
+
+Run
+```
+npm test
+```
