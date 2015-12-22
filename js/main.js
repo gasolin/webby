@@ -314,17 +314,16 @@ var verbAddons = [verbSearch, verbOpen];
 
 // the universal verb tags pool
 var searchPool = [];
-// the referece map to origin provider object
+// the referece map to the origin provider object
 var reverseMap = {};
-
-var actionMap = {
-  'open': verbOpen.providers,
-  'search': verbSearch.providers
-};
+// map the verb with its action providers
+var actionMap = {};
 
 // TODO: could do in worker
 // Initialize action verbs mapping
 verbAddons.forEach(function(verb) {
+  actionMap[verb.actionVerb] = verb.providers;
+
   verb.providers.forEach(function(ele, idx) {
     searchPool.push(ele.name.toLowerCase());
     reverseMap[ele.name.toLowerCase()] = {
