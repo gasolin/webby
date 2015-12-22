@@ -1,5 +1,7 @@
 # Moonbar
 
+[![Build Status](https://travis-ci.org/gasolin/moonbar.png)](https://travis-ci.org/gasolin/moonbar)
+
 ## Why Moonbar
 
 We can make Rocketbar more useful and improve productivity for the user via extendable verb commands.
