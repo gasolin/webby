@@ -10,12 +10,37 @@ suite('moonbar', function() {
   });
   */
 
-  test('Huxian parses correctly', function() {
-    assert.deepEqual([
-      'w',
-      ' firefox', //is the space intended?
-      ['wikipedia', 'twitter']
-    ],
-    huxian.parse('w firefox', searchPool));
+  suite('Huxian parser >', function() {
+    test('parses search verb correctly', function() {
+      assert.deepEqual([
+          'w',
+          'firefox',
+          ['wikipedia', 'twitter']
+        ],
+        huxian.parse('w firefox', searchPool));
+
+      assert.deepEqual([
+          'wikipedia',
+          'firefox',
+          ['wikipedia']
+        ],
+        huxian.parse('wikipedia firefox', searchPool));
+    });
+
+    test('parses open verb correctly', function() {
+      assert.deepEqual([
+          'fa',
+          '',
+          ['facebook']
+        ],
+        huxian.parse('fa', searchPool));
+
+      assert.deepEqual([
+          'facebook',
+          '',
+          ['facebook']
+        ],
+        huxian.parse('facebook', searchPool));
+    });
   });
 });

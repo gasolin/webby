@@ -113,7 +113,8 @@ var huxian = {
   parse: function p_parse(input, pedia) {
     var keys = input.trimRight().split(' ');
     var verb = keys[0].toLowerCase();
-    var restTerm = input.trimRight().slice(verb.length);
+    // cut out verb with a space
+    var restTerm = input.trimRight().slice(verb.length + 1);
     var results = pedia.filter(function(element) {
       return element.indexOf(verb) > -1;
     });
