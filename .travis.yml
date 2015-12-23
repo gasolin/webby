@@ -1,20 +1,18 @@
 language: node_js
-
 node_js:
-  - '5.3.0'
-
+- 5.3.0
 install:
-  - npm install
-
+- npm install
 before_script:
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
 script:
-  - $CI_ACTION
-
+- $CI_ACTION
+after_success:
+  - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash deploy.sh
 env:
   global:
-    - TEST_SUITE=unit
+  - TEST_SUITE=unit
+  - secure: OdtgGc20IhKLVlyN+PP33nUOknwhTCpQEyYwepAm46Gec8X8efmm4MHef19QoYlX0NkvIKFrGd+kr2IhCxAWVO8H+3YN5uwtinL6B87vnPBN16U0C3Ltj3UDk7rzwf2pixmWFMt5lwRJrL31K8VjIeUXeZywyxcEnz82/9w5MW0jW6CsKif0Vz57iJvXQaaIbY1rojJUUboF0agVDazkrBsP3Pic+rxuqKEdqx8XXG+OJ3FwpMafbXVc3T79JsZiuqQsMK4gi8QKMUkHiNO5RRYM6Qj+Ww4Ze/AujvItvHmMUFOogsT6VZ3XYFeY/St5gyL0LxajLedW9j7BRzqXwWDQ4h45Md0N5wLbkz8SZOdw0Q+v/ipnYbe9hbCiqxOMpM+VtT1j/J9gr0nQG3yZyKk0vnE15+DAgA17x95Q36jgFaMP9Tq3yUDTCx59q6Biy0KV0W5Xwu3A0xOedDyz/PDSJBV9MDKj59QOqkAxUXEnVRPCqK4tXfpfTsd8uQUg8Q0p4DeOKSCzJK5EsRQ7zptV0HtbQszDeH/8vkgE7zlLgy4ZjEo0RYxyBr6s80V5NkMxjhJQlFHPxJpUFNmXgfojw94P03phDeGD+XDmBboGPwjRjuh1ycIO76ZEChb2SVG1AtNqLc+vYyc2SYKMFLIzC9DOBGM9I10s5/C5ZOU=
   matrix:
-    - CI_ACTION="npm test"
+  - CI_ACTION="npm test"
