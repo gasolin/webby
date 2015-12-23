@@ -188,6 +188,19 @@ var resetUI = function() {
   }
 };
 
+var _createSuggestion = function(parent, id, actionType, content, key) {
+  var ele = document.createElement('li');
+  ele.id = id;
+  ele.dataset.type = actionType;
+  ele.classList.add('focusable');
+  ele.textContent = content;
+  if(key) {
+    ele.dataset.key = key;
+  }
+  ele.addEventListener('click', clickHandler);
+  parent.appendChild(ele);
+};
+
 var renderSuggestions = function(element, verb, restTerm, results) {
   // show default verb tags
   if (searchfield.value.length == 0) {
@@ -197,38 +210,34 @@ var renderSuggestions = function(element, verb, restTerm, results) {
     // render suggestions
     results.forEach(function(result) {
       var noun = reverseMap[result];
-      var li = document.createElement('li');
-      li.id = result;
-      li.dataset.type = noun.type;
-      li.classList.add('focusable');
       switch (noun.type) {
         case 'open':
           //suggestionsSelect.innerHTML += '<li>Open ' + noun.name + '</li>';
-          li.textContent = 'Open ' + noun.name;
-          li.addEventListener('click', clickHandler);
-          element.appendChild(li);
+          _createSuggestion(
+            element,
+            result,
+            noun.type,
+            'Open ' + noun.name);
           break;
         default: //'search'
           //suggestionsSelect.innerHTML += '<li>Search ' + restTerm + ' with ' + noun.name + '</li>';
-          // TOOD: excape the term
-          li.dataset.key = encodeURI(restTerm);
-          li.textContent = 'Search ' + restTerm + ' with ' + noun.name;
-          li.addEventListener('click', clickHandler);
-          element.appendChild(li);
+          _createSuggestion(
+            element,
+            result, noun.type,
+            'Search ' + restTerm + ' with ' + noun.name,
+            encodeURI(restTerm));
           break;
       }
     });
   } else { // search through default search provider
     //suggestionsSelect.innerHTML = '<li>' + 'Search ' + searchfield.value + '</li>';
     var restTerm = searchfield.value;
-    var li = document.createElement('li');
-    li.id = verbSearch.providers[verbSearch.default].name.toLowerCase();
-    li.dataset.type = 'search';
-    li.classList.add('focusable');
-    li.dataset.key = encodeURI(restTerm);
-    li.textContent = 'Search ' + restTerm;
-    li.addEventListener('click', clickHandler);
-    element.appendChild(li);
+    _createSuggestion(
+      element,
+      verbSearch.providers[verbSearch.default].name.toLowerCase(),
+      'search',
+      'Search ' + restTerm,
+      encodeURI(restTerm));
   }
 };
 
