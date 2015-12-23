@@ -6,13 +6,25 @@ var _getProvider = function(type, id) {
   ];
 };
 
-var queryInstantSuggestions = function(term) {
-  if (term) {
-    //XXX mock for suggestion tags
-    return [term, term + ' xxx', term + ' abc'];
-  } else {
-    return [];
-  }
+var queryInstantSuggestions = function(verb, restTerm) {
+  return new Promise(function(resolve) {
+    if (restTerm) {
+      //XXX mock for non default suggestion tags
+      return resolve([restTerm, restTerm + ' xxx', restTerm + ' abc']);
+    } else {
+      var defaultProvider = verbSearch.providers[verbSearch.default].name.toLowerCase();
+      var suggestUrl = _getProvider('search', defaultProvider).suggest;
+      // console.log(suggestUrl + encodeURI(verb));
+      $.ajax({
+        type: "GET",
+        url: suggestUrl + encodeURIComponent(verb),
+        dataType:"jsonp"
+      }).done(function(response) {
+        //console.log(JSON.stringify(response));
+        return resolve(response[1]);
+      });
+    }
+  });
 };
 
 var _createTag = function(parent, key, content, isVerb, actionType) {
@@ -58,9 +70,12 @@ var renderTags = function(element, verbs, results) {
         }
       });
     } else {
-      var suggestions = queryInstantSuggestions(verbs);
-      suggestions.forEach(function(result) {
-        _createTag(element, result, result, false, 'search');
+      queryInstantSuggestions(verbs).then(function(suggestions) {
+        suggestions.forEach(function(result) {
+          _createTag(element, result, result, false, 'search');
+        });
+        // keyboard navigatable
+        $('.focusable').SpatialNavigation();
       });
     }
   }
@@ -204,6 +219,8 @@ var _createSuggestion = function(parent, id, actionType, content, key) {
 var renderSuggestions = function(element, verb, restTerm, results) {
   // show default verb tags
   if (searchfield.value.length == 0) {
+    // make everything navigatable
+    $('.focusable').SpatialNavigation();
     return;
   }
   if (results.length != 0) {
@@ -239,6 +256,8 @@ var renderSuggestions = function(element, verb, restTerm, results) {
       'Search ' + restTerm,
       restTerm);
   }
+  // make everything navigatable
+  $('.focusable').SpatialNavigation();
 };
 
 var processInputs = function() {
@@ -246,9 +265,6 @@ var processInputs = function() {
   resetUI();
   renderTags(suggestionTags, verb, results);
   renderSuggestions(suggestionsSelect, verb, restTerm, results);
-  // make everything navigatable
-  // TODO: execute when tag and suggestions both settled
-  $('.focusable').SpatialNavigation();
 };
 
 // init start
