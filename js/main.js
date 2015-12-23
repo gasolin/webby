@@ -12,6 +12,10 @@ var queryInstantSuggestions = function(verb, restTerm) {
       //XXX mock for non default suggestion tags
       return resolve([restTerm, restTerm + ' xxx', restTerm + ' abc']);
     } else {
+      if(verb.length < 3) {
+        resolve([]);
+      }
+
       var defaultProvider = verbSearch.providers[verbSearch.default].name.toLowerCase();
       var suggestUrl = _getProvider('search', defaultProvider).suggest;
       // console.log(suggestUrl + encodeURI(verb));
