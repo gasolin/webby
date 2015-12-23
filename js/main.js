@@ -1,5 +1,11 @@
 // Check https://github.com/gasolin/moonbar for more detail
 // lets hack apps/search/js/providers/suggestions
+var _getProvider = function(type, id) {
+  return actionMap[type][
+    reverseMap[id].idx
+  ];
+};
+
 var queryInstantSuggestions = function(term) {
   if (term) {
     //XXX mock for suggestion tags
@@ -121,24 +127,18 @@ var huxian = {
   }
 };
 
-var _getUrl = function(type, id) {
-  return actionMap[type][
-    reverseMap[id].idx
-  ].url;
-};
-
 var _executeCommand = function(target) {
   var type = target.dataset.type;
   var id = target.id;
 
   switch (type) {
     case 'open':
-      var url = _getUrl(type, id);
+      var url = _getProvider(type, id).url;
       //console.log('open '+ url);
       window.open(url, '_blank');
       break;
     default:
-      var url = _getUrl(type, id);
+      var url = _getProvider(type, id).url;
       //console.log('open ' + url + evt.target.dataset.key);
       window.open(url + target.dataset.key, '_blank');
       break;
@@ -195,7 +195,7 @@ var _createSuggestion = function(parent, id, actionType, content, key) {
   ele.classList.add('focusable');
   ele.textContent = content;
   if(key) {
-    ele.dataset.key = key;
+    ele.dataset.key = encodeURIComponent(key);
   }
   ele.addEventListener('click', clickHandler);
   parent.appendChild(ele);
@@ -225,7 +225,7 @@ var renderSuggestions = function(element, verb, restTerm, results) {
             element,
             result, noun.type,
             'Search ' + restTerm + ' with ' + noun.name,
-            encodeURI(restTerm));
+            restTerm);
           break;
       }
     });
@@ -237,7 +237,7 @@ var renderSuggestions = function(element, verb, restTerm, results) {
       verbSearch.providers[verbSearch.default].name.toLowerCase(),
       'search',
       'Search ' + restTerm,
-      encodeURI(restTerm));
+      restTerm);
   }
 };
 
@@ -247,6 +247,7 @@ var processInputs = function() {
   renderTags(suggestionTags, verb, results);
   renderSuggestions(suggestionsSelect, verb, restTerm, results);
   // make everything navigatable
+  // TODO: execute when tag and suggestions both settled
   $('.focusable').SpatialNavigation();
 };
 
