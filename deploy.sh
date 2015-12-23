@@ -18,7 +18,7 @@ git remote add upstream "https://$GH_TOKEN@github.com/gasolin/moonbar.git"
 git fetch upstream
 git reset upstream/gh-pages
 
-echo "www.mozilla.org" > CNAME
+echo "gasolin.github.io" > CNAME
 
 touch .
 
