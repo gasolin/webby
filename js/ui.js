@@ -1,3 +1,4 @@
+'use strict';
 document.body.classList.remove('hidden');
 
 // init start

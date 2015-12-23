@@ -1,3 +1,4 @@
+'use strict';
 // Check https://github.com/gasolin/moonbar for more detail
 // lets hack apps/search/js/providers/suggestions
 var _getProvider = function(type, id) {
@@ -63,7 +64,7 @@ var renderTags = function(element, verbs, results, inputText) {
     });
   } else {
     if (results.length != 0) {
-      hasOpenTag = false;
+      var hasOpenTag = false;
       results.forEach(function(result) {
         var noun = reverseMap[result];
         if (noun.type == 'open' && !hasOpenTag) {
