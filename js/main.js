@@ -1,5 +1,3 @@
-$.material.ripples();
-
 // Check https://github.com/gasolin/moonbar for more detail
 // lets hack apps/search/js/providers/suggestions
 var queryInstantSuggestions = function(term) {
@@ -283,4 +281,6 @@ verbAddons.forEach(function(verb) {
     };
   });
 });
+
+$.material.ripples();
 // init end

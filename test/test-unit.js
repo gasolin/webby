@@ -1,7 +1,6 @@
 'use strict';
 suite('moonbar', function() {
 
-
   setup(function() {
     document.body.innerHTML = __html__['index.html'];
   });
@@ -15,10 +14,8 @@ suite('moonbar', function() {
     assert.deepEqual([
       'w',
       ' firefox', //is the space intended?
-      ['wikipedia', 'twitter'],
       ['wikipedia', 'twitter']
-    ], 
-    huxian.parse('w firefox',searchPool ))
+    ],
+    huxian.parse('w firefox', searchPool));
   });
-
 });
