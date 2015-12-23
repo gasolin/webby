@@ -9,28 +9,27 @@ var queryInstantSuggestions = function(term) {
   }
 };
 
+//element.innerHTML += '<span class="label label-primary">' + ele.name + '</span> ';
+var createTag = function(parent, key, content, isVerb) {
+  var ele = document.createElement('span');
+  ele.classList.add('label');
+  if(isVerb) {
+    ele.classList.add('label-primary');
+  }
+  ele.classList.add('focusable');
+  ele.dataset.key = key;
+  ele.textContent = content;
+  ele.addEventListener('click', tagHandler);
+  parent.appendChild(ele);
+};
+
 var renderTags = function(element, verbs, results) {
   // render default labels
   if (!verbs || verbs.length == 0) {
-    var span = document.createElement('span');
-    span.classList.add('label');
-    span.classList.add('label-primary');
-    span.classList.add('focusable');
-    span.dataset.key = 'open';
-    span.textContent = 'Open';
-    span.addEventListener('click', tagHandler);
-    element.appendChild(span);
+    createTag(element, 'open', 'Open', true);
 
     verbSearch.providers.forEach(function(ele) {
-      //element.innerHTML += '<span class="label label-primary">' + ele.name + '</span> ';
-      var span = document.createElement('span');
-      span.classList.add('label');
-      span.classList.add('label-primary');
-      span.classList.add('focusable');
-      span.dataset.key = ele.name.toLowerCase();
-      span.textContent = ele.name;
-      span.addEventListener('click', tagHandler);
-      element.appendChild(span);
+      createTag(element, ele.name.toLowerCase(), ele.name, true);
     });
   } else {
     if (results.length != 0) {
@@ -38,26 +37,10 @@ var renderTags = function(element, verbs, results) {
       results.forEach(function(result) {
         var noun = reverseMap[result];
         if (noun.type == 'open' && !hasOpenTag) {
-          //element.innerHTML += '<span class="label label-primary">Open</span> ';
-          var span = document.createElement('span');
-          span.classList.add('label');
-          span.classList.add('label-primary');
-          span.classList.add('focusable');
-          span.dataset.key = 'open';
-          span.textContent = 'Open';
-          span.addEventListener('click', tagHandler);
-          element.appendChild(span);
+          createTag(element, 'open', 'Open', true);
           hasOpenTag = true;
         } else {
-          //element.innerHTML += '<span class="label label-primary">' + noun.name + '</span> ';
-          var span = document.createElement('span');
-          span.classList.add('label');
-          span.classList.add('label-primary');
-          span.classList.add('focusable');
-          span.dataset.key = noun.name.toLowerCase();;
-          span.textContent = noun.name;
-          span.addEventListener('click', tagHandler);
-          element.appendChild(span);
+          createTag(element, noun.name.toLowerCase(), noun.name, true);
         }
       });
     } else {
