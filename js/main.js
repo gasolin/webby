@@ -122,22 +122,24 @@ var huxian = {
   }
 };
 
-var executeCommand = function(target) {
+var _getUrl = function(type, id) {
+  return actionMap[type][
+    reverseMap[id].idx
+  ].url;
+};
+
+var _executeCommand = function(target) {
   var type = target.dataset.type;
   var id = target.id;
 
   switch (type) {
     case 'open':
-      var url = actionMap[type][
-        reverseMap[id].idx
-      ].url;
+      var url = _getUrl(type, id);
       //console.log('open '+ url);
       window.open(url, '_blank');
       break;
     default:
-      var url = actionMap['search'][
-        reverseMap[id].idx
-      ].url;
+      var url = _getUrl(type, id);
       //console.log('open ' + url + evt.target.dataset.key);
       window.open(url + target.dataset.key, '_blank');
       break;
@@ -151,7 +153,7 @@ var tagHandler = function(evt) {
   if(evt.target) {
     var type = evt.target.dataset.type;
     if (type) {
-      executeCommand(evt.target);
+      _executeCommand(evt.target);
     } else {
       var verbs = evt.target.dataset.key;
       switch(verbs) {
@@ -176,7 +178,7 @@ var clickHandler = function(evt) {
   }
   var target = evt.target;
   tip.textContent = "tap the row should " + target.dataset.type + ' ' + target.id;
-  executeCommand(target);
+  _executeCommand(target);
 };
 
 var resetUI = function() {
