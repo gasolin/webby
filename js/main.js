@@ -9,16 +9,24 @@ var queryInstantSuggestions = function(term) {
   }
 };
 
-//element.innerHTML += '<span class="label label-primary">' + ele.name + '</span> ';
-var createTag = function(parent, key, content, isVerb) {
+var _createTag = function(parent, key, content, isVerb, actionType) {
   var ele = document.createElement('span');
   ele.classList.add('label');
-  if(isVerb) {
-    ele.classList.add('label-primary');
-  }
   ele.classList.add('focusable');
   ele.dataset.key = key;
   ele.textContent = content;
+  if(isVerb) { // action verb
+    //element.innerHTML += '<span class="label label-primary">' + ele.name + '</span> ';
+    ele.classList.add('label-primary');
+  } else { // instant suggestion
+    // element.innerHTML += '<span id="a" class="label focusable">' + verbs + '</span> ';
+    ele.dataset.type = actionType;
+    switch(actionType) {
+      case 'search':
+        ele.id = verbSearch.providers[verbSearch.default].name.toLowerCase();
+        break;
+    }
+  }
   ele.addEventListener('click', tagHandler);
   parent.appendChild(ele);
 };
@@ -26,10 +34,10 @@ var createTag = function(parent, key, content, isVerb) {
 var renderTags = function(element, verbs, results) {
   // render default labels
   if (!verbs || verbs.length == 0) {
-    createTag(element, 'open', 'Open', true);
+    _createTag(element, 'open', 'Open', true);
 
     verbSearch.providers.forEach(function(ele) {
-      createTag(element, ele.name.toLowerCase(), ele.name, true);
+      _createTag(element, ele.name.toLowerCase(), ele.name, true);
     });
   } else {
     if (results.length != 0) {
@@ -37,25 +45,16 @@ var renderTags = function(element, verbs, results) {
       results.forEach(function(result) {
         var noun = reverseMap[result];
         if (noun.type == 'open' && !hasOpenTag) {
-          createTag(element, 'open', 'Open', true);
+          _createTag(element, 'open', 'Open', true);
           hasOpenTag = true;
         } else {
-          createTag(element, noun.name.toLowerCase(), noun.name, true);
+          _createTag(element, noun.name.toLowerCase(), noun.name, true);
         }
       });
     } else {
       var suggestions = queryInstantSuggestions(verbs);
-      // element.innerHTML += '<span id="a" class="label focusable">' + verbs + '</span> ';
       suggestions.forEach(function(result) {
-        var span = document.createElement('span');
-        span.classList.add('label');
-        span.classList.add('focusable');
-        span.dataset.type = 'search';
-        span.id = verbSearch.providers[verbSearch.default].name.toLowerCase();
-        span.dataset.key = result;
-        span.textContent = result;
-        span.addEventListener('click', tagHandler);
-        element.appendChild(span);
+        _createTag(element, result, result, false, 'search');
       });
     }
   }
