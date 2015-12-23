@@ -54,7 +54,7 @@ var _createTag = function(parent, key, content, isVerb, actionType) {
   parent.appendChild(ele);
 };
 
-var renderTags = function(element, verbs, results, inputText) {
+var renderTags = function(element, verbs, restTerm, results, inputText) {
   // render default labels
   if (!verbs || verbs.length == 0) {
     _createTag(element, 'open', 'Open', true);
@@ -74,6 +74,16 @@ var renderTags = function(element, verbs, results, inputText) {
           _createTag(element, noun.name.toLowerCase(), noun.name, true);
         }
       });
+
+      if (verbs) {
+        queryInstantSuggestions(verbs[0], restTerm).then(function(suggestions) {
+          suggestions.forEach(function(result) {
+            _createTag(element, result, result, false, 'search');
+          });
+          // keyboard navigatable
+          $('.focusable').SpatialNavigation();
+        });
+      }
     } else {
       queryInstantSuggestions(inputText).then(function(suggestions) {
         suggestions.forEach(function(result) {
@@ -268,7 +278,7 @@ var renderSuggestions = function(element, verb, restTerm, results, inputText) {
 var processInputs = function() {
   var [verb, restTerm, results] = huxian.parse(searchfield.value, searchPool);
   resetUI();
-  renderTags(suggestionTags, verb, results, searchfield.value);
+  renderTags(suggestionTags, verb, restTerm, results, searchfield.value);
   renderSuggestions(suggestionsSelect, verb, restTerm, results, searchfield.value);
 };
 
