@@ -12,6 +12,8 @@ The [Prototype](https://gasolin.github.io/moonbar) is able to:
  * **Open** installed app
  * **Search** through default search provider
  * **Search** through different search provider
+ * provide instant suggestion through default and target search provider
+ * navigation with keyboard
 
 Refer [Test Cases](https://github.com/gasolin/moonbar/blob/master/TEXTCASES.md) to figure out the usage.
 
