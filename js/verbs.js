@@ -22,7 +22,8 @@ var verbSearch = {
     url: 'https://github.com/search?utf8=✓&q=',
     suggest: ''
   }],
-  default: 0
+  default: 0,
+  flattern: true // turn each provider as a tag
 };
 
 var verbOpen = {

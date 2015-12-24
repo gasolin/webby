@@ -79,24 +79,31 @@ var _createTag = function(parent, key, content, isVerb, actionType) {
   parent.appendChild(ele);
 };
 
+/**
+ * Render verb tags and suggestion tags
+ */
 var renderTags = function(element, verbs, restTerm, results, inputText) {
   // render default labels
   if (!verbs || verbs.length == 0) {
-    _createTag(element, 'open', 'Open', true);
-
-    verbSearch.providers.forEach(function(ele) {
-      _createTag(element, ele.name.toLowerCase(), ele.name, true);
+    verbAddons.forEach(function(verbAddon) {
+      if (verbAddon.flattern) { // turn each provider as a tag
+        verbAddon.providers.forEach(function(ele) {
+          _createTag(element, ele.name.toLowerCase(), ele.name, true);
+        });
+      } else {
+        _createTag(element, verbAddon.actionVerb, verbAddon.actionVerb, true);
+      }
     });
   } else {
     if (results.length != 0) {
-      var hasOpenTag = false;
+      var hasTag = {};
       results.forEach(function(result) {
         var noun = reverseMap[result];
-        if (noun.type == 'open' && !hasOpenTag) {
-          _createTag(element, 'open', 'Open', true);
-          hasOpenTag = true;
-        } else {
+        if (noun.flattern) {
           _createTag(element, noun.name.toLowerCase(), noun.name, true);
+        } else if (!hasTag[noun.type]) {
+          _createTag(element, noun.type, noun.type, true);
+          hasTag[noun.type] = true;
         }
       });
 
@@ -322,15 +329,16 @@ var actionMap = {};
 
 // TODO: could do in worker
 // Initialize action verbs mapping
-verbAddons.forEach(function(verb) {
-  actionMap[verb.actionVerb] = verb.providers;
+verbAddons.forEach(function(verbAddon) {
+  actionMap[verbAddon.actionVerb] = verbAddon.providers;
 
-  verb.providers.forEach(function(ele, idx) {
+  verbAddon.providers.forEach(function(ele, idx) {
     searchPool.push(ele.name.toLowerCase());
     reverseMap[ele.name.toLowerCase()] = {
       'name': ele.name,
-      'type': verb.actionVerb,
-      'idx': idx
+      'type': verbAddon.actionVerb,
+      'idx': idx,
+      'flattern': verbAddon.flattern
     };
   });
 });
