@@ -7,27 +7,52 @@ var _getProvider = function(type, id) {
   ];
 };
 
-var queryInstantSuggestions = function(verb, restTerm) {
+var queryInstantSuggestions = function(verb, restTerm, results) {
   return new Promise(function(resolve) {
     if (restTerm) {
-      //XXX mock for non default suggestion tags
-      return resolve([restTerm, restTerm + ' xxx', restTerm + ' abc']);
+      if (typeof results === 'object' && results.length > 0) {
+        verb = results[0];
+        if (restTerm.length < 3) {
+          return resolve([]);
+        }
+
+        var provider = _getProvider('search', verb);
+        if (provider) {
+          var suggestUrl = provider.suggest;
+          // console.log(suggestUrl + encodeURI(verb));
+          $.ajax({
+            type: "GET",
+            url: suggestUrl + encodeURIComponent(restTerm),
+            dataType:"jsonp"
+          }).done(function(response) {
+            //console.log(JSON.stringify(response));
+            return resolve(response[1]);
+          });
+        } else {
+          console.log('no matched search suggestion provider');
+        }
+      }
     } else {
       if(verb.length < 3) {
-        resolve([]);
+        return resolve([]);
       }
 
       var defaultProvider = verbSearch.providers[verbSearch.default].name.toLowerCase();
-      var suggestUrl = _getProvider('search', defaultProvider).suggest;
-      // console.log(suggestUrl + encodeURI(verb));
-      $.ajax({
-        type: "GET",
-        url: suggestUrl + encodeURIComponent(verb),
-        dataType:"jsonp"
-      }).done(function(response) {
-        //console.log(JSON.stringify(response));
-        return resolve(response[1]);
-      });
+      var provider = _getProvider('search', defaultProvider);
+      if (provider) {
+        var suggestUrl = provider.suggest;
+        // console.log(suggestUrl + encodeURI(verb));
+        $.ajax({
+          type: "GET",
+          url: suggestUrl + encodeURIComponent(verb),
+          dataType:"jsonp"
+        }).done(function(response) {
+          //console.log(JSON.stringify(response));
+          return resolve(response[1]);
+        });
+      } else {
+        console.log('no matched search suggestion provider');
+      }
     }
   });
 };
@@ -75,22 +100,24 @@ var renderTags = function(element, verbs, restTerm, results, inputText) {
         }
       });
 
-      if (verbs) {
-        queryInstantSuggestions(verbs[0], restTerm).then(function(suggestions) {
+      queryInstantSuggestions(verbs, restTerm, results).then(function(suggestions) {
+        if (suggestions) {
           suggestions.forEach(function(result) {
             _createTag(element, result, result, false, 'search');
           });
           // keyboard navigatable
           $('.focusable').SpatialNavigation();
-        });
-      }
+        }
+      });
     } else {
       queryInstantSuggestions(inputText).then(function(suggestions) {
-        suggestions.forEach(function(result) {
-          _createTag(element, result, result, false, 'search');
-        });
-        // keyboard navigatable
-        $('.focusable').SpatialNavigation();
+        if (suggestions) {
+          suggestions.forEach(function(result) {
+            _createTag(element, result, result, false, 'search');
+          });
+          // keyboard navigatable
+          $('.focusable').SpatialNavigation();
+        }
       });
     }
   }
