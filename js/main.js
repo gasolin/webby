@@ -209,6 +209,21 @@ var _executeCommand = function(target) {
   }
 };
 
+var _renderProviders = function(verb) {
+  verbAddons.forEach(function(verbAddon) {
+    if (verbAddon.actionVerb === verb) {
+      verbAddon.providers.forEach(function(provider) {
+        //XXX should not bound with specific element
+        _createSuggestion(
+          suggestionsSelect,
+          provider.name.toLowerCase(),
+          verb,
+          'Open ' + provider.name);
+      });
+    }
+  });
+};
+
 var tagHandler = function(evt) {
   if (tip.classList.contains('hidden')) {
     tip.classList.remove('hidden');
@@ -218,11 +233,11 @@ var tagHandler = function(evt) {
     if (type) {
       _executeCommand(evt.target);
     } else {
-      var verbs = evt.target.dataset.key;
-      switch(verbs) {
+      var verb = evt.target.dataset.key;
+      switch(verb) {
         case 'open':
           searchfield.focus();
-          tip.textContent = "tap the open label show app list";
+          _renderProviders(verb);
           break;
         default:
           searchfield.value = verbs + ' ';
