@@ -57,8 +57,11 @@ var verbOpen = {
 var verbConfig = {
   actionVerb: 'config',
   providers: [{
-    name: 'about',
+    name: 'About Moonbar',
     url: 'https://github.com/gasolin/moonbar'
+  }, {
+    name: 'Report Issue',
+    url: 'https://github.com/gasolin/moonbar/issues'
   }],
   default: 0
 };
