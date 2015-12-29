@@ -11,15 +11,19 @@ var verbSearch = {
     suggest: 'https://search.yahoo.com/sugg/ff?output=fxjson&command='
   }, {
     name: 'Bing',
-    url: 'https://www.bing.com/search?q=',
-    suggest: 'https://www.bing.com/osjson.aspx?query='
+    url: 'https://www.bing.com/search?form=OSDSRC&q=',
+    suggest: 'http://api.bing.com/osjson.aspx?form=OSDJAS&query='
   }, {
     name: 'Wikipedia',
-    url: 'https://en.wikipedia.org/w/index.php?search=',
-    suggest: 'http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&format=json&titles='
+    url: 'http://en.wikipedia.org/w/index.php?title=Special:Search&search=',
+    suggest: 'http://en.wikipedia.org/w/api.php?action=opensearch&search='
   }, {
     name: 'GitHub',
-    url: 'https://github.com/search?utf8=✓&q=',
+    url: 'http://github.com/search?type=Everything&repo=&langOverride=&start_value=1&q=',
+    suggest: ''
+  }, {
+    name: 'Translate',
+    url: 'http://translate.google.com/?q=',
     suggest: ''
   }],
   default: 0,
