@@ -49,3 +49,12 @@ var verbOpen = {
   }],
   default: 0
 };
+
+var verbConfig = {
+  actionVerb: 'config',
+  providers: [{
+    name: 'about',
+    url: 'https://github.com/gasolin/moonbar'
+  }],
+  default: 0
+};

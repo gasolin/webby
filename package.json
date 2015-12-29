@@ -1,6 +1,6 @@
 {
   "name": "moonbar",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "one small step to the Rocketbar",
   "main": "index.html",
   "scripts": {

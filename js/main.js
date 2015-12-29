@@ -201,6 +201,10 @@ var _executeCommand = function(target) {
       //console.log('open '+ url);
       window.open(url, '_blank');
       break;
+    case 'config':
+      var url = _getProvider(type, id).url;
+      window.open(url, '_blank');
+      break;
     default:
       var url = _getProvider(type, id).url;
       //console.log('open ' + url + evt.target.dataset.key);
@@ -218,7 +222,7 @@ var _renderProviders = function(verb) {
           suggestionsSelect,
           provider.name.toLowerCase(),
           verb,
-          'Open ' + provider.name);
+          verb + ' ' + provider.name);
       });
     }
   });
@@ -234,15 +238,18 @@ var tagHandler = function(evt) {
       _executeCommand(evt.target);
     } else {
       var verb = evt.target.dataset.key;
+      searchfield.value = verb + ' ';
+      processInputs();
+      searchfield.focus();
       switch(verb) {
         case 'open':
-          searchfield.focus();
           _renderProviders(verb);
           break;
+        case 'config':
+          _renderProviders(verb);
+          tip.textContent = "tap the config label will show config list";
+          break;
         default:
-          searchfield.value = verbs + ' ';
-          processInputs();
-          searchfield.focus();
           tip.textContent = "tap the label should help you further scoping the suggestions around " + evt.target.textContent;
           break;
       }
@@ -300,6 +307,13 @@ var renderSuggestions = function(element, verb, restTerm, results, inputText) {
             noun.type,
             'Open ' + noun.name);
           break;
+        case 'config':
+          _createSuggestion(
+            element,
+            result,
+            noun.type,
+            'config ' + noun.name);
+            break;
         default: //'search'
           //suggestionsSelect.innerHTML += '<li>Search ' + restTerm + ' with ' + noun.name + '</li>';
           _createSuggestion(
@@ -333,7 +347,7 @@ var processInputs = function() {
 
 // init start
 // define all supported verbs
-var verbAddons = [verbSearch, verbOpen];
+var verbAddons = [verbSearch, verbOpen, verbConfig];
 
 // the universal verb tags pool
 var searchPool = [];
