@@ -191,24 +191,63 @@ var huxian = {
   }
 };
 
+var _renderChatBox = function(speaker, msg) {
+  var chatbox = document.createElement('section');
+  chatbox.classList.add('chat', speaker + '-chat');
+  //chatbox.textContent = "I am " + target.dataset.type + "ing \"" + decodeURI(target.dataset.key) + "\" with " + target.id; 
+  chatbox.innerHTML = msg;
+  chatHistory.appendChild(chatbox);
+}
+
+var userSpeakCommand = function(msg) {
+  _renderChatBox('user', msg);
+}
+
+var botSpeakCommandResult = function(target, resultUrl) { //resultUrl is for the default case
+  var type = target.dataset.type;
+  var id = target.id;
+  var url = _getProvider(type, id).url;
+
+  var msg = "I am " + target.dataset.type + "ing \"" + decodeURI(target.dataset.key) + "\" with " + target.id + "...<br/>"; 
+  msg += "Here you are: <a href=\"" + resultUrl + "\">" + decodeURI(target.dataset.key) + " on " + target.id + "</a>"; 
+  _renderChatBox('bot', msg);
+}
+
 var _executeCommand = function(target) {
   var type = target.dataset.type;
   var id = target.id;
+  console.log(target)
 
   switch (type) {
     case 'open':
       var url = _getProvider(type, id).url;
       //console.log('open '+ url);
+      var msg = "Open \"" + decodeURI(target.id) + "\"";
+      var response = "Here you are: <a href=\"" + url + "\" target=\"_blank\">" + decodeURI(target.id) + "</a>"; 
+
+      _renderChatBox('user', msg);
+      _renderChatBox('bot', response);
       window.open(url, '_blank');
       break;
     case 'config':
       var url = _getProvider(type, id).url;
+      var msg = "Open configuration \"" + decodeURI(target.id) + "\"";
+      var response = "Here you are: <a href=\"" + url + "\" target=\"_blank\">" + decodeURI(target.id) + "</a>"; 
+      _renderChatBox('user', msg);
+      _renderChatBox('bot', response);
+
       window.open(url, '_blank');
       break;
     default:
       var url = _getProvider(type, id).url;
       //console.log('open ' + url + evt.target.dataset.key);
-      window.open(url + target.dataset.key, '_blank');
+      var msg = target.dataset.type + " \"" + decodeURI(target.dataset.key) + "\" with " + target.id; 
+      var response = "I am " + target.dataset.type + "ing \"" + decodeURI(target.dataset.key) + "\" with " + target.id + "...<br/>"; 
+      response += "Here you are: <a href=\"" + url + target.dataset.key + "\" target=\"_blank\">" + decodeURI(target.dataset.key) + " on " + target.id + "</a>"; 
+
+      _renderChatBox('user', msg);
+      _renderChatBox('bot', response);
+      window.open(url + target.dataset.key, '_blank'); 
       break;
   }
 };

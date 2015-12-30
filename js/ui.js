@@ -7,6 +7,7 @@ var searchfield = document.getElementById('search');
 var suggestionsSelect = document.getElementById('suggestions-select');
 var suggestionTags = document.getElementById('suggestion-tags');
 var tip = document.getElementById('tip');
+var chatHistory = document.getElementById('chat-history');
 
 renderTags(suggestionTags);
 searchfield.addEventListener('input', processInputs);

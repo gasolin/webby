@@ -47,3 +47,26 @@ li {
 li:first-child {
   border-top: none;
 }
+
+#chat-history {
+  height: 60vh;
+}
+
+.chat {
+  padding: 20px;
+  margin:10px;
+  border-radius: 10px;
+  box-shadow:5px 5px 15px darkgrey;
+  width: 50vw;
+}
+
+.bot-chat {
+  background-color: rgba(0,150,136,0.5);
+  float:left;
+}
+
+.user-chat {
+  background-color: white;
+  /* border: 0.5px solid darkgrey;*/
+  float:right;
+}
