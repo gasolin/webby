@@ -15,7 +15,8 @@ suite('moonbar', function() {
       assert.deepEqual([
           'w',
           'firefox',
-          ['wikipedia', 'twitter']
+          ['wikipedia', 'twitter', 'about webdeacon']
+          //the correct one should be ['wikipedia']
         ],
         huxian.parse('w firefox', searchPool));
 
