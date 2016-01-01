@@ -225,11 +225,16 @@ var _executeCommand = function(target) {
       var embed = _getProvider(type, id).embed;
       //console.log('open '+ url);
       var msg = "Open \"" + decodeURI(target.id) + "\"";
-      var response = "Here you are: <a href=\"" + url + "\" target=\"_blank\">" + decodeURI(target.id) + "</a>";
+      var response = "";
+      if (embed) {
+        response = '<iframe src="' + url + '" height="320" width="480"></iframe>';
+      } else {
+        response = 'Here you are: <a href=\"' + url + '\" target=\"_blank\">' + decodeURI(target.id) + '</a>';
+        window.open(url, '_blank');
+      }
 
       _renderChatBox('user', msg);
       _renderChatBox('bot', response);
-      window.open(url, '_blank');
       break;
     case 'config':
       var url = _getProvider(type, id).url;
