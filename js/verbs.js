@@ -49,7 +49,11 @@ var verbOpen = {
     url: 'http://www.flickr.com/'
   }, {
     name: 'Music',
-    url: 'http://douban.fm/'
+    url: 'http://douban.fm/partner/firefox',
+    embed: true
+  }, {
+    name: 'ShareDrop',
+    url: 'https://snapdrop.net/'
   }],
   default: 0
 };
@@ -57,11 +61,11 @@ var verbOpen = {
 var verbConfig = {
   actionVerb: 'config',
   providers: [{
-    name: 'About Moonbar',
-    url: 'https://github.com/gasolin/moonbar'
+    name: 'About WebDeacon',
+    url: 'https://github.com/gasolin/webdeacon'
   }, {
     name: 'Report Issue',
-    url: 'https://github.com/gasolin/moonbar/issues'
+    url: 'https://github.com/gasolin/webdeacon/issues'
   }],
   default: 0
 };
