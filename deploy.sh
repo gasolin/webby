@@ -11,7 +11,7 @@ cp -r js stage/
 cd stage
 
 git init
-git config user.name "Fred Lin"
+git config user.name "gasolin"
 git config user.email "gasolin@gmail.com"
 
 git remote add upstream "https://$GH_TOKEN@$GH_REF"
