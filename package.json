@@ -1,19 +1,19 @@
 {
-  "name": "moonbar",
+  "name": "webdeacon",
   "version": "0.0.3",
-  "description": "one small step to the Rocketbar",
+  "description": "place order to your deacon through the web",
   "main": "index.html",
   "scripts": {
     "test": "cd test && karma start --browsers Firefox --single-run"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/gasolin/moonbar.git"
+    "url": "git://github.com/gasolin/webdeacon.git"
   },
   "author": "Fred Lin (gasolin)",
   "license": " ",
   "bugs": {
-    "url": "https://github.com/gasolin/moonbar/issues"
+    "url": "https://github.com/gasolin/webdeacon/issues"
   },
   "devDependencies": {
     "chai": "~3.4.1",
