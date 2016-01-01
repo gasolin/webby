@@ -14,7 +14,7 @@ git init
 git config user.name "Fred Lin"
 git config user.email "gasolin@gmail.com"
 
-git remote add upstream "https://$GH_TOKEN@github.com/gasolin/webdeacon.git"
+git remote add upstream "https://$GH_TOKEN@$GH_REF"
 git fetch upstream
 git reset upstream/gh-pages
 
