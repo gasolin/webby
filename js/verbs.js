@@ -54,6 +54,10 @@ var verbOpen = {
   }, {
     name: 'ShareDrop',
     url: 'https://snapdrop.net/'
+  }, {
+    name: 'Weather',
+    url: 'http://gasolin.github.io/accuwidget/',
+    embed: true
   }],
   default: 0
 };
