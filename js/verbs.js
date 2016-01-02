@@ -53,8 +53,7 @@ var verbOpen = {
     embed: true
   }, {
     name: 'Tasks',
-    url: 'https://mail.google.com/tasks/ig',
-    embed: true
+    url: 'https://mail.google.com/tasks/android',
   }, {
     name: 'ShareDrop',
     url: 'https://snapdrop.net/'
