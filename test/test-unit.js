@@ -1,4 +1,4 @@
-/* globals suite, setup, test, assert, huxian, searchPool, __html__ */
+/* globals assert, huxian, searchPool, __html__ */
 'use strict';
 suite('moonbar', function() {
 

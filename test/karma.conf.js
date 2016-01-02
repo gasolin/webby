@@ -1,6 +1,5 @@
+/* globals module */
 // Karma configuration
-// Generated on Mon Dec 21 2015 15:43:03 GMT+0800 (CST)
-
 module.exports = function(config) {
   config.set({
 
@@ -14,17 +13,17 @@ module.exports = function(config) {
 
     client: {
       captureConsole: true,
-      mocha: { 'ui': 'tdd' }
+      mocha: {'ui': 'tdd'}
     },
 
 
     // list of files / patterns to load in the browser
     files: [
-      "https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js",
-      "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.min.js",
-      "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/ripples.min.js",
-      "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/material.min.js",
-      "https://people.mozilla.org/~lchang/js-spatial-navigation/spatial_navigation.js",
+      'https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js',
+      'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js',
+      'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.7/js/ripples.min.js',
+      'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.7/js/material.min.js',
+      'https://people.mozilla.org/~lchang/js-spatial-navigation/spatial_navigation.js',
 
       //'../js/*.js',
       '../index.html',
@@ -81,5 +80,5 @@ module.exports = function(config) {
     // Concurrency level
     // how many browser should be started simultanous
     concurrency: Infinity
-  })
-}
+  });
+};
