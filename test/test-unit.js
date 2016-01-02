@@ -1,3 +1,4 @@
+/* globals suite, setup, test, assert, huxian, searchPool, __html__ */
 'use strict';
 suite('moonbar', function() {
 
@@ -13,35 +14,35 @@ suite('moonbar', function() {
   suite('Huxian parser >', function() {
     test('parses search verb correctly', function() {
       assert.deepEqual([
-          'w',
-          'firefox',
-          ['wikipedia', 'twitter', 'about webdeacon']
-          //the correct one should be ['wikipedia']
-        ],
-        huxian.parse('w firefox', searchPool));
+        'w',
+        'firefox',
+        ['wikipedia', 'twitter', 'weather', 'about webdeacon']
+        //the correct one should be ['wikipedia']
+      ],
+      huxian.parse('w firefox', searchPool));
 
       assert.deepEqual([
-          'wikipedia',
-          'firefox',
-          ['wikipedia']
-        ],
-        huxian.parse('wikipedia firefox', searchPool));
+        'wikipedia',
+        'firefox',
+        ['wikipedia']
+      ],
+      huxian.parse('wikipedia firefox', searchPool));
     });
 
     test('parses open verb correctly', function() {
       assert.deepEqual([
-          'fa',
-          '',
-          ['facebook']
-        ],
-        huxian.parse('fa', searchPool));
+        'fa',
+        '',
+        ['facebook']
+      ],
+      huxian.parse('fa', searchPool));
 
       assert.deepEqual([
-          'facebook',
-          '',
-          ['facebook']
-        ],
-        huxian.parse('facebook', searchPool));
+        'facebook',
+        '',
+        ['facebook']
+      ],
+      huxian.parse('facebook', searchPool));
     });
   });
 });
