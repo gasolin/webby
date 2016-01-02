@@ -1,3 +1,5 @@
+/*globals $, searchfield, suggestionsSelect, suggestionTags, tip, chatHistory
+  verbSearch, verbOpen, verbConfig */
 'use strict';
 // Check https://github.com/gasolin/moonbar for more detail
 // lets hack apps/search/js/providers/suggestions
@@ -21,9 +23,9 @@ var queryInstantSuggestions = function(verb, restTerm, results) {
           var suggestUrl = provider.suggest;
           // console.log(suggestUrl + encodeURI(verb));
           $.ajax({
-            type: "GET",
+            type: 'GET',
             url: suggestUrl + encodeURIComponent(restTerm),
-            dataType:"jsonp"
+            dataType: 'jsonp'
           }).done(function(response) {
             //console.log(JSON.stringify(response));
             return resolve(response[1]);
@@ -37,15 +39,16 @@ var queryInstantSuggestions = function(verb, restTerm, results) {
         return resolve([]);
       }
 
-      var defaultProvider = verbSearch.providers[verbSearch.default].name.toLowerCase();
+      var defaultProvider = verbSearch.providers[verbSearch.default]
+        .name.toLowerCase();
       var provider = _getProvider('search', defaultProvider);
       if (provider) {
         var suggestUrl = provider.suggest;
         // console.log(suggestUrl + encodeURI(verb));
         $.ajax({
-          type: "GET",
+          type: 'GET',
           url: suggestUrl + encodeURIComponent(verb),
-          dataType:"jsonp"
+          dataType: 'jsonp'
         }).done(function(response) {
           //console.log(JSON.stringify(response));
           return resolve(response[1]);
@@ -70,9 +73,11 @@ var _createTag = function(parent, key, content, isVerb, actionType) {
     // element.innerHTML += '<span id="a" class="label focusable">' + verbs + '</span> ';
     ele.dataset.type = actionType;
     switch(actionType) {
-      case 'search':
-        ele.id = verbSearch.providers[verbSearch.default].name.toLowerCase();
-        break;
+    case 'search':
+      ele.id = verbSearch.providers[verbSearch.default].name.toLowerCase();
+      break;
+    default:
+      break;
     }
   }
   ele.addEventListener('click', tagHandler);
@@ -80,7 +85,13 @@ var _createTag = function(parent, key, content, isVerb, actionType) {
 };
 
 /**
- * Render verb tags and suggestion tags
+ * Render verb tags and suggestion tags.
+ *
+ * @param element {HTMLElement} dom element
+ * @param verbs {string[]} verbs list
+ * @param restTerm {string} input field exclude the verb
+ * @param results {string[]} parse results
+ * @param inputText {string} origin input text
  */
 var renderTags = function(element, verbs, restTerm, results, inputText) {
   // render default labels
@@ -107,7 +118,8 @@ var renderTags = function(element, verbs, restTerm, results, inputText) {
         }
       });
 
-      queryInstantSuggestions(verbs, restTerm, results).then(function(suggestions) {
+      queryInstantSuggestions(verbs, restTerm, results)
+      .then(function(suggestions) {
         if (suggestions) {
           suggestions.forEach(function(result) {
             _createTag(element, result, result, false, 'search');
@@ -134,52 +146,52 @@ var registerKeyboardHandlers = function() {
   // when press enter key, run the first suggestion
   searchfield.addEventListener('keydown', function(evt) {
     switch (evt.keyCode) {
-      case 13: //enter
-        if (suggestionsSelect.hasChildNodes()) {
-          clickHandler({
-            target: suggestionsSelect.childNodes[0]
-          });
-        }
-        break;
-        // Navigation hacks
-        case 40: //down
-          if(suggestionsSelect.hasChildNodes()) {
-            //console.log('has tags' + suggestionsSelect.childNodes[0].id);
-            suggestionsSelect.childNodes[0].focus();
-          }
-          break;
+    case 13: //enter
+      if (suggestionsSelect.hasChildNodes()) {
+        clickHandler({
+          target: suggestionsSelect.childNodes[0]
+        });
+      }
+      break;
+    // Navigation hacks
+    case 40: //down
+      if(suggestionsSelect.hasChildNodes()) {
+        //console.log('has tags' + suggestionsSelect.childNodes[0].id);
+        suggestionsSelect.childNodes[0].focus();
+      }
+      break;
     }
   });
 
   // Navigation hacks
   suggestionTags.addEventListener('keydown', function(evt) {
     switch (evt.keyCode) {
-      case 13: //enter
-        tagHandler({
-          target: evt.target
-        });
-        break;
-      case 38: //up
-        console.log('focus to input field');
-        searchfield.focus();
-        break;
+    case 13: //enter
+      tagHandler({
+        target: evt.target
+      });
+      break;
+    case 38: //up
+      console.log('focus to input field');
+      searchfield.focus();
+      break;
     }
   });
 
   // Navigation hacks
   suggestionsSelect.addEventListener('keydown', function(evt) {
     switch (evt.keyCode) {
-      case 13: //enter
-        clickHandler({
-          target: evt.target
-        });
-        break;
+    case 13: //enter
+      clickHandler({
+        target: evt.target
+      });
+      break;
     }
   });
 };
 
 var huxian = {
-  parse: function p_parse(input, pedia) {
+  parse: function(input, pedia) {
     var keys = input.trimRight().split(' ');
     var verb = keys[0].toLowerCase();
     // cut out verb with a space
@@ -198,64 +210,72 @@ var _renderChatBox = function(speaker, msg) {
   //chatbox.textContent = "I am " + target.dataset.type + "ing \"" + decodeURI(target.dataset.key) + "\" with " + target.id;
   chatbox.innerHTML = msg;
   chatHistory.appendChild(chatbox);
-}
+};
 
 var userSpeakCommand = function(msg) {
   _renderChatBox('user', msg);
-}
+};
 
 var botSpeakCommandResult = function(target, resultUrl) { //resultUrl is for the default case
   var type = target.dataset.type;
   var id = target.id;
   var url = _getProvider(type, id).url;
 
-  var msg = "I am " + target.dataset.type + "ing \"" + decodeURI(target.dataset.key) + "\" with " + target.id + "...<br/>";
-  msg += "Here you are: <a href=\"" + resultUrl + "\">" + decodeURI(target.dataset.key) + " on " + target.id + "</a>";
+  var msg = 'I am ' + target.dataset.type + 'ing \"' +
+    decodeURI(target.dataset.key) + '\" with ' + target.id + '...<br/>';
+  msg += 'Here you are: <a href=\"' + resultUrl + '\">' +
+    decodeURI(target.dataset.key) + ' on ' + target.id + '</a>';
   _renderChatBox('bot', msg);
-}
+};
 
 var _executeCommand = function(target) {
   var type = target.dataset.type;
   var id = target.id;
-  console.log(target)
+  //console.log(target)
 
   switch (type) {
-    case 'open':
-      var url = _getProvider(type, id).url;
-      var embed = _getProvider(type, id).embed;
-      //console.log('open '+ url);
-      var msg = "Open \"" + decodeURI(target.id) + "\"";
-      var response = "";
-      if (embed) {
-        response = '<iframe src="' + url + '" height="320" width="480"></iframe>';
-      } else {
-        response = 'Here you are: <a href=\"' + url + '\" target=\"_blank\">' + decodeURI(target.id) + '</a>';
-        window.open(url, '_blank');
-      }
-
-      _renderChatBox('user', msg);
-      _renderChatBox('bot', response);
-      break;
-    case 'config':
-      var url = _getProvider(type, id).url;
-      var msg = "Open configuration \"" + decodeURI(target.id) + "\"";
-      var response = "Here you are: <a href=\"" + url + "\" target=\"_blank\">" + decodeURI(target.id) + "</a>";
-      _renderChatBox('user', msg);
-      _renderChatBox('bot', response);
-
+  case 'open':
+    var url = _getProvider(type, id).url;
+    var embed = _getProvider(type, id).embed;
+    //console.log('open '+ url);
+    var msg = 'Open \"' + decodeURI(target.id) + '\"';
+    var response = '';
+    if (embed) {
+      response = '<iframe src="' + url + '" height="320" width="480"></iframe>';
+    } else {
+      response = 'Here you are: <a href=\"' + url + '\" target=\"_blank\">' +
+        decodeURI(target.id) + '</a>';
       window.open(url, '_blank');
-      break;
-    default:
-      var url = _getProvider(type, id).url;
-      //console.log('open ' + url + evt.target.dataset.key);
-      var msg = target.dataset.type + " \"" + decodeURI(target.dataset.key) + "\" with " + target.id;
-      var response = "I am " + target.dataset.type + "ing \"" + decodeURI(target.dataset.key) + "\" with " + target.id + "...<br/>";
-      response += "Here you are: <a href=\"" + url + target.dataset.key + "\" target=\"_blank\">" + decodeURI(target.dataset.key) + " on " + target.id + "</a>";
+    }
 
-      _renderChatBox('user', msg);
-      _renderChatBox('bot', response);
-      window.open(url + target.dataset.key, '_blank');
-      break;
+    _renderChatBox('user', msg);
+    _renderChatBox('bot', response);
+    break;
+  case 'config':
+    var url = _getProvider(type, id).url;
+    var msg = 'Open configuration \"' + decodeURI(target.id) + '\"';
+    var response = 'Here you are: <a href=\"' + url + '\" target=\"_blank\">' +
+      decodeURI(target.id) + '</a>';
+    _renderChatBox('user', msg);
+    _renderChatBox('bot', response);
+
+    window.open(url, '_blank');
+    break;
+  default:
+    var url = _getProvider(type, id).url;
+    //console.log('open ' + url + evt.target.dataset.key);
+    var msg = target.dataset.type + ' \"' + decodeURI(target.dataset.key) +
+      '\" with ' + target.id;
+    var response = 'I am ' + target.dataset.type + 'ing \"' +
+      decodeURI(target.dataset.key) + '\" with ' + target.id + '...<br/>';
+    response += 'Here you are: <a href=\"' + url + target.dataset.key +
+      '\" target=\"_blank\">' + decodeURI(target.dataset.key) + ' on ' +
+      target.id + '</a>';
+
+    _renderChatBox('user', msg);
+    _renderChatBox('bot', response);
+    window.open(url + target.dataset.key, '_blank');
+    break;
   }
 };
 
@@ -288,16 +308,17 @@ var tagHandler = function(evt) {
       processInputs();
       searchfield.focus();
       switch(verb) {
-        case 'open':
-          _renderProviders(verb);
-          break;
-        case 'config':
-          _renderProviders(verb);
-          tip.textContent = "tap the config label will show config list";
-          break;
-        default:
-          tip.textContent = "tap the label should help you further scoping the suggestions around " + evt.target.textContent;
-          break;
+      case 'open':
+        _renderProviders(verb);
+        break;
+      case 'config':
+        _renderProviders(verb);
+        tip.textContent = 'tap the config label will show config list';
+        break;
+      default:
+        tip.textContent = 'tap the label should help you further scoping the ' +
+          'suggestions around ' + evt.target.textContent;
+        break;
       }
     }
   }
@@ -308,7 +329,8 @@ var clickHandler = function(evt) {
     tip.classList.remove('hidden');
   }
   var target = evt.target;
-  tip.textContent = "tap the row should " + target.dataset.type + ' ' + target.id;
+  tip.textContent = 'tap the row should ' + target.dataset.type + ' ' +
+    target.id;
   _executeCommand(target);
 };
 
@@ -335,7 +357,7 @@ var _createSuggestion = function(parent, id, actionType, content, key) {
 
 var renderSuggestions = function(element, verb, restTerm, results, inputText) {
   // show default verb tags
-  if (searchfield.value.length == 0) {
+  if (searchfield.value.length === 0) {
     // make everything navigatable
     $('.focusable').SpatialNavigation();
     return;
@@ -345,29 +367,29 @@ var renderSuggestions = function(element, verb, restTerm, results, inputText) {
     results.forEach(function(result) {
       var noun = reverseMap[result];
       switch (noun.type) {
-        case 'open':
-          //suggestionsSelect.innerHTML += '<li>Open ' + noun.name + '</li>';
-          _createSuggestion(
-            element,
-            result,
-            noun.type,
-            'Open ' + noun.name);
-          break;
-        case 'config':
-          _createSuggestion(
-            element,
-            result,
-            noun.type,
-            'config ' + noun.name);
-            break;
-        default: //'search'
-          //suggestionsSelect.innerHTML += '<li>Search ' + restTerm + ' with ' + noun.name + '</li>';
-          _createSuggestion(
-            element,
-            result, noun.type,
-            'Search ' + restTerm + ' with ' + noun.name,
-            restTerm);
-          break;
+      case 'open':
+        //suggestionsSelect.innerHTML += '<li>Open ' + noun.name + '</li>';
+        _createSuggestion(
+          element,
+          result,
+          noun.type,
+          'Open ' + noun.name);
+        break;
+      case 'config':
+        _createSuggestion(
+          element,
+          result,
+          noun.type,
+          'config ' + noun.name);
+        break;
+      default: //'search'
+        //suggestionsSelect.innerHTML += '<li>Search ' + restTerm + ' with ' + noun.name + '</li>';
+        _createSuggestion(
+          element,
+          result, noun.type,
+          'Search ' + restTerm + ' with ' + noun.name,
+          restTerm);
+        break;
       }
     });
   } else { // search through default search provider
@@ -388,7 +410,8 @@ var processInputs = function() {
   var [verb, restTerm, results] = huxian.parse(searchfield.value, searchPool);
   resetUI();
   renderTags(suggestionTags, verb, restTerm, results, searchfield.value);
-  renderSuggestions(suggestionsSelect, verb, restTerm, results, searchfield.value);
+  renderSuggestions(suggestionsSelect, verb, restTerm, results,
+    searchfield.value);
 };
 
 // init start
