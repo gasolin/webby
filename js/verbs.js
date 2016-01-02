@@ -52,6 +52,10 @@ var verbOpen = {
     url: 'http://douban.fm/partner/firefox',
     embed: true
   }, {
+    name: 'Tasks',
+    url: 'https://mail.google.com/tasks/ig',
+    embed: true
+  }, {
     name: 'ShareDrop',
     url: 'https://snapdrop.net/'
   }, {
