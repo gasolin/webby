@@ -241,7 +241,7 @@ var _executeCommand = function(target) {
     var msg = 'Open \"' + decodeURI(target.id) + '\"';
     var response = '';
     if (embed) {
-      response = '<iframe src="' + url + '" height="320" width="480"></iframe>';
+      response = '<iframe src="' + url + '" height="320" width="480" frameBorder="0"></iframe>';
     } else {
       response = 'Here you are: <a href=\"' + url + '\" target=\"_blank\">' +
         decodeURI(target.id) + '</a>';

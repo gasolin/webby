@@ -48,6 +48,10 @@ li:first-child {
   border-top: none;
 }
 
+iframe {
+  border: none;
+}
+
 #chat-history {
   height: 60vh;
 }
