@@ -329,13 +329,12 @@ var _executeCommand = function(target) {
   }
 };
 
-var _renderProviders = function(verb) {
+var _renderProviders = function(element, verb) {
   verbAddons.forEach(function(verbAddon) {
     if (verbAddon.actionVerb === verb) {
       verbAddon.providers.forEach(function(provider) {
-        //XXX should not bound with specific element
         _createSuggestion(
-          suggestionsSelect,
+          element,
           provider.name.toLowerCase(),
           verb,
           verb + ' ' + provider.name);
@@ -359,10 +358,10 @@ var tagHandler = function(evt) {
       searchfield.focus();
       switch(verb) {
       case 'open':
-        _renderProviders(verb);
+        _renderProviders(suggestionsSelect, verb);
         break;
       case 'config':
-        _renderProviders(verb);
+        _renderProviders(suggestionsSelect, verb);
         tip.textContent = 'tap the config label will show config list';
         break;
       default:
