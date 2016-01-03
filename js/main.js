@@ -22,9 +22,41 @@ var parseResult = {
   results: []
 };
 
-var queryInstantSuggestions = function(verb, restTerm, results) {
+/**
+ * query online provider to get instant results
+ *
+ * @param {string} inputText origin input text
+ * @return {promise} search result
+ */
+var queryInstantSuggestions = function(inputText) {
+  var verb = inputText ? inputText : parseResult.verb;
+  var restTerm = parseResult.restTerm;
+  var results = parseResult.results;
+
   return new Promise(function(resolve) {
-    if (restTerm) {
+    if (inputText) {
+      if(verb.length < 3) {
+        return resolve([]);
+      }
+
+      var defaultProvider = verbSearch.providers[verbSearch.default]
+        .name.toLowerCase();
+      var provider = _getProvider('search', defaultProvider);
+      if (provider) {
+        var suggestUrl = provider.suggest;
+        // console.log(suggestUrl + encodeURI(verb));
+        $.ajax({
+          type: 'GET',
+          url: suggestUrl + encodeURIComponent(verb),
+          dataType: 'jsonp'
+        }).done(function(response) {
+          //console.log(JSON.stringify(response));
+          return resolve(response[1]);
+        });
+      } else {
+        console.log('no matched search suggestion provider');
+      }
+    } else {
       if (typeof results === 'object' && results.length > 0) {
         verb = results[0];
         if (restTerm.length < 3) {
@@ -46,28 +78,6 @@ var queryInstantSuggestions = function(verb, restTerm, results) {
         } else {
           console.log('no matched search suggestion provider');
         }
-      }
-    } else {
-      if(verb.length < 3) {
-        return resolve([]);
-      }
-
-      var defaultProvider = verbSearch.providers[verbSearch.default]
-        .name.toLowerCase();
-      var provider = _getProvider('search', defaultProvider);
-      if (provider) {
-        var suggestUrl = provider.suggest;
-        // console.log(suggestUrl + encodeURI(verb));
-        $.ajax({
-          type: 'GET',
-          url: suggestUrl + encodeURIComponent(verb),
-          dataType: 'jsonp'
-        }).done(function(response) {
-          //console.log(JSON.stringify(response));
-          return resolve(response[1]);
-        });
-      } else {
-        console.log('no matched search suggestion provider');
       }
     }
   });
@@ -131,8 +141,7 @@ var renderTags = function(element, inputText) {
         }
       });
 
-      queryInstantSuggestions(verb, restTerm, results)
-      .then(function(suggestions) {
+      queryInstantSuggestions().then(function(suggestions) {
         if (suggestions) {
           suggestions.forEach(function(result) {
             _createTag(element, result, result, false, 'search');
@@ -385,7 +394,7 @@ var _createSuggestion = function(parent, id, actionType, content, key) {
 /**
  * render suggestion list
  *
- * @param {HTMLElement} elmeent dom element
+ * @param {HTMLElement} element dom element
  * @param {string} inputText origin input text
  */
 var renderSuggestions = function(element, inputText) {
