@@ -1,6 +1,6 @@
 # WebDeacon
 
-[![Build Status](https://travis-ci.org/gasolin/webdeacon.png)](https://travis-ci.org/gasolin/webdeacon) [![Dependency Status](https://david-dm.org/gasolin/webdeacon/dev-status.svg)](https://david-dm.org/gasolin/webdeacon)
+[![Build Status](https://travis-ci.org/gasolin/webdeacon.png)](https://travis-ci.org/gasolin/webdeacon) [![Dependency Status](https://david-dm.org/gasolin/webdeacon/dev-status.svg)](https://david-dm.org/gasolin/webdeacon) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 ## Why WebDeacon
 
@@ -58,6 +58,14 @@ Moonbar maintain a defined order(verbs) set on `device`. `noun` generally denote
 File a issue to discuss a possible new verb and its usage.
 
 If you are a programmer, clone the project, send a Pull Request to fix the issue you encountered when you use webdeacon.
+
+WebDeacon use [Commitizen](https://github.com/commitizen/cz-cli) to help us write better commit message. When you want commit changes into project, use `git cz` instead of `git commit`.
+
+Make sure you have installed the Commitizen cli tools via command:
+
+```
+npm install commitizen -g
+```
 
 ## Testing
 
