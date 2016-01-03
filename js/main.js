@@ -97,7 +97,12 @@ var _createTag = function(parent, key, content, isVerb, actionType) {
     ele.dataset.type = actionType;
     switch(actionType) {
     case 'search':
-      ele.id = verbSearch.providers[verbSearch.default].name.toLowerCase();
+      var searchProvider = parseResult.results[0];
+      if (searchProvider) {
+        ele.id = searchProvider.toLowerCase();
+      } else {
+        ele.id = verbSearch.providers[verbSearch.default].name.toLowerCase();
+      }
       break;
     default:
       break;
