@@ -87,11 +87,11 @@ var _createTag = function(parent, key, content, isVerb, actionType) {
 /**
  * Render verb tags and suggestion tags.
  *
- * @param element {HTMLElement} dom element
- * @param verbs {string[]} verbs list
- * @param restTerm {string} input field exclude the verb
- * @param results {string[]} parse results
- * @param inputText {string} origin input text
+ * @param {HTMLElement} element dom element
+ * @param {string[]} verbs verb list
+ * @param {string} restTerm input field exclude the verb
+ * @param {string[]} results parse results
+ * @param {string} inputText origin input text
  */
 var renderTags = function(element, verbs, restTerm, results, inputText) {
   // render default labels
@@ -160,6 +160,8 @@ var registerKeyboardHandlers = function() {
         suggestionsSelect.childNodes[0].focus();
       }
       break;
+    default:
+      break;
     }
   });
 
@@ -175,6 +177,8 @@ var registerKeyboardHandlers = function() {
       console.log('focus to input field');
       searchfield.focus();
       break;
+    default:
+      break;
     }
   });
 
@@ -185,6 +189,8 @@ var registerKeyboardHandlers = function() {
       clickHandler({
         target: evt.target
       });
+      break;
+    default:
       break;
     }
   });
@@ -241,7 +247,8 @@ var _executeCommand = function(target) {
     var msg = 'Open \"' + decodeURI(target.id) + '\"';
     var response = '';
     if (embed) {
-      response = '<iframe src="' + url + '" height="320" width="480" frameBorder="0"></iframe>';
+      response = '<iframe src="' + url + '" height="320" width="480" ' +
+        'frameBorder="0"></iframe>';
     } else {
       response = 'Here you are: <a href=\"' + url + '\" target=\"_blank\">' +
         decodeURI(target.id) + '</a>';

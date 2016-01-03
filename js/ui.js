@@ -1,3 +1,4 @@
+/* globals renderTags, processInputs, registerKeyboardHandlers */
 'use strict';
 document.body.classList.remove('hidden');
 
