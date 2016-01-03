@@ -205,7 +205,11 @@ var huxian = {
     var results = pedia.filter(function(element) {
       return element.indexOf(verb) > -1;
     });
-    //console.log(verb, restTerm, results);
+    if(restTerm) {
+      results = [results[0]];
+    }
+
+    // console.log(verb, restTerm, results);
     return [verb, restTerm, results];
   }
 };

@@ -12,12 +12,19 @@ suite('moonbar', function() {
   */
 
   suite('Huxian parser >', function() {
+    test('parse shortcut correctly', function() {
+      assert.deepEqual([
+        'g',
+        'moz',
+        ['google']
+      ],
+      huxian.parse('g moz', searchPool));
+    });
     test('parses search verb correctly', function() {
       assert.deepEqual([
         'w',
         'firefox',
-        ['wikipedia', 'twitter', 'weather', 'about webdeacon']
-        //the correct one should be ['wikipedia']
+        ['wikipedia']
       ],
       huxian.parse('w firefox', searchPool));
 
