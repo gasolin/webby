@@ -1,18 +1,23 @@
 # WebDeacon
 
-[![Build Status](https://travis-ci.org/gasolin/webdeacon.png)](https://travis-ci.org/gasolin/webdeacon)
+[![Build Status](https://travis-ci.org/gasolin/webdeacon.png)](https://travis-ci.org/gasolin/webdeacon) [![Dependency Status](https://david-dm.org/gasolin/webdeacon/dev-status.svg)](https://david-dm.org/gasolin/webdeacon)
 
 ## Why WebDeacon
 
-
 The [Prototype](https://gasolin.github.io/webdeacon) is able to:
- * **Open** installed app
+ * **Open** installed app in new tab
+ * Open app inside of dialog
  * **Search** through default search provider
  * **Search** through different search provider
- * provide instant suggestion through default and target search provider
+ * provide instant suggestion through default and target search providers
  * navigation with keyboard
 
 Refer [Test Cases](https://github.com/gasolin/webdeacon/blob/master/TEXTCASES.md) to figure out the usage.
+
+Plan to do
+
+ * Pin app as a **Widget** in dialog
+ * Add personality to deacon
 
 ## WebDeacon Interaction
 
@@ -21,27 +26,32 @@ Elements: order box, deacon box (order tags, instant search tags, suggestions), 
 * `Search` and `Open` are the default verbs, we don't need to type them manually.
 * `Search providers` are exposed as default verbs. (ex: user could use `wikipedia <keyword>`/`w <keyword>` to search wikipedia directly)
 
+### order-tag-suggestion interface
+
 User is able to found what she needs quickly through keyboard and tags:
 * key in on input field to get instant results from several resources
-** the tag field will show correspondent action tags
-** the suggestion field will show available suggestions
-* Tap verb tag will further scoping the selections
-* key in to filter verb tags, use space to match `verb + noun` pattern
+** the tag field will show correspondent order tags and instant suggestion tags
+** the suggestion field will show available actions
+* Tap order tag will further scoping the selections
+* key in to filter order tags, use space to match certain `verb + noun` pattern
+
+### Chat activity
+
+Webdeacon interact with you with chat-like interface. Just like any other instant messengers, all previous dialog are listed as an activity stream.
 
 ## Rules
 
-1. respect existing searchbar interactions, so user no need to relearn.
+1. respect existing browser searchbar and instant messenger's interactions, so user has pretty small barrier to use Webdeacon.
 
-2. use verb + noun format to execute new commands
+2. always use `verb + noun` format to execute new commands
 
-Moonbar maintain a defined verbs set on `device`.
+Moonbar maintain a defined order(verbs) set on `device`. `noun` generally denotes the `search term`.
 
-`noun` (search term)
+3. show all available order tags when no user input
 
-3. show all available verb tags when no user input
+4. while user typing, they can tap tag to further scoping the suggestions
 
-4. while user typing, they can tap tag to scope the suggestions
-
+5. Extensions are just normal URLs. User could choose to open it in new window or embed it in the dialog.
 
 ## Willing to Contribute?
 
