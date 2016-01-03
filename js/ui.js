@@ -14,6 +14,7 @@ renderTags(suggestionTags);
 searchfield.addEventListener('input', processInputs);
 searchfield.focus();
 
+// click to reset input fields
 titlebar.addEventListener('click', function() {
   searchfield.value = '';
   processInputs();

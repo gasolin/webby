@@ -142,6 +142,11 @@ var _createTag = function(parent, key, content, isVerb, actionType) {
   parent.appendChild(ele);
 };
 
+// make everything keyboard navigatable
+var recalcSpatialNavigation = function() {
+  $('.focusable').SpatialNavigation();
+};
+
 /**
  * Render verb tags and suggestion tags.
  *
@@ -181,8 +186,8 @@ var renderTags = function(element, inputText) {
           suggestions.forEach(function(result) {
             _createTag(element, result, result, false, 'search');
           });
-          // keyboard navigatable
-          $('.focusable').SpatialNavigation();
+
+          recalcSpatialNavigation();
         }
       });
     } else {
@@ -191,8 +196,8 @@ var renderTags = function(element, inputText) {
           suggestions.forEach(function(result) {
             _createTag(element, result, result, false, 'search');
           });
-          // keyboard navigatable
-          $('.focusable').SpatialNavigation();
+
+          recalcSpatialNavigation();
         }
       });
     }
@@ -416,8 +421,7 @@ var renderSuggestions = function(element, inputText) {
   var results = parseResult.results;
   // show default verb tags
   if (searchfield.value.length === 0) {
-    // make everything navigatable
-    $('.focusable').SpatialNavigation();
+    recalcSpatialNavigation();
     return;
   }
   if (results.length != 0) {
@@ -460,8 +464,7 @@ var renderSuggestions = function(element, inputText) {
       'Search ' + restTerm,
       restTerm);
   }
-  // make everything navigatable
-  $('.focusable').SpatialNavigation();
+  recalcSpatialNavigation();
 };
 
 var processInputs = function() {
