@@ -13,42 +13,42 @@ suite('moonbar', function() {
 
   suite('Huxian parser >', function() {
     test('parse shortcut correctly', function() {
-      assert.deepEqual([
-        'g',
-        'moz',
-        ['google']
-      ],
+      assert.deepEqual({
+        verb: 'g',
+        restTerm: 'moz',
+        results: ['google']
+      },
       huxian.parse('g moz', searchPool));
     });
     test('parses search verb correctly', function() {
-      assert.deepEqual([
-        'w',
-        'firefox',
-        ['wikipedia']
-      ],
+      assert.deepEqual({
+        verb: 'w',
+        restTerm: 'firefox',
+        results: ['wikipedia']
+      },
       huxian.parse('w firefox', searchPool));
 
-      assert.deepEqual([
-        'wikipedia',
-        'firefox',
-        ['wikipedia']
-      ],
+      assert.deepEqual({
+        verb: 'wikipedia',
+        restTerm: 'firefox',
+        results: ['wikipedia']
+      },
       huxian.parse('wikipedia firefox', searchPool));
     });
 
     test('parses open verb correctly', function() {
-      assert.deepEqual([
-        'fa',
-        '',
-        ['facebook']
-      ],
+      assert.deepEqual({
+        verb: 'fa',
+        restTerm: '',
+        results: ['facebook']
+      },
       huxian.parse('fa', searchPool));
 
-      assert.deepEqual([
-        'facebook',
-        '',
-        ['facebook']
-      ],
+      assert.deepEqual({
+        verb: 'facebook',
+        restTerm: '',
+        results: ['facebook']
+      },
       huxian.parse('facebook', searchPool));
     });
   });

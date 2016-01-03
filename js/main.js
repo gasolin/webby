@@ -9,6 +9,19 @@ var _getProvider = function(type, id) {
   ];
 };
 
+/**
+ * Object to store parsing result.
+ *
+ * {string[]} verbs verb list
+ * {string} restTerm input field exclude the verb
+ * {string[]} results parse results
+ */
+var parseResult = {
+  verb: '',
+  restTerm: '',
+  results: []
+};
+
 var queryInstantSuggestions = function(verb, restTerm, results) {
   return new Promise(function(resolve) {
     if (restTerm) {
@@ -88,14 +101,14 @@ var _createTag = function(parent, key, content, isVerb, actionType) {
  * Render verb tags and suggestion tags.
  *
  * @param {HTMLElement} element dom element
- * @param {string[]} verbs verb list
- * @param {string} restTerm input field exclude the verb
- * @param {string[]} results parse results
  * @param {string} inputText origin input text
  */
-var renderTags = function(element, verbs, restTerm, results, inputText) {
+var renderTags = function(element, inputText) {
   // render default labels
-  if (!verbs || verbs.length == 0) {
+  var verb = parseResult.verb;
+  var restTerm = parseResult.restTerm;
+  var results = parseResult.results;
+  if (!verb || verb.length == 0) {
     verbAddons.forEach(function(verbAddon) {
       if (verbAddon.flattern) { // turn each provider as a tag
         verbAddon.providers.forEach(function(ele) {
@@ -118,7 +131,7 @@ var renderTags = function(element, verbs, restTerm, results, inputText) {
         }
       });
 
-      queryInstantSuggestions(verbs, restTerm, results)
+      queryInstantSuggestions(verb, restTerm, results)
       .then(function(suggestions) {
         if (suggestions) {
           suggestions.forEach(function(result) {
@@ -210,7 +223,10 @@ var huxian = {
     }
 
     // console.log(verb, restTerm, results);
-    return [verb, restTerm, results];
+    parseResult.verb = verb;
+    parseResult.restTerm = restTerm;
+    parseResult.results = results;
+    return parseResult;
   }
 };
 
@@ -366,7 +382,16 @@ var _createSuggestion = function(parent, id, actionType, content, key) {
   parent.appendChild(ele);
 };
 
-var renderSuggestions = function(element, verb, restTerm, results, inputText) {
+/**
+ * render suggestion list
+ *
+ * @param {HTMLElement} elmeent dom element
+ * @param {string} inputText origin input text
+ */
+var renderSuggestions = function(element, inputText) {
+  var verb = parseResult.verb;
+  var restTerm = parseResult.restTerm;
+  var results = parseResult.results;
   // show default verb tags
   if (searchfield.value.length === 0) {
     // make everything navigatable
@@ -418,11 +443,10 @@ var renderSuggestions = function(element, verb, restTerm, results, inputText) {
 };
 
 var processInputs = function() {
-  var [verb, restTerm, results] = huxian.parse(searchfield.value, searchPool);
+  huxian.parse(searchfield.value, searchPool);
   resetUI();
-  renderTags(suggestionTags, verb, restTerm, results, searchfield.value);
-  renderSuggestions(suggestionsSelect, verb, restTerm, results,
-    searchfield.value);
+  renderTags(suggestionTags, searchfield.value);
+  renderSuggestions(suggestionsSelect, searchfield.value);
 };
 
 // init start
