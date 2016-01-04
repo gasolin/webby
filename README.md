@@ -85,3 +85,9 @@ npm test
 ## Credit
 
 WebDeacon is forked from [Moonbar](https://www.github.com/gasolin/moonbar). The enhanced searchbar with order-tag-suggestion interface.
+
+
+## license
+
+Mozilla Public License, version 2.0
+https://www.mozilla.org/en-US/MPL/2.0/
