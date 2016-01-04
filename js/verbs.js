@@ -73,6 +73,10 @@ var verbConfig = {
   }, {
     name: 'Report Issue',
     url: 'https://github.com/gasolin/webdeacon/issues'
+  }, {
+    name: 'app',
+    url: 'widgets/app.html',
+    embed: true
   }],
   default: 0
 };
