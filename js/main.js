@@ -500,6 +500,4 @@ verbAddons.forEach(function(verbAddon) {
     };
   });
 });
-
-$.material.ripples();
 // init end

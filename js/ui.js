@@ -20,4 +20,6 @@ titlebar.addEventListener('click', function() {
   processInputs();
 });
 registerKeyboardHandlers();
+
+$.material.ripples();
 // init end
