@@ -1,0 +1,17 @@
+<html>
+<header>
+  <script src="../js/verbs.js"></script>
+</header>
+<body>
+<ul id="apps"></ul>
+
+<script>
+  var apps = document.getElementById('apps');
+  verbOpen.providers.forEach(function(provider) {
+    var li = document.createElement('li');
+    li.textContent = provider.name;
+    apps.appendChild(li);
+  });
+</script>
+</body>
+</html>
