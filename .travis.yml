@@ -1,20 +1,21 @@
 language: node_js
 node_js:
-  - 5.3.0
+- 5.3.0
 install:
-  - npm install
+- npm install
 before_script:
-  - 'export DISPLAY=:99.0'
-  - sh -e /etc/init.d/xvfb start
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
 script:
-  - $CI_ACTION
+- $CI_ACTION
 after_success:
-  - 'test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash deploy.sh'
+- test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash
+  deploy.sh
 env:
   global:
-    - TEST_SUITE=unit
-    - GH_REF: github.com/gasolin/webdeacon.git
-    - GH_TOKEN: kXfo2CINfUCzIi7YfzKDQ4Ap5xcp0wRhiG28gIs9Yq2qatUBc2ITTL9NbPmEOdZSjjYmkd2wNjLQ+KMflElAPKrEUEXC9GSBD5mxlATOcDHZSQ4zi3bPklLd40Yv9AtPv22+3VEdyEyy8UbW9XOvNtl18FknCurmLxYku1KnFhgz8zioDdn4Qi82PHWD/K1eFkJX4ky93lQTpx19g5U06q6u5X7Xcw5B0yxBMlQUMMgLSVne0scvuugw/m8NtGhsYCdneVbldOqeGEHebfhf2G7kAEQDUW3NxSCvISNx/yjEGnZlT8CHEaKvNGpipHlnSvylIs2vwbeqRgp+PXRI2/VIXTwXPOl5/Gp9jvENovTp2MfS5CPxU5DkGcoD0otBmMLpC3DSDHPaYnrj13RCL/yAInZAJGft6uA2BYKEW8zMemiwBiMt8MhM006Cl4xfiaL1tqTOjGe6CuW+WSrYLsjwTG3joy51shJTKTBtBY8Opr8nqD2Rb+9fzoTI91nYYX7pLeQ0neVxOSePIYLAVGc21raQxVfOWhS9Dv2HxcNu1SphdkJuRXjmEsXcDVTIERcU2uekxtNNHEHDNrpNZn5n//3/WCrCwg13BusfIPxB8TlLJgfNxHiYmaLNyI8Pkohh6w/+pD0SROPQcctmBP/hEUNJEgPnmO80L8+y75Q=
+  - TEST_SUITE=unit
+  - GH_REF: github.com/gasolin/webdeacon.git
+  - secure: QCKLoRO4V/amAXaxSoLPWq4FXPJioSzlEBuZOu7qCXkfbXC5KjSgUnAzgi2hpiRo7nqZ6EiraHljSr8X0U4XXShBMeDUofFOxuO4IJE8FvdJKLxC1E0/A+mR6oqz30jXG6rpzHv6lHhrMf6gbfkKPQC2LH4/Kug9Y0e+guLOnfVV0+H4gzPKhCwAN02wFGEp4BOGP9bPPRIz5KCUxV2z/dXC667bUl0BYqbAvWod2hKWg9BVUUJVjQUCfWGEWbGWx7upVOZFMq2TSF4Chjhr1eVodqGF3P5PDaEAfERB9DciQOG7NMmhlDv8YdRi/J3/KHDBZ5kqM0ALVN6dgBGddUSoeE3KzG9m+v+33e6ZmS0YqUjf7K84z4inf7b6lTXRPiGpYARGvQEAxYSVka06ml0VIwFWDMewx2ygyyp9HOdCyoSgEEPRRcYkmm++TAy7fyAXtLd/vBZwzmnjfYbnG6/a5ejf/TMxhT0NwYED28IcRkYIPLV/uq/5VZ9BNEy3+9wWZ9ClywBrx/xL8GC9bM7lNH+/4Fyj65NBWk8MIQ+SR4UJOdXR/PGDV8lFkqNJiERhrJwm5Dm6bqbo9ec09uJ4/kUF1hdicVh7naUQUwo+S8dxFgPMvSpPGNrtXyFYaVazr/FIDgflTILjznveMBQRoqhvBIa6ulNxMX2cBBM=
   matrix:
-    - 'CI_ACTION="npm run lint"'
-    - 'CI_ACTION="npm test"'
+  - CI_ACTION="npm run lint"
+  - CI_ACTION="npm test"
