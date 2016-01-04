@@ -1,13 +1,6 @@
 /*globals $, searchfield, suggestionsSelect, suggestionTags, tip, chatHistory
   verbSearch, verbOpen, verbConfig */
 'use strict';
-// Check https://github.com/gasolin/moonbar for more detail
-// lets hack apps/search/js/providers/suggestions
-var _getProvider = function(type, id) {
-  return actionMap[type][
-    reverseMap[id].idx
-  ];
-};
 
 /**
  * Object to store parsing result.
@@ -23,10 +16,47 @@ var parseResult = {
 };
 
 /**
+ * input text parser, respond for everything
+ */
+var huxian = {
+  parse: function(input, pedia) {
+    var keys = input.trimRight().split(' ');
+    var verb = keys[0].toLowerCase();
+    // cut out verb with a space
+    var restTerm = input.trimRight().slice(verb.length + 1);
+    var results = pedia.filter(function(element) {
+      return element.indexOf(verb) > -1;
+    });
+    if(restTerm) {
+      results = [results[0]];
+    }
+
+    // console.log(verb, restTerm, results);
+    parseResult.verb = verb;
+    parseResult.restTerm = restTerm;
+    parseResult.results = results;
+    return parseResult;
+  }
+};
+
+/**
+ * helper function to get data from providers
+ *
+ * @param {string} type main verb type
+ * @param {string} id content id that stored in the reverseMap
+ * @returns {object} verb provider object
+ */
+var _getProvider = function(type, id) {
+  return actionMap[type][
+    reverseMap[id].idx
+  ];
+};
+
+/**
  * query online provider to get instant results
  *
  * @param {string} inputText origin input text
- * @return {promise} search result
+ * @returns {promise} search result
  */
 var queryInstantSuggestions = function(inputText) {
   var verb = inputText ? inputText : parseResult.verb;
@@ -112,6 +142,11 @@ var _createTag = function(parent, key, content, isVerb, actionType) {
   parent.appendChild(ele);
 };
 
+// make everything keyboard navigatable
+var recalcSpatialNavigation = function() {
+  $('.focusable').SpatialNavigation();
+};
+
 /**
  * Render verb tags and suggestion tags.
  *
@@ -151,8 +186,8 @@ var renderTags = function(element, inputText) {
           suggestions.forEach(function(result) {
             _createTag(element, result, result, false, 'search');
           });
-          // keyboard navigatable
-          $('.focusable').SpatialNavigation();
+
+          recalcSpatialNavigation();
         }
       });
     } else {
@@ -161,8 +196,8 @@ var renderTags = function(element, inputText) {
           suggestions.forEach(function(result) {
             _createTag(element, result, result, false, 'search');
           });
-          // keyboard navigatable
-          $('.focusable').SpatialNavigation();
+
+          recalcSpatialNavigation();
         }
       });
     }
@@ -221,27 +256,6 @@ var registerKeyboardHandlers = function() {
       break;
     }
   });
-};
-
-var huxian = {
-  parse: function(input, pedia) {
-    var keys = input.trimRight().split(' ');
-    var verb = keys[0].toLowerCase();
-    // cut out verb with a space
-    var restTerm = input.trimRight().slice(verb.length + 1);
-    var results = pedia.filter(function(element) {
-      return element.indexOf(verb) > -1;
-    });
-    if(restTerm) {
-      results = [results[0]];
-    }
-
-    // console.log(verb, restTerm, results);
-    parseResult.verb = verb;
-    parseResult.restTerm = restTerm;
-    parseResult.results = results;
-    return parseResult;
-  }
 };
 
 var _renderChatBox = function(speaker, msg) {
@@ -320,13 +334,12 @@ var _executeCommand = function(target) {
   }
 };
 
-var _renderProviders = function(verb) {
+var _renderProviders = function(element, verb) {
   verbAddons.forEach(function(verbAddon) {
     if (verbAddon.actionVerb === verb) {
       verbAddon.providers.forEach(function(provider) {
-        //XXX should not bound with specific element
         _createSuggestion(
-          suggestionsSelect,
+          element,
           provider.name.toLowerCase(),
           verb,
           verb + ' ' + provider.name);
@@ -350,10 +363,10 @@ var tagHandler = function(evt) {
       searchfield.focus();
       switch(verb) {
       case 'open':
-        _renderProviders(verb);
+        _renderProviders(suggestionsSelect, verb);
         break;
       case 'config':
-        _renderProviders(verb);
+        _renderProviders(suggestionsSelect, verb);
         tip.textContent = 'tap the config label will show config list';
         break;
       default:
@@ -408,8 +421,7 @@ var renderSuggestions = function(element, inputText) {
   var results = parseResult.results;
   // show default verb tags
   if (searchfield.value.length === 0) {
-    // make everything navigatable
-    $('.focusable').SpatialNavigation();
+    recalcSpatialNavigation();
     return;
   }
   if (results.length != 0) {
@@ -452,8 +464,7 @@ var renderSuggestions = function(element, inputText) {
       'Search ' + restTerm,
       restTerm);
   }
-  // make everything navigatable
-  $('.focusable').SpatialNavigation();
+  recalcSpatialNavigation();
 };
 
 var processInputs = function() {
