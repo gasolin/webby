@@ -8,6 +8,7 @@ mkdir stage
 cp index.html stage
 cp -r style stage/
 cp -r js stage/
+cp -r widgets stage/
 cd stage
 
 git init
