@@ -24,6 +24,7 @@ module.exports = function(config) {
       'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.7/js/ripples.min.js',
       'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.7/js/material.min.js',
       'https://people.mozilla.org/~lchang/js-spatial-navigation/spatial_navigation.js',
+      'https://cdnjs.cloudflare.com/ajax/libs/localforage/1.3.1/localforage.min.js',
 
       //'../js/*.js',
       '../index.html',

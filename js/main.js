@@ -1,5 +1,4 @@
-/*globals $, searchfield, suggestionsSelect, suggestionTags, tip, chatHistory
-  verbSearch, verbOpen, verbConfig */
+/*globals $, verbSearch, verbOpen, verbConfig, localforage */
 'use strict';
 
 /**
@@ -483,8 +482,8 @@ var processInputs = function() {
 
 // init start
 // define all supported verbs
-var verbAddons = [verbSearch, verbOpen, verbConfig];
-
+var stoerKey = 'verbstore';
+var verbAddons = [];
 // the universal verb tags pool
 var searchPool = [];
 // the referece map to the origin provider object
@@ -492,19 +491,65 @@ var reverseMap = {};
 // map the verb with its action providers
 var actionMap = {};
 
-// TODO: could do in worker
 // Initialize action verbs mapping
-verbAddons.forEach(function(verbAddon) {
-  actionMap[verbAddon.actionVerb] = verbAddon.providers;
+var initVerbsMapping = function() {
+  verbAddons.forEach(function(verbAddon) {
+    actionMap[verbAddon.actionVerb] = verbAddon.providers;
 
-  verbAddon.providers.forEach(function(ele, idx) {
-    searchPool.push(ele.name.toLowerCase());
-    reverseMap[ele.name.toLowerCase()] = {
-      'name': ele.name,
-      'type': verbAddon.actionVerb,
-      'idx': idx,
-      'flattern': verbAddon.flattern
-    };
+    verbAddon.providers.forEach(function(ele, idx) {
+      searchPool.push(ele.name.toLowerCase());
+      reverseMap[ele.name.toLowerCase()] = {
+        'name': ele.name,
+        'type': verbAddon.actionVerb,
+        'idx': idx,
+        'flattern': verbAddon.flattern
+      };
+    });
   });
+};
+
+var titlebar = document.getElementById('titlebar');
+var searchfield = document.getElementById('search');
+var suggestionsSelect = document.getElementById('suggestions-select');
+var suggestionTags = document.getElementById('suggestion-tags');
+var tip = document.getElementById('tip');
+var chatHistory = document.getElementById('chat-history');
+
+var initUI = function() {
+  document.body.classList.remove('hidden');
+
+  renderTags(suggestionTags);
+  searchfield.addEventListener('input', processInputs);
+  searchfield.focus();
+
+  // click to reset input fields
+  titlebar.addEventListener('click', function() {
+    searchfield.value = '';
+    processInputs();
+  });
+  registerKeyboardHandlers();
+
+  $.material.ripples();
+};
+
+var init = function() {
+  initVerbsMapping();
+  initUI();
+};
+
+localforage.getItem(stoerKey, function(err, value) {
+  if (err) {
+    console.error(err);
+  } else {
+    verbAddons = JSON.parse(value);
+    if (!verbAddons) {
+      verbAddons = [verbSearch, verbOpen, verbConfig];
+      localforage.setItem(stoerKey,
+        JSON.stringify([verbSearch, verbOpen, verbConfig]))
+        .then(init);
+    } else {
+      init();
+    }
+  }
 });
 // init end

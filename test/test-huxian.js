@@ -4,12 +4,14 @@ suite('moonbar', function() {
 
   setup(function() {
     document.body.innerHTML = __html__['index.html'];
+    verbAddons = [verbSearch, verbOpen, verbConfig];
+    initVerbsMapping();
   });
 
-  /*
   teardown(function() {
+    verbAddons = [];
+    searchPool = [];
   });
-  */
 
   suite('Huxian parser >', function() {
     test('parse shortcut correctly', function() {
