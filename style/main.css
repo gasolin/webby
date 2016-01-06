@@ -11,6 +11,18 @@ mark {
 
 body {
   padding-top: 50px;
+  overflow: hidden;
+}
+
+@media (max-width: 1199px) {
+  .navbar .navbar-brand {
+      position: relative;
+      height: 60px;
+      line-height: 30px;
+      color: inherit;
+      height: 60px;
+      padding: 15px 15px;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -34,6 +46,8 @@ body {
     float: right;
     width: 66%;
     background-color: rgba(230, 230, 230, 0.6);
+    padding-bottom: 100px;
+    padding-top: 15px;
   }
 
   .noscrollable {
@@ -44,6 +58,7 @@ body {
     bottom: 0;
     left: 0;
     width: 34%;
+    padding: 35px;
   }
 }
 
@@ -85,15 +100,16 @@ iframe {
 }
 
 .chat {
-  padding: 20px;
-  margin:10px;
+  padding: 15px 20px 15px 20px;
+  margin:20px;
   border-radius: 10px;
-  box-shadow:5px 5px 15px darkgrey;
-  width: 90%;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+  width: 60%;
 }
 
 .bot-chat {
   background-color: rgba(0,150,136,0.5);
+  color: #fff;
   float:left;
 }
 
@@ -101,4 +117,18 @@ iframe {
   background-color: white;
   /* border: 0.5px solid darkgrey;*/
   float:right;
+}
+
+#search {
+  padding-left: 10px;
+}
+
+#suggestion-tag {
+  width: 100%;
+  word-wrap: break-word;
+}
+
+.label{
+  display: inline-block;
+  word-wrap; normal;
 }
