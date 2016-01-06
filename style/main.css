@@ -58,7 +58,7 @@ body {
     bottom: 0;
     left: 0;
     width: 34%;
-    padding: 35px;
+    padding: 25px;
   }
 }
 
@@ -101,7 +101,7 @@ iframe {
 
 .chat {
   padding: 15px 20px 15px 20px;
-  margin:20px;
+  margin:15px;
   border-radius: 10px;
   box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
   width: 60%;
@@ -132,3 +132,34 @@ iframe {
   display: inline-block;
   word-wrap; normal;
 }
+
+/* input field */
+/* BOTTOM BARS ================================= */
+.bar  { position:relative; display:block; width:100%; }
+.bar:before, .bar:after   {
+  content:'';
+  height:2px; 
+  width:0;
+  bottom:8px; 
+  position:absolute;
+  background:rgba(0,150,136, 1);
+  transition:0.2s ease all; 
+}
+.bar:before {
+  left:50%;
+}
+.bar:after {
+  right:50%; 
+}
+
+/* active state */
+input:focus ~ .bar:before, input:focus ~ .bar:after {
+  width:50%;
+}
+
+input:focus {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
