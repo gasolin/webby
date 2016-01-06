@@ -28,6 +28,7 @@ module.exports = function(config) {
 
       //'../js/*.js',
       '../index.html',
+      '../widget/*.html',
       'test-*.js',
       '../js/default_verbs.js',
       '../js/main.js'
