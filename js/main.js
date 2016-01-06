@@ -1,4 +1,4 @@
-/*globals $, verbSearch, verbOpen, verbConfig, localforage */
+/*globals $, defaultVerbStore, verbSearch, localforage */
 'use strict';
 
 /**
@@ -549,9 +549,9 @@ localforage.getItem(stoerKey, function(err, value) {
   } else {
     verbAddons = JSON.parse(value);
     if (!verbAddons) {
-      verbAddons = [verbSearch, verbOpen, verbConfig];
+      verbAddons = defaultVerbStore;
       localforage.setItem(stoerKey,
-        JSON.stringify([verbSearch, verbOpen, verbConfig]))
+        JSON.stringify(defaultVerbStore))
         .then(init);
     } else {
       init();

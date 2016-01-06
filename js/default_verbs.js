@@ -1,4 +1,6 @@
+/* export defaultVerbStore */
 'use strict';
+
 var verbSearch = {
   actionVerb: 'search',
   providers: [{
@@ -80,3 +82,5 @@ var verbConfig = {
   }],
   default: 0
 };
+
+var defaultVerbStore = [verbSearch, verbOpen, verbConfig];
