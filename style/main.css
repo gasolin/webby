@@ -38,7 +38,7 @@ body {
 
   .scrollable {
     position: absolute;
-    overflow-y: scroll;
+    overflow-y: auto;
     height:100%;
     top: 60px;
     bottom: 0;
@@ -82,13 +82,17 @@ ul {
 }
 
 li {
-  margin-top: 8px;
-  padding-top: 5px;
+  padding: 8px 0px 8px 0px;
   border-top: 0.1rem solid #e6e6e3;
 }
 
 li:first-child {
   border-top: none;
+}
+
+li:active, li:focus {
+  outline: none !important;
+  border-bottom: 2px solid rgba(0,150,136,1) !important;
 }
 
 iframe {
@@ -128,6 +132,12 @@ iframe {
   word-wrap: break-word;
 }
 
+#suggestions-select {
+  margin-top: 20px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
 .label{
   display: inline-block;
   word-wrap; normal;
@@ -158,8 +168,11 @@ input:focus ~ .bar:before, input:focus ~ .bar:after {
 }
 
 input:focus {
-    outline: none !important;
-    border: none !important;
     box-shadow: none !important;
+}
+
+
+#tip {
+  margin: 10px 0;
 }
 
