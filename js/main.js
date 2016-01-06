@@ -1,4 +1,4 @@
-/*globals $, verbSearch, verbOpen, verbConfig, localforage */
+/*globals $, defaultVerbStore, verbSearch, localforage */
 'use strict';
 
 /**
@@ -326,7 +326,7 @@ var _executeCommand = function(target) {
     searchfield.value = '';
     processInputs();
     break;
-  default:
+  default: // search
     var url = _getProvider(type, id).url;
     //console.log('open ' + url + evt.target.dataset.key);
     var msg = target.dataset.type + ' \"' + decodeURI(target.dataset.key) +
@@ -379,7 +379,7 @@ var tagHandler = function(evt) {
         break;
       case 'config':
         _renderProviders(suggestionsSelect, verb);
-        tip.textContent = 'tap the config label will show config list';
+        // tip.textContent = 'tap the config label will show config list';
         break;
       default:
         tip.textContent = 'tap the label should help you further scoping the ' +
@@ -395,8 +395,8 @@ var clickHandler = function(evt) {
     tip.classList.remove('hidden');
   }
   var target = evt.target;
-  tip.textContent = 'tap the row should ' + target.dataset.type + ' ' +
-    target.id;
+  // tip.textContent = 'tap the row should ' + target.dataset.type + ' ' +
+  //   target.id;
   _executeCommand(target);
 };
 
@@ -549,9 +549,9 @@ localforage.getItem(stoerKey, function(err, value) {
   } else {
     verbAddons = JSON.parse(value);
     if (!verbAddons) {
-      verbAddons = [verbSearch, verbOpen, verbConfig];
+      verbAddons = defaultVerbStore;
       localforage.setItem(stoerKey,
-        JSON.stringify([verbSearch, verbOpen, verbConfig]))
+        JSON.stringify(defaultVerbStore))
         .then(init);
     } else {
       init();

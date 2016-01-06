@@ -1,13 +1,21 @@
 <html>
-<header>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.7/css/bootstrap-material-design.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.7/css/ripples.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.3.1/localforage.min.js"></script>
-</header>
+  <script src="../js/default_verbs.js"></script>
+</head>
 <body>
-<ul id="apps"></ul>
-
+<ul id="configs"></ul>
+<button id="reset" type="button" class="btn btn-warning">Reset to default Verbs</button>
+<div id="tip" class="alert alert-warning hidden"></div>
 <script>
   var stoerKey = 'verbstore';
-  var apps = document.getElementById('apps');
+  var configs = document.getElementById('configs');
+  var reset = document.getElementById('reset');
+  var tip = document.getElementById('tip');
 
   localforage.getItem(stoerKey, function(err, value) {
     if (err) {
@@ -20,12 +28,22 @@
             verbAddon.providers.forEach(function(provider) {
               var li = document.createElement('li');
               li.textContent = provider.name;
-              apps.appendChild(li);
+              configs.appendChild(li);
             });
           }
         });
       }
     }
+  });
+
+  reset.addEventListener('click', function() {
+    localforage.setItem(stoerKey,
+      JSON.stringify(defaultVerbStore)).then(function() {
+        if (tip.classList.contains('hidden')) {
+          tip.classList.remove('hidden');
+        }
+        tip.textContent = 'please reload the page';
+      });
   });
 </script>
 </body>

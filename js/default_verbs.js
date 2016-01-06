@@ -1,4 +1,6 @@
+/* export defaultVerbStore */
 'use strict';
+
 var verbSearch = {
   actionVerb: 'search',
   providers: [{
@@ -68,15 +70,17 @@ var verbOpen = {
 var verbConfig = {
   actionVerb: 'config',
   providers: [{
-    name: 'About WebDeacon',
-    url: 'https://github.com/gasolin/webdeacon'
+    name: 'Settings',
+    url: 'widgets/app.html',
+    embed: true
   }, {
     name: 'Report Issue',
     url: 'https://github.com/gasolin/webdeacon/issues'
   }, {
-    name: 'app',
-    url: 'widgets/app.html',
-    embed: true
+    name: 'About',
+    url: 'https://github.com/gasolin/webdeacon'
   }],
   default: 0
 };
+
+var defaultVerbStore = [verbSearch, verbOpen, verbConfig];
