@@ -304,6 +304,8 @@ var _executeCommand = function(target) {
 
     _renderChatBox('user', msg);
     _renderChatBox('bot', response);
+    searchfield.value = '';
+    processInputs();
     break;
   case 'config':
     var url = _getProvider(type, id).url;
@@ -321,6 +323,8 @@ var _executeCommand = function(target) {
 
     _renderChatBox('user', msg);
     _renderChatBox('bot', response);
+    searchfield.value = '';
+    processInputs();
     break;
   default:
     var url = _getProvider(type, id).url;
@@ -336,6 +340,8 @@ var _executeCommand = function(target) {
     _renderChatBox('user', msg);
     _renderChatBox('bot', response);
     window.open(url + target.dataset.key, '_blank');
+    searchfield.value = '';
+    processInputs();
     break;
   }
 };
