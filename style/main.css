@@ -19,6 +19,34 @@ body {
   }
 }
 
+@media (min-width: 768px) {
+  .well {
+    height:100vh;
+  }
+
+  .scrollable {
+    position: absolute;
+    overflow-y: scroll;
+    height:100%;
+    top: 60px;
+    bottom: 0;
+    right: 0;
+    float: right;
+    width: 66%;
+    background-color: rgba(230, 230, 230, 0.6);
+  }
+
+  .noscrollable {
+    position: absolute;
+    overflow-y: hidden;
+    height:100%;
+    top: 30vh;
+    bottom: 0;
+    left: 0;
+    width: 34%;
+  }
+}
+
 .navbar {
   margin-bottom: 0;
 }
@@ -61,7 +89,7 @@ iframe {
   margin:10px;
   border-radius: 10px;
   box-shadow:5px 5px 15px darkgrey;
-  width: 50vw;
+  width: 90%;
 }
 
 .bot-chat {
