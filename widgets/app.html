@@ -1,17 +1,31 @@
 <html>
 <header>
-  <script src="../js/default_verbs.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.3.1/localforage.min.js"></script>
 </header>
 <body>
 <ul id="apps"></ul>
 
 <script>
+  var stoerKey = 'verbstore';
   var apps = document.getElementById('apps');
-  verbOpen.providers.forEach(function(provider) {
-    var li = document.createElement('li');
-    li.textContent = provider.name;
-    apps.appendChild(li);
+
+  localforage.getItem(stoerKey, function(err, value) {
+    if (err) {
+      console.error(err);
+    } else {
+      verbAddons = JSON.parse(value);
+      if (verbAddons) {
+        verbAddons.forEach(function(verbAddon) {
+          if (verbAddon.actionVerb === 'open') {
+            verbAddon.providers.forEach(function(provider) {
+              var li = document.createElement('li');
+              li.textContent = provider.name;
+              apps.appendChild(li);
+            });
+          }
+        });
+      }
+    }
   });
 </script>
 </body>
