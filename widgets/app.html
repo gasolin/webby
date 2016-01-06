@@ -8,9 +8,11 @@
   <script src="../js/default_verbs.js"></script>
 </head>
 <body>
-<ul id="configs"></ul>
-<button id="reset" type="button" class="btn btn-warning">Reset to default Verbs</button>
 <div id="tip" class="alert alert-warning hidden"></div>
+<button id="reset" type="button" class="btn btn-warning">Reset to default Verbs</button>
+<h2>Currently Support Verbs</h2>
+<section id="configs">
+</section>
 <script>
   var stoerKey = 'verbstore';
   var configs = document.getElementById('configs');
@@ -24,13 +26,22 @@
       verbAddons = JSON.parse(value);
       if (verbAddons) {
         verbAddons.forEach(function(verbAddon) {
-          if (verbAddon.actionVerb === 'open') {
-            verbAddon.providers.forEach(function(provider) {
-              var li = document.createElement('li');
-              li.textContent = provider.name;
-              configs.appendChild(li);
-            });
-          }
+          var header = document.createElement('h3');
+          header.textContent = verbAddon.actionVerb;
+          var ul = document.createElement('ul');
+          configs.appendChild(header);
+          configs.appendChild(ul);
+
+          verbAddon.providers.forEach(function(provider) {
+            var li = document.createElement('li');
+            li.textContent = '| ';
+            for (var prop in provider) {
+              if(provider.hasOwnProperty(prop)) {
+                li.textContent += prop + ': ' + provider[prop] + ' | ';
+              }
+            }
+            ul.appendChild(li);
+          });
         });
       }
     }
