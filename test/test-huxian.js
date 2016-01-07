@@ -1,10 +1,11 @@
-/* globals assert, huxian, searchPool, __html__ */
+/* globals assert, huxian, searchPool, __html__,
+   verbAddons:true, searchPool:true, initVerbsMapping, defaultVerbStore */
 'use strict';
 suite('moonbar', function() {
 
   setup(function() {
     document.body.innerHTML = __html__['index.html'];
-    verbAddons = [verbSearch, verbOpen, verbConfig];
+    verbAddons = defaultVerbStore;
     initVerbsMapping();
   });
 
