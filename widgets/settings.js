@@ -36,17 +36,17 @@ localforage.getItem(stoerKey, function(err, value) {
 
         // enable user to add new app for open verb
         if (verbAddon.actionVerb === 'open') {
-          var link = document.createElement('a');
-          link.href = '#openform';
-          link.id = verbAddon.actionVerb;
-          link.textContent = 'Add new app';
-          configs.appendChild(link);
-          var form = document.createElement('form');
-          form.id = 'openform';
-          configs.appendChild(form);
+          // add new app
+          var linkAdd = document.createElement('a');
+          linkAdd.href = '#openform';
+          linkAdd.textContent = 'Add new app';
+          configs.appendChild(linkAdd);
+          var formAdd = document.createElement('form');
+          formAdd.id = 'openform';
+          configs.appendChild(formAdd);
 
-          link.addEventListener('click', function() {
-            form.innerHTML = '<label for="name">Name</label>' +
+          linkAdd.addEventListener('click', function() {
+            formAdd.innerHTML = '<label for="name">Name</label>' +
               '<input class="form-control" id="name">' +
               '<label for="url">URL</label>' +
               '<input class="form-control" id="url">' +
@@ -56,18 +56,19 @@ localforage.getItem(stoerKey, function(err, value) {
               '</select>' +
               '<button id="addapp" class="btn btn-primary">Add App</button>';
 
-            form.addapp.addEventListener('click', function() {
-              console.log(form.name.value + ' | ' + form.url.value + ' | ' +
-                form.embed.value);
-              var isEmbed = form.embed.value === 'true' ? true : false;
+            formAdd.addapp.addEventListener('click', function() {
+              console.log(formAdd.name.value + ' | ' +
+                formAdd.url.value + ' | ' +
+                formAdd.embed.value);
+              var isEmbed = formAdd.embed.value === 'true' ? true : false;
               verbAddon.providers.push({
-                name: form.name.value,
-                url: form.url.value,
+                name: formAdd.name.value,
+                url: formAdd.url.value,
                 embed: isEmbed
               });
               localforage.setItem(stoerKey, JSON.stringify(verbAddons))
               .then(function() {
-                alert('App ' + form.name.value +
+                alert('App ' + formAdd.name.value +
                   ' added, reload the page to access the new app');
               });
             });
