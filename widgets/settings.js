@@ -44,7 +44,6 @@ localforage.getItem(stoerKey, function(err, value) {
           var formAdd = document.createElement('form');
           formAdd.id = 'openform';
           configs.appendChild(formAdd);
-
           linkAdd.addEventListener('click', function() {
             formAdd.innerHTML = '<label for="name">Name</label>' +
               '<input class="form-control" id="name">' +
@@ -61,16 +60,33 @@ localforage.getItem(stoerKey, function(err, value) {
                 formAdd.url.value + ' | ' +
                 formAdd.embed.value);
               var isEmbed = formAdd.embed.value === 'true' ? true : false;
-              verbAddon.providers.push({
+              addEntry(verbAddons, verbAddon, {
                 name: formAdd.name.value,
                 url: formAdd.url.value,
                 embed: isEmbed
               });
-              localforage.setItem(stoerKey, JSON.stringify(verbAddons))
-              .then(function() {
-                alert('App ' + formAdd.name.value +
-                  ' added, reload the page to access the new app');
+            });
+          });
+
+          // remove app
+          var linkRm = document.createElement('a');
+          linkRm.href = '#removeApp';
+          linkRm.textContent = 'Remove app';
+          configs.appendChild(linkRm);
+          var ulRm = document.createElement('ul');
+          ulRm.id = 'removeApp';
+          configs.appendChild(ulRm);
+          linkRm.addEventListener('click', function() {
+            verbAddon.providers.forEach(function(provider, idx) {
+              var liRm = document.createElement('li');
+              var aRm = document.createElement('a');
+              aRm.type = idx;
+              aRm.textContent = provider.name;
+              aRm.addEventListener('click', function(evt) {
+                removeEntry(verbAddons, verbAddon, evt.target);
               });
+              liRm.appendChild(aRm);
+              ulRm.appendChild(liRm);
             });
           });
         }
@@ -88,3 +104,24 @@ reset.addEventListener('click', function() {
       tip.textContent = 'please reload the page';
     });
 });
+
+var addEntry = function(verbAddons, verbAddon, obj) {
+  verbAddon.providers.push(obj);
+  localforage.setItem(stoerKey, JSON.stringify(verbAddons))
+  .then(function() {
+    alert('App ' + obj.name +
+      ' added, reload the page to access the new app');
+  });
+};
+
+var removeEntry = function(verbAddons, verbAddon, element) {
+  var idx = element.type;
+  console.log('remove ' + idx);
+  verbAddon.providers.splice(idx, 1);
+  localforage.setItem(stoerKey, JSON.stringify(verbAddons))
+  .then(function() {
+    confirm('App ' + element.textContent +
+      ' removed, reload the page to access the new app');
+    window.location.reload();
+  });
+};
