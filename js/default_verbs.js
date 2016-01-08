@@ -73,7 +73,7 @@ var verbConfig = {
   actionVerb: 'config',
   version: '0.3',
   providers: [{
-    name: 'Settings',
+    name: 'Addons',
     url: 'widgets/app.html',
     embed: true
   }, {
