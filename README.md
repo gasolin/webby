@@ -6,9 +6,10 @@
 
 The [Prototype](https://gasolin.github.io/webdeacon) is able to:
  * **Open** installed app in new tab
- * Open app inside of dialog
+ * (**Widget**) Open app inside of dialog (music, weather)
  * **Search** through default search provider
  * **Search** through different search provider
+ * User is **able to add/delete app/widget** in `config > addons`
  * provide instant suggestion through default and target search providers
  * navigation with keyboard
 
