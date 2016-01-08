@@ -3,6 +3,7 @@
 
 var verbSearch = {
   actionVerb: 'search',
+  version: '0.3',
   providers: [{
     name: 'Google',
     url: 'https://www.google.com/search?q=',
@@ -34,6 +35,7 @@ var verbSearch = {
 
 var verbOpen = {
   actionVerb: 'open',
+  version: '0.3',
   providers: [{
     name: 'Facebook',
     url: 'http://www.facebook.com/'
@@ -69,6 +71,7 @@ var verbOpen = {
 
 var verbConfig = {
   actionVerb: 'config',
+  version: '0.3',
   providers: [{
     name: 'Settings',
     url: 'widgets/app.html',
