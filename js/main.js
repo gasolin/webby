@@ -257,12 +257,38 @@ var registerKeyboardHandlers = function() {
   });
 };
 
+var DialogManager = {
+  _chatSteam: [],
+
+  push: function(item) {
+    this._chatSteam.push(item);
+    this.render(item);
+  },
+
+  render: function(item) {
+    var chatbox = document.createElement('section');
+    chatbox.classList.add('chat', item.speaker + '-chat');
+    //chatbox.textContent = "I am " + target.dataset.type + "ing \"" + decodeURI(target.dataset.key) + "\" with " + target.id;
+    chatbox.innerHTML = item.msg;
+    chatHistory.appendChild(chatbox);
+  },
+
+  renderAll: function() {
+    this._chatSteam.forEach(function(item) {
+      var chatbox = document.createElement('section');
+      chatbox.classList.add('chat', item.speaker + '-chat');
+      //chatbox.textContent = "I am " + target.dataset.type + "ing \"" + decodeURI(target.dataset.key) + "\" with " + target.id;
+      chatbox.innerHTML = item.msg;
+      chatHistory.appendChild(chatbox);
+    });
+  }
+};
+
 var _renderChatBox = function(speaker, msg) {
-  var chatbox = document.createElement('section');
-  chatbox.classList.add('chat', speaker + '-chat');
-  //chatbox.textContent = "I am " + target.dataset.type + "ing \"" + decodeURI(target.dataset.key) + "\" with " + target.id;
-  chatbox.innerHTML = msg;
-  chatHistory.appendChild(chatbox);
+  DialogManager.push({
+    speaker: speaker,
+    msg: msg
+  });
 };
 
 var userSpeakCommand = function(msg) {
