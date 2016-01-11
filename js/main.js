@@ -279,6 +279,9 @@ var DialogManager = {
   },
 
   push: function(item) {
+    if (item.hasOwnProperty('timestamp')) {
+      item.timestamp = Date.now();
+    }
     this._chatSteam.push(item);
     this.render(item);
 
@@ -341,8 +344,6 @@ var _executeCommand = function(target) {
       speaker: 'bot',
       msg: response
     });
-    searchfield.value = '';
-    processInputs();
     break;
   case 'config':
     var url = _getProvider(type, id).url;
