@@ -14,6 +14,14 @@ var parseResult = {
   results: []
 };
 
+var template = function(templateBody, data) {
+  return templateBody.replace(/{(\w*)}/g,
+    function(textMatched, key) {
+      console.log(textMatched, key, data.hasOwnProperty(key), data[key]);
+      return data.hasOwnProperty(key) ? data[key] : '';
+    });
+};
+
 /**
  * input text parser, respond for everything
  */
@@ -76,7 +84,7 @@ var queryInstantSuggestions = function(inputText) {
         // console.log(suggestUrl + encodeURI(verb));
         $.ajax({
           type: 'GET',
-          url: suggestUrl + encodeURIComponent(verb),
+          url: template(suggestUrl, {term: encodeURIComponent(verb)}),
           dataType: 'jsonp'
         }).done(function(response) {
           //console.log(JSON.stringify(response));
@@ -98,7 +106,7 @@ var queryInstantSuggestions = function(inputText) {
           // console.log(suggestUrl + encodeURI(verb));
           $.ajax({
             type: 'GET',
-            url: suggestUrl + encodeURIComponent(restTerm),
+            url: template(suggestUrl, {term: encodeURIComponent(restTerm)}),
             dataType: 'jsonp'
           }).done(function(response) {
             //console.log(JSON.stringify(response));
@@ -328,11 +336,12 @@ var _executeCommand = function(target) {
     var msg = 'Open \"' + decodeURI(target.id) + '\"';
     var response = '';
     if (embed) {
-      response = '<iframe src="' + url + '" height="320" width="480" ' +
+      var str = '<iframe src="{url}" height="320" width="480" ' +
         'frameBorder="0"></iframe>';
+      response = template(str, {url: url});
     } else {
-      response = 'Here you are: <a href=\"' + url + '\" target=\"_blank\">' +
-        decodeURI(target.id) + '</a>';
+      var str2 = 'Here you are: <a href="{url}" target="_blank">{app}</a>';
+      response = template(str2, {url: url, app: decodeURI(target.id)});
       window.location = url;
     }
 
@@ -351,11 +360,12 @@ var _executeCommand = function(target) {
     var msg = 'Open configuration \"' + decodeURI(target.id) + '\"';
     var response = '';
     if (embed) {
-      response = '<iframe src="' + url + '" height="320" width="480" ' +
+      var str = '<iframe src="{url}" height="320" width="480" ' +
         'frameBorder="0"></iframe>';
+      response = template(str, {url: url});
     } else {
-      response = 'Here you are: <a href=\"' + url + '\" target=\"_blank\">' +
-        decodeURI(target.id) + '</a>';
+      var str2 = 'Here you are: <a href="{url}" target="_blank">{app}</a>';
+      response = template(str2, {url: url, app: decodeURI(target.id)});
       window.location = url;
     }
 
@@ -371,15 +381,18 @@ var _executeCommand = function(target) {
     processInputs();
     break;
   default: // search
-    var url = _getProvider(type, id).url;
+    var url = template(_getProvider(type, id).url, {term: target.dataset.key});
     //console.log('open ' + url + evt.target.dataset.key);
     var msg = target.dataset.type + ' \"' + decodeURI(target.dataset.key) +
       '\" with ' + target.id;
-    var response = 'I am ' + target.dataset.type + 'ing \"' +
-      decodeURI(target.dataset.key) + '\" with ' + target.id + '...<br/>';
-    response += 'Here you are: <a href=\"' + url + target.dataset.key +
-      '\" target=\"_blank\">' + decodeURI(target.dataset.key) + ' on ' +
-      target.id + '</a>';
+    var str3 =  'I am {type}ing "{action}" with {target}...<br/>' +
+      'Here you are: <a href="{url}" target="_blank">{action} ' +
+      'on {target}</a>';
+    response = template(str3, {
+      type: target.dataset.type,
+      url: url,
+      action: decodeURI(target.dataset.key),
+      target: target.id});
 
     DialogManager.push({
       speaker: 'user',
@@ -389,9 +402,7 @@ var _executeCommand = function(target) {
       speaker: 'bot',
       msg: response
     });
-    window.location = url + target.dataset.key;
-    searchfield.value = '';
-    processInputs();
+    window.location = template(url, {term: target.dataset.key});
     break;
   }
 };
