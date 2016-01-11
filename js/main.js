@@ -285,7 +285,7 @@ var DialogManager = {
     // cache last 8 items
     var len = this._chatSteam.length;
     if(len > 8) {
-      this._chatSteam.length.splice(0, len - 8);
+      this._chatSteam.splice(0, len - 8);
     }
     localforage.setItem(chatKey, JSON.stringify(this._chatSteam))
       .then(function() {
@@ -353,7 +353,7 @@ var _executeCommand = function(target) {
     } else {
       response = 'Here you are: <a href=\"' + url + '\" target=\"_blank\">' +
         decodeURI(target.id) + '</a>';
-      window.open(url, '_blank');
+      window.location = url;
     }
 
     _renderChatBox('user', msg);
@@ -372,7 +372,7 @@ var _executeCommand = function(target) {
     } else {
       response = 'Here you are: <a href=\"' + url + '\" target=\"_blank\">' +
         decodeURI(target.id) + '</a>';
-      window.open(url, '_blank');
+      window.location = url;
     }
 
     _renderChatBox('user', msg);
@@ -393,7 +393,7 @@ var _executeCommand = function(target) {
 
     _renderChatBox('user', msg);
     _renderChatBox('bot', response);
-    window.open(url + target.dataset.key, '_blank');
+    window.location = url + target.dataset.key;
     searchfield.value = '';
     processInputs();
     break;
