@@ -41,6 +41,21 @@ suite('moonbar', function() {
 
     test('parses open verb correctly', function() {
       assert.deepEqual({
+        verb: 'op',
+        restTerm: '',
+        results: ['sharedrop']
+        // results: ['open', 'sharedrop']
+      },
+      huxian.parse('op', searchPool));
+
+      // assert.deepEqual({
+      //   verb: 'open',
+      //   restTerm: '',
+      //   results: ['open']
+      // },
+      // huxian.parse('open', searchPool));
+
+      assert.deepEqual({
         verb: 'fa',
         restTerm: '',
         results: ['facebook']
@@ -54,5 +69,21 @@ suite('moonbar', function() {
       },
       huxian.parse('facebook', searchPool));
     });
+
+    // test('parses config verb correctly', function() {
+    //   assert.deepEqual({
+    //     verb: 'con',
+    //     restTerm: '',
+    //     results: ['config']
+    //   },
+    //   huxian.parse('con', searchPool));
+    //
+    //   assert.deepEqual({
+    //     verb: 'config',
+    //     restTerm: '',
+    //     results: ['config']
+    //   },
+    //   huxian.parse('config', searchPool));
+    // });
   });
 });
