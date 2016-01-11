@@ -312,29 +312,6 @@ var DialogManager = {
   }
 };
 
-var _renderChatBox = function(speaker, msg) {
-  DialogManager.push({
-    speaker: speaker,
-    msg: msg
-  });
-};
-
-var userSpeakCommand = function(msg) {
-  _renderChatBox('user', msg);
-};
-
-var botSpeakCommandResult = function(target, resultUrl) { //resultUrl is for the default case
-  var type = target.dataset.type;
-  var id = target.id;
-  var url = _getProvider(type, id).url;
-
-  var msg = 'I am ' + target.dataset.type + 'ing \"' +
-    decodeURI(target.dataset.key) + '\" with ' + target.id + '...<br/>';
-  msg += 'Here you are: <a href=\"' + resultUrl + '\">' +
-    decodeURI(target.dataset.key) + ' on ' + target.id + '</a>';
-  _renderChatBox('bot', msg);
-};
-
 var _executeCommand = function(target) {
   var type = target.dataset.type;
   var id = target.id;
@@ -356,8 +333,14 @@ var _executeCommand = function(target) {
       window.location = url;
     }
 
-    _renderChatBox('user', msg);
-    _renderChatBox('bot', response);
+    DialogManager.push({
+      speaker: 'user',
+      msg: msg
+    });
+    DialogManager.push({
+      speaker: 'bot',
+      msg: response
+    });
     searchfield.value = '';
     processInputs();
     break;
@@ -375,8 +358,14 @@ var _executeCommand = function(target) {
       window.location = url;
     }
 
-    _renderChatBox('user', msg);
-    _renderChatBox('bot', response);
+    DialogManager.push({
+      speaker: 'user',
+      msg: msg
+    });
+    DialogManager.push({
+      speaker: 'bot',
+      msg: response
+    });
     searchfield.value = '';
     processInputs();
     break;
@@ -391,8 +380,14 @@ var _executeCommand = function(target) {
       '\" target=\"_blank\">' + decodeURI(target.dataset.key) + ' on ' +
       target.id + '</a>';
 
-    _renderChatBox('user', msg);
-    _renderChatBox('bot', response);
+    DialogManager.push({
+      speaker: 'user',
+      msg: msg
+    });
+    DialogManager.push({
+      speaker: 'bot',
+      msg: response
+    });
     window.location = url + target.dataset.key;
     searchfield.value = '';
     processInputs();
