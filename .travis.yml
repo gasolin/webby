@@ -14,7 +14,7 @@ after_success:
 env:
   global:
   - TEST_SUITE=unit
-  - GH_REF: github.com/gasolin/webdeacon.git
+  - GH_REF: github.com/gasolin/webby.git
   - secure: QCKLoRO4V/amAXaxSoLPWq4FXPJioSzlEBuZOu7qCXkfbXC5KjSgUnAzgi2hpiRo7nqZ6EiraHljSr8X0U4XXShBMeDUofFOxuO4IJE8FvdJKLxC1E0/A+mR6oqz30jXG6rpzHv6lHhrMf6gbfkKPQC2LH4/Kug9Y0e+guLOnfVV0+H4gzPKhCwAN02wFGEp4BOGP9bPPRIz5KCUxV2z/dXC667bUl0BYqbAvWod2hKWg9BVUUJVjQUCfWGEWbGWx7upVOZFMq2TSF4Chjhr1eVodqGF3P5PDaEAfERB9DciQOG7NMmhlDv8YdRi/J3/KHDBZ5kqM0ALVN6dgBGddUSoeE3KzG9m+v+33e6ZmS0YqUjf7K84z4inf7b6lTXRPiGpYARGvQEAxYSVka06ml0VIwFWDMewx2ygyyp9HOdCyoSgEEPRRcYkmm++TAy7fyAXtLd/vBZwzmnjfYbnG6/a5ejf/TMxhT0NwYED28IcRkYIPLV/uq/5VZ9BNEy3+9wWZ9ClywBrx/xL8GC9bM7lNH+/4Fyj65NBWk8MIQ+SR4UJOdXR/PGDV8lFkqNJiERhrJwm5Dm6bqbo9ec09uJ4/kUF1hdicVh7naUQUwo+S8dxFgPMvSpPGNrtXyFYaVazr/FIDgflTILjznveMBQRoqhvBIa6ulNxMX2cBBM=
   matrix:
   - CI_ACTION="npm run lint"

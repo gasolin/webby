@@ -1,10 +1,10 @@
-# WebDeacon
+# Webby
 
-[![Build Status](https://travis-ci.org/gasolin/webdeacon.png)](https://travis-ci.org/gasolin/webdeacon) [![Dependency Status](https://david-dm.org/gasolin/webdeacon/dev-status.svg)](https://david-dm.org/gasolin/webdeacon) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![Build Status](https://travis-ci.org/gasolin/webby.png)](https://travis-ci.org/gasolin/webby) [![Dependency Status](https://david-dm.org/gasolin/webby/dev-status.svg)](https://david-dm.org/gasolin/webby) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
-## Why WebDeacon
+## Why webby
 
-The [Prototype](https://gasolin.github.io/webdeacon) is able to:
+The [Prototype](https://gasolin.github.io/webby) is able to:
  * **Open** installed app in new tab
  * (**Widget**) Open app inside of dialog (music, weather)
  * **Search** through default search provider
@@ -13,14 +13,14 @@ The [Prototype](https://gasolin.github.io/webdeacon) is able to:
  * provide instant suggestion through default and target search providers
  * navigation with keyboard
 
-Refer [Test Cases](https://github.com/gasolin/webdeacon/blob/master/TEXTCASES.md) to figure out the usage.
+Refer [Test Cases](https://github.com/gasolin/webby/blob/master/TEXTCASES.md) to figure out the usage.
 
 Plan to do
 
  * Pin app as a **Widget** in dialog
  * Add personality to deacon
 
-## WebDeacon Interaction
+## Webby Interaction
 
 Elements: order box, deacon box (order tags, instant search tags, suggestions), chat history
 
@@ -38,11 +38,11 @@ User is able to found what she needs quickly through keyboard and tags:
 
 ### Chat activity
 
-Webdeacon interact with you with chat-like interface. Just like any other instant messengers, all previous dialog are listed as an activity stream.
+Webby interact with you with chat-like interface. Just like any other instant messengers, all previous dialog are listed as an activity stream.
 
 ## Rules
 
-1. respect existing browser searchbar and instant messenger's interactions, so user has pretty small barrier to use Webdeacon.
+1. respect existing browser searchbar and instant messenger's interactions, so user has pretty small barrier to use Webby.
 
 2. always use `verb + noun` format to execute new commands
 
@@ -58,9 +58,9 @@ Moonbar maintain a defined order(verbs) set on `device`. `noun` generally denote
 
 File a issue to discuss a possible new verb and its usage.
 
-If you are a programmer, clone the project, send a Pull Request to fix the issue you encountered when you use webdeacon.
+If you are a programmer, clone the project, send a Pull Request to fix the issue you encountered when you use webby.
 
-WebDeacon use [Commitizen](https://github.com/commitizen/cz-cli) to help us write better commit message. When you want commit changes into project, use `git cz` instead of `git commit`.
+Webby use [Commitizen](https://github.com/commitizen/cz-cli) to help us write better commit message. When you want commit changes into project, use `git cz` instead of `git commit`.
 
 Make sure you have installed the Commitizen cli tools via command:
 
@@ -85,7 +85,7 @@ npm test
 
 ## Credit
 
-WebDeacon is forked from [Moonbar](https://www.github.com/gasolin/moonbar). The enhanced searchbar with order-tag-suggestion interface.
+Webby is forked from [Moonbar](https://www.github.com/gasolin/moonbar). The enhanced searchbar with order-tag-suggestion interface.
 
 
 ## license
