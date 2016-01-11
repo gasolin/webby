@@ -257,12 +257,40 @@ var registerKeyboardHandlers = function() {
   });
 };
 
+/**
+ * Manage chat stream.
+ */
+var chatKey = 'chatstore';
 var DialogManager = {
   _chatSteam: [],
+
+  init: function() {
+    localforage.getItem(chatKey, function(err, value) {
+      if (err) {
+        console.error(err);
+      } else {
+        var dialogs = JSON.parse(value);
+        if (dialogs) {
+          this._chatSteam = dialogs;
+          this.renderAll();
+        }
+      }
+    }.bind(this));
+  },
 
   push: function(item) {
     this._chatSteam.push(item);
     this.render(item);
+
+    // cache last 8 items
+    var len = this._chatSteam.length;
+    if(len > 8) {
+      this._chatSteam.length.splice(0, len - 8);
+    }
+    localforage.setItem(chatKey, JSON.stringify(this._chatSteam))
+      .then(function() {
+        // console.log('dialog cached');
+      });
   },
 
   render: function(item) {
@@ -567,6 +595,7 @@ var initUI = function() {
 var init = function() {
   initVerbsMapping();
   initUI();
+  DialogManager.init();
 };
 
 localforage.getItem(stoerKey, function(err, value) {
