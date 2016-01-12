@@ -33,11 +33,11 @@ var huxian = {
     var results = pedia.filter(function(element) {
       return element.indexOf(verb) > -1;
     });
-    if(restTerm) {
+    if(restTerm && results[0]) {
       results = [results[0]];
     }
 
-    // console.log(verb, restTerm, results);
+    // console.log('huxian: ', verb, restTerm, results);
     parseResult.verb = verb;
     parseResult.restTerm = restTerm;
     parseResult.results = results;
