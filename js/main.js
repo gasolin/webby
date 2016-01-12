@@ -1,4 +1,4 @@
-/*globals $, defaultVerbStore, verbSearch, localforage */
+/*globals $, defaultVerbStore, verbSearch, localforage, UrlHelper */
 'use strict';
 
 /**
@@ -341,7 +341,7 @@ var _executeCommand = function(target) {
     } else {
       var str2 = 'Here you are: <a href="{url}" target="_blank">{app}</a>';
       response = template(str2, {url: url, app: decodeURI(target.id)});
-      window.location = url;
+      openLink(url);
     }
 
     DialogManager.push({
@@ -365,7 +365,7 @@ var _executeCommand = function(target) {
     } else {
       var str2 = 'Here you are: <a href="{url}" target="_blank">{app}</a>';
       response = template(str2, {url: url, app: decodeURI(target.id)});
-      window.location = url;
+      openLink(url);
     }
 
     DialogManager.push({
@@ -380,28 +380,41 @@ var _executeCommand = function(target) {
     processInputs();
     break;
   default: // search
-    var url = template(_getProvider(type, id).url, {term: target.dataset.key});
-    //console.log('open ' + url + evt.target.dataset.key);
-    var msg = target.dataset.type + ' \"' + decodeURI(target.dataset.key) +
-      '\" with ' + target.id;
-    var str3 =  'I am {type}ing "{action}" with {target}...<br/>' +
-      'Here you are: <a href="{url}" target="_blank">{action} ' +
-      'on {target}</a>';
-    response = template(str3, {
-      type: target.dataset.type,
-      url: url,
-      action: decodeURI(target.dataset.key),
-      target: target.id});
+    var input = target.dataset.key;
+    // Not a valid URL, could be a search term
+    if (UrlHelper.isNotURL(input)) {
+      var url = template(_getProvider(type, id).url, {term: input});
+      //console.log('open ' + url + evt.target.dataset.key);
+      var msg = target.dataset.type + ' \"' + decodeURI(input) +
+        '\" with ' + target.id;
+      var str3 =  'I am {type}ing "{action}" with {target}...<br/>' +
+        'Here you are: <a href="{url}" target="_blank">{action} ' +
+        'on {target}</a>';
+      response = template(str3, {
+        type: target.dataset.type,
+        url: url,
+        action: decodeURI(input),
+        target: target.id});
 
-    DialogManager.push({
-      speaker: 'user',
-      msg: msg
-    });
-    DialogManager.push({
-      speaker: 'bot',
-      msg: response
-    });
-    window.location = template(url, {term: target.dataset.key});
+      DialogManager.push({
+        speaker: 'user',
+        msg: msg
+      });
+      DialogManager.push({
+        speaker: 'bot',
+        msg: response
+      });
+      openLink(template(url, {term: input}));
+    } else { // open page directly
+      // console.log('ori:' + encodeURI(input));
+      var hasScheme = UrlHelper.hasScheme(input);
+      // No scheme, prepend basic protocol and return
+      if (!hasScheme) {
+        input = 'http://' + input;
+      }
+      // console.log(input);
+      openLink(input);
+    }
     break;
   }
 };
@@ -537,6 +550,10 @@ var renderSuggestions = function(element, inputText) {
       restTerm);
   }
   recalcSpatialNavigation();
+};
+
+var openLink = function(url) {
+  window.location = url;
 };
 
 var processInputs = function() {
