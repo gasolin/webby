@@ -2,6 +2,10 @@
 
 [![Build Status](https://travis-ci.org/gasolin/webby.png)](https://travis-ci.org/gasolin/webby) [![Dependency Status](https://david-dm.org/gasolin/webby/dev-status.svg)](https://david-dm.org/gasolin/webby) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
+## Install
+
+Webby is now available as a Firefox new tab extension. [Install here](https://addons.mozilla.org/en-US/firefox/addon/tabwebby/)
+
 ## Why webby
 
 The [Prototype](https://gasolin.github.io/webby) is able to:
@@ -67,6 +71,9 @@ Make sure you have installed the Commitizen cli tools via command:
 ```
 npm install commitizen -g
 ```
+
+* Firefox extension repo: https://github.com/shinglyu/tabwebby-firefox
+* WebExtension/Chrome extension repo: https://github.com/gasolin/tabwebby
 
 ## Testing
 

@@ -3,7 +3,7 @@
 
 var verbSearch = {
   actionVerb: 'search',
-  version: '0.3',
+  version: '0.4',
   providers: [{
     name: 'Google',
     url: 'https://www.google.com/search?q={term}',
@@ -71,7 +71,7 @@ var verbOpen = {
 
 var verbConfig = {
   actionVerb: 'config',
-  version: '0.3',
+  version: '0.4',
   providers: [{
     name: 'Addons',
     url: 'widgets/app.html',
