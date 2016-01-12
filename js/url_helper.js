@@ -1,5 +1,5 @@
 'use strict';
-
+// from gaia project
 var rscheme = /^(?:[a-z\u00a1-\uffff0-9-+]+)(?::(?:\/\/)?)/i;
 
 var UrlHelper = {
@@ -7,7 +7,7 @@ var UrlHelper = {
   // Placeholder anchor tag to format URLs.
   a: null,
 
-  getUrlFromInput: function urlHelper_getUrlFromInput(input) {
+  getUrlFromInput: function(input) {
     this.a = this.a || document.createElement('a');
     this.a.href = input;
     return this.a.href;
@@ -25,11 +25,11 @@ var UrlHelper = {
     return !!this._getScheme(input);
   },
 
-  isURL: function urlHelper_isURL(input) {
+  isURL: function(input) {
     return !UrlHelper.isNotURL(input);
   },
 
-  isNotURL: function urlHelper_isNotURL(input) {
+  isNotURL: function(input) {
     // in bug 904731, we use <input type='url' value=''> to
     // validate url. However, there're still some cases
     // need extra validation. We'll remove it til bug fixed
@@ -65,11 +65,11 @@ var UrlHelper = {
   /**
    * Resolve a URL against a base URL.
    *
-   * @param url String URL to resolve.
-   * @param baseURL String Base URL to resolve against.
-   * @returns String resolved URL or null.
+   * @param {string} url URL to resolve.
+   * @param {string} baseUrl Base URL to resolve against.
+   * @returns {string} resolved URL or null.
    */
-  resolveUrl: function urlHelper_resolveURL(url, baseUrl) {
+  resolveUrl: function(url, baseUrl) {
     if (!url) {
       return null;
     }
@@ -83,10 +83,10 @@ var UrlHelper = {
   /**
    * Get the hostname from a URL.
    *
-   * @param String URL to process.
-   * @returns String hostname of URL.
+   * @param {string} url to process.
+   * @returns {string} hostname of URL.
    */
-  getHostname: function urlHelper_getHostname(url) {
+  getHostname: function(url) {
     try {
       return new URL(url).hostname;
     } catch(e) {
