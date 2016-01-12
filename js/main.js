@@ -1,4 +1,5 @@
-/*globals $, defaultVerbStore, verbSearch, localforage, UrlHelper, DialogManager */
+/*globals $, defaultVerbStore, defaultAdjStore,
+          verbSearch, localforage, UrlHelper, DialogManager */
 'use strict';
 
 /**
@@ -274,45 +275,45 @@ var _executeCommand = function(target) {
     var url = _getProvider(type, id).url;
     var embed = _getProvider(type, id).embed;
     //console.log('open '+ url);
-    var msg = 'Open \"' + decodeURI(target.id) + '\"';
-    var response = '';
-    if (embed) {
-      var str = '<iframe src="{url}" height="320" width="480" ' +
-        'frameBorder="0"></iframe>';
-      response = template(str, {url: url});
-    } else {
-      var str2 = 'Here you are: <a href="{url}" target="_blank">{app}</a>';
-      response = template(str2, {url: url, app: decodeURI(target.id)});
-      openLink(url);
-    }
 
     DialogManager.push({
       speaker: 'user',
-      msg: msg
+      msg: template(adjPersona.actionOpen, {provider: decodeURI(target.id)})
     });
+
+    var response = '';
+    if (embed) {
+      response = template(adjPersona.showWidget, {url: url});
+    } else {
+      response = template(adjPersona.showLink,
+        {url: url, app: decodeURI(target.id)});
+    }
     DialogManager.push({
       speaker: 'bot',
       msg: response
     });
+
+    if (!embed) {
+      openLink(url);
+    }
     break;
   case 'config':
     var url = _getProvider(type, id).url;
     var embed = _getProvider(type, id).embed;
-    var msg = 'Open configuration \"' + decodeURI(target.id) + '\"';
     var response = '';
     if (embed) {
-      var str = '<iframe src="{url}" height="320" width="480" ' +
-        'frameBorder="0"></iframe>';
-      response = template(str, {url: url});
+      response = template(adjPersona.showWidget, {url: url});
     } else {
-      var str2 = 'Here you are: <a href="{url}" target="_blank">{app}</a>';
-      response = template(str2, {url: url, app: decodeURI(target.id)});
+      response = template(adjPersona.showLink,
+        {url: url, provider: decodeURI(target.id)});
       openLink(url);
     }
 
     DialogManager.push({
       speaker: 'user',
-      msg: msg
+      msg: template(adjPersona.actionConfig, {
+        provider: decodeURI(target.id)
+      })
     });
     DialogManager.push({
       speaker: 'bot',
@@ -327,24 +328,21 @@ var _executeCommand = function(target) {
     if (UrlHelper.isNotURL(input)) {
       var url = template(_getProvider(type, id).url, {term: input});
       //console.log('open ' + url + evt.target.dataset.key);
-      var msg = target.dataset.type + ' \"' + decodeURI(input) +
-        '\" with ' + target.id;
-      var str3 =  'I am {type}ing "{action}" with {target}...<br/>' +
-        'Here you are: <a href="{url}" target="_blank">{action} ' +
-        'on {target}</a>';
-      response = template(str3, {
-        type: target.dataset.type,
-        url: url,
-        action: decodeURI(input),
-        target: target.id});
-
       DialogManager.push({
         speaker: 'user',
-        msg: msg
+        msg: template(adjPersona.actionSearch, {
+          verb: target.dataset.type,
+          term: decodeURI(input),
+          provider: target.id
+        })
       });
       DialogManager.push({
         speaker: 'bot',
-        msg: response
+        msg: template(adjPersona.actionSearchReply, {
+          url: url,
+          verb: target.dataset.type,
+          term: decodeURI(input),
+          provider: target.id})
       });
       openLink(template(url, {term: input}));
     } else { // open page directly
@@ -509,6 +507,7 @@ var processInputs = function() {
 // init start
 // define all supported verbs
 var stoerKey = 'verbstore';
+var adjPersona;
 var verbAddons = [];
 // the universal verb tags pool
 var searchPool = [];
@@ -561,9 +560,12 @@ var initUI = function() {
 var init = function() {
   initVerbsMapping();
   initUI();
-  DialogManager.init(chatHistory);
+  DialogManager.init(chatHistory, adjPersona);
 };
 
+// default personality
+adjPersona = defaultAdjStore;
+// load addon locally
 localforage.getItem(stoerKey, function(err, value) {
   if (err) {
     console.error(err);
