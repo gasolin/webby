@@ -18,7 +18,7 @@ Refer [Test Cases](https://github.com/gasolin/webby/blob/master/TEXTCASES.md) to
 Plan to do
 
  * Pin app as a **Widget** in dialog
- * Add personality to deacon
+ * Can custom bot's personality
 
 ## Webby Interaction
 

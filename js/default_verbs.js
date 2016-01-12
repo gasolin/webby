@@ -78,10 +78,10 @@ var verbConfig = {
     embed: true
   }, {
     name: 'Report Issue',
-    url: 'https://github.com/gasolin/webdeacon/issues'
+    url: 'https://github.com/gasolin/webby/issues'
   }, {
     name: 'About',
-    url: 'https://github.com/gasolin/webdeacon'
+    url: 'https://github.com/gasolin/webby'
   }],
   default: 0
 };

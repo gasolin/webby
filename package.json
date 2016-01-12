@@ -9,12 +9,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/gasolin/webdeacon.git"
+    "url": "git://github.com/gasolin/webby.git"
   },
   "author": "Fred Lin (gasolin)",
   "license": "MPL 2.0",
   "bugs": {
-    "url": "https://github.com/gasolin/webdeacon/issues"
+    "url": "https://github.com/gasolin/webby/issues"
   },
   "devDependencies": {
     "chai": "~3.4.1",
