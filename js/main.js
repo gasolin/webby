@@ -17,7 +17,6 @@ var parseResult = {
 var template = function(templateBody, data) {
   return templateBody.replace(/{(\w*)}/g,
     function(textMatched, key) {
-      console.log(textMatched, key, data.hasOwnProperty(key), data[key]);
       return data.hasOwnProperty(key) ? data[key] : '';
     });
 };
