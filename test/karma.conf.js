@@ -31,8 +31,7 @@ module.exports = function(config) {
       '../widget/*.html',
       '../widget/*.js',
       'test-*.js',
-      '../js/default_verbs.js',
-      '../js/main.js'
+      '../js/*.js'
     ],
 
 
