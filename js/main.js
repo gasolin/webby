@@ -406,7 +406,8 @@ var _executeCommand = function(target) {
       });
       openLink(template(url, {term: input}));
     } else { // open page directly
-      // console.log('ori:' + encodeURI(input));
+      // console.log('ori:' + input);
+      input = input.replace('%3A%2F%2F', '://');
       var hasScheme = UrlHelper.hasScheme(input);
       // No scheme, prepend basic protocol and return
       if (!hasScheme) {
