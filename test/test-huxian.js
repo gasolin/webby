@@ -85,5 +85,23 @@ suite('moonbar', function() {
     //   },
     //   huxian.parse('config', searchPool));
     // });
+
+    test('parses default search string correctly', function() {
+      assert.deepEqual({
+        verb: 'ooo',
+        restTerm: '',
+        results: []
+      },
+      huxian.parse('ooo', searchPool));
+    });
+
+    test('parses default long search string correctly', function() {
+      assert.deepEqual({
+        verb: 'ooo',
+        restTerm: 'kaiju rangers',
+        results: []
+      },
+      huxian.parse('ooo kaiju rangers', searchPool));
+    });
   });
 });
