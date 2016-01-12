@@ -48,6 +48,7 @@ var DialogManager = {
     //chatbox.textContent = "I am " + target.dataset.type + "ing \"" + decodeURI(target.dataset.key) + "\" with " + target.id;
     chatbox.innerHTML = item.msg;
     this._container.appendChild(chatbox);
+    chatbox.scrollIntoView(false);
   },
 
   renderAll: function() {
@@ -57,6 +58,7 @@ var DialogManager = {
       //chatbox.textContent = "I am " + target.dataset.type + "ing \"" + decodeURI(target.dataset.key) + "\" with " + target.id;
       chatbox.innerHTML = item.msg;
       this._container.appendChild(chatbox);
+      chatbox.scrollIntoView(false);
     }.bind(this));
   }
 };
