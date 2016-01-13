@@ -38,7 +38,7 @@ var huxian = {
       results = [results[0]];
     }
 
-    // console.log('huxian: ', verb, restTerm, results);
+    console.log('huxian: ', verb, restTerm, results);
     parseResult.verb = verb;
     parseResult.restTerm = restTerm;
     parseResult.results = results;
@@ -165,9 +165,10 @@ var renderTags = function(element, inputText) {
   var verb = parseResult.verb;
   var restTerm = parseResult.restTerm;
   var results = parseResult.results;
-  if (!verb || verb.length == 0) {
+  if (!verb || verb.length == 0) { //default
     verbAddons.forEach(function(verbAddon) {
-      if (verbAddon.flattern) { // turn each provider as a tag
+      // turn each provider as a tag
+      if (verbAddon.indexing === 'provider') {
         verbAddon.providers.forEach(function(ele) {
           _createTag(element, ele.name.toLowerCase(), ele.name, true);
         });
@@ -180,7 +181,7 @@ var renderTags = function(element, inputText) {
       var hasTag = {};
       results.forEach(function(result) {
         var noun = reverseMap[result];
-        if (noun.flattern) {
+        if (noun.indexing === 'both' || noun.indexing === 'provider') {
           _createTag(element, noun.name.toLowerCase(), noun.name, true);
         } else if (!hasTag[noun.type]) {
           _createTag(element, noun.type, noun.type, true);
@@ -520,6 +521,15 @@ var actionMap = {};
 var initVerbsMapping = function() {
   verbAddons.forEach(function(verbAddon) {
     actionMap[verbAddon.actionVerb] = verbAddon.providers;
+    if (verbAddon.indexing === 'both' || verbAddon.indexing === 'verb') {
+      searchPool.push(verbAddon.actionVerb.toLowerCase());
+      reverseMap[verbAddon.actionVerb.toLowerCase()] = {
+        'name': verbAddon.actionVerb,
+        'type': verbAddon.actionVerb,
+        'idx': -1,
+        'indexing': verbAddon.indexing
+      };
+    }
 
     verbAddon.providers.forEach(function(ele, idx) {
       searchPool.push(ele.name.toLowerCase());
@@ -527,9 +537,10 @@ var initVerbsMapping = function() {
         'name': ele.name,
         'type': verbAddon.actionVerb,
         'idx': idx,
-        'flattern': verbAddon.flattern
+        'indexing': verbAddon.indexing
       };
     });
+    // console.log(searchPool);
   });
 };
 

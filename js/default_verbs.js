@@ -1,9 +1,27 @@
 /* export defaultVerbStore */
 'use strict';
 
+/*
+ * default verb structure:
+ *
+ * var verbXxx = {
+ *  actionVerb: 'Xxx', //verb name
+ *  version: '0.1',
+ *  providers: [
+ *    {
+ *      name:,
+ *      url:,
+ *      otherAttribute:,
+ *    }
+ *  ],
+ *  default: 0, // default provider
+ *  indexing: verb | provider | both
+ * };
+}
+ */
 var verbSearch = {
   actionVerb: 'search',
-  version: '0.4',
+  version: '0.5',
   providers: [{
     name: 'Google',
     url: 'https://www.google.com/search?q={term}',
@@ -30,12 +48,12 @@ var verbSearch = {
     suggest: ''
   }],
   default: 0,
-  flattern: true // turn each provider as a tag
+  indexing: 'provider' // turn each provider as a tag
 };
 
 var verbOpen = {
   actionVerb: 'open',
-  version: '0.3',
+  version: '0.4',
   providers: [{
     name: 'Facebook',
     url: 'http://www.facebook.com/'
@@ -66,12 +84,13 @@ var verbOpen = {
     url: 'http://gasolin.github.io/accuwidget/',
     embed: true
   }],
-  default: 0
+  default: 0,
+  indexing: 'both'
 };
 
 var verbConfig = {
   actionVerb: 'config',
-  version: '0.5',
+  version: '0.6',
   providers: [{
     name: 'Addons',
     url: 'widgets/addons.html',
@@ -83,7 +102,8 @@ var verbConfig = {
     name: 'About',
     url: 'https://github.com/gasolin/webby'
   }],
-  default: 0
+  default: 0,
+  indexing: 'both'
 };
 
 var defaultVerbStore = [verbSearch, verbOpen, verbConfig];
