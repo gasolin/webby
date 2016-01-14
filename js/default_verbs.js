@@ -2,6 +2,9 @@
 'use strict';
 
 /*
+ * Default verbs are loaded and store to local indexed DB when user open webby
+ * at first time.
+ *
  * default verb structure:
  *
  * var verbXxx = {
@@ -15,9 +18,16 @@
  *    }
  *  ],
  *  default: 0, // default provider
- *  indexing: verb | provider | both
+ *  indexing: both | provider | verb
  * };
-}
+ *
+ * verb means it should only indexing verb, so providers are not searchable
+ * provider means it should only indexing providers, verb is not searchable
+ */
+
+/**
+ * Search providers.
+ * suggest attribute is used for instant suggestion
  */
 var verbSearch = {
   actionVerb: 'search',
@@ -51,6 +61,10 @@ var verbSearch = {
   indexing: 'provider' // turn each provider as a tag
 };
 
+/**
+ * Open apps and widgets.
+ * embed attribute is used to note this app should be open in iframe (widget)
+ */
 var verbOpen = {
   actionVerb: 'open',
   version: '0.4',
@@ -88,6 +102,9 @@ var verbOpen = {
   indexing: 'both'
 };
 
+/**
+ * Supportive and Webby relate configurations.
+ */
 var verbConfig = {
   actionVerb: 'config',
   version: '0.6',
