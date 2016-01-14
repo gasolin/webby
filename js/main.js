@@ -266,6 +266,39 @@ var registerKeyboardHandlers = function() {
   });
 };
 
+var verbConfigHandler = {
+  runCommand: function(target) {
+    var type = target.dataset.type;
+    var id = target.id;
+    var url = _getProvider(type, id).url;
+    var embed = _getProvider(type, id).embed;
+    var response = '';
+    if (embed) {
+      response = template(adjPersona.showWidget, {url: url});
+    } else {
+      response = template(adjPersona.showLink,
+        {url: url, provider: decodeURI(id)});
+      openLink(url);
+    }
+
+    DialogManager.push({
+      speaker: 'user',
+      msg: template(adjPersona.actionConfig, {
+        provider: decodeURI(id)
+      })
+    });
+    DialogManager.push({
+      speaker: 'bot',
+      msg: response
+    });
+
+    if (embed) {
+      searchfield.value = '';
+      processInputs();
+    }
+  }
+};
+
 var _executeCommand = function(target) {
   var type = target.dataset.type;
   var id = target.id;
@@ -299,29 +332,7 @@ var _executeCommand = function(target) {
     }
     break;
   case 'config':
-    var url = _getProvider(type, id).url;
-    var embed = _getProvider(type, id).embed;
-    var response = '';
-    if (embed) {
-      response = template(adjPersona.showWidget, {url: url});
-    } else {
-      response = template(adjPersona.showLink,
-        {url: url, provider: decodeURI(target.id)});
-      openLink(url);
-    }
-
-    DialogManager.push({
-      speaker: 'user',
-      msg: template(adjPersona.actionConfig, {
-        provider: decodeURI(target.id)
-      })
-    });
-    DialogManager.push({
-      speaker: 'bot',
-      msg: response
-    });
-    searchfield.value = '';
-    processInputs();
+    verbConfigHandler.runCommand(target);
     break;
   default: // search
     var input = target.dataset.key;
