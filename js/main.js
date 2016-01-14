@@ -336,19 +336,10 @@ var verbConfigHandler = {
   }
 };
 
-var _executeCommand = function(target) {
-  var type = target.dataset.type;
-  var id = target.id;
-  //console.log(target)
-
-  switch (type) {
-  case 'open':
-    verbOpenHandler.runCommand(target);
-    break;
-  case 'config':
-    verbConfigHandler.runCommand(target);
-    break;
-  default: // search
+var verbSearchHandler = {
+  runCommand: function(target) {
+    var type = target.dataset.type;
+    var id = target.id;
     var input = target.dataset.key;
     // Not a valid URL, could be a search term
     if (UrlHelper.isNotURL(input)) {
@@ -357,18 +348,18 @@ var _executeCommand = function(target) {
       DialogManager.push({
         speaker: 'user',
         msg: template(adjPersona.actionSearch, {
-          verb: target.dataset.type,
+          verb: type,
           term: decodeURI(input),
-          provider: target.id
+          provider: id
         })
       });
       DialogManager.push({
         speaker: 'bot',
         msg: template(adjPersona.actionSearchReply, {
           url: url,
-          verb: target.dataset.type,
+          verb: type,
           term: decodeURI(input),
-          provider: target.id})
+          provider: id})
       });
       openLink(template(url, {term: input}));
     } else { // open page directly
@@ -382,6 +373,20 @@ var _executeCommand = function(target) {
       // console.log(input);
       openLink(input);
     }
+  }
+};
+
+var _executeCommand = function(target) {
+  //console.log(target);
+  switch (target.dataset.type) {
+  case 'open':
+    verbOpenHandler.runCommand(target);
+    break;
+  case 'config':
+    verbConfigHandler.runCommand(target);
+    break;
+  default: // search
+    verbSearchHandler.runCommand(target);
     break;
   }
 };
