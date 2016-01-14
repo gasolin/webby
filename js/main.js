@@ -38,7 +38,7 @@ var huxian = {
       results = [results[0]];
     }
 
-    console.log('huxian: ', verb, restTerm, results);
+    // console.log('huxian: ', verb, restTerm, results);
     parseResult.verb = verb;
     parseResult.restTerm = restTerm;
     parseResult.results = results;
