@@ -409,12 +409,14 @@ var tagHandler = function(evt) {
   if (tip.classList.contains('hidden')) {
     tip.classList.remove('hidden');
   }
-  if(evt.target) {
-    var type = evt.target.dataset.type;
+  var target = evt.target;
+  if(target) {
+    // provider flatten
+    var type = target.dataset.type;
     if (type) {
-      _runCommand(evt.target);
+      _runCommand(target);
     } else {
-      var verb = evt.target.dataset.key;
+      var verb = target.dataset.key;
       searchfield.value = verb + ' ';
       processInputs();
       searchfield.focus();
@@ -428,7 +430,7 @@ var tagHandler = function(evt) {
         break;
       default:
         tip.textContent = 'tap the label should help you further scoping the ' +
-          'suggestions around ' + evt.target.textContent;
+          'suggestions around ' + target.textContent;
         break;
       }
     }
@@ -436,9 +438,9 @@ var tagHandler = function(evt) {
 };
 
 var clickHandler = function(evt) {
-  if (tip.classList.contains('hidden')) {
-    tip.classList.remove('hidden');
-  }
+  // if (tip.classList.contains('hidden')) {
+  //   tip.classList.remove('hidden');
+  // }
   var target = evt.target;
   // tip.textContent = 'tap the row should ' + target.dataset.type + ' ' +
   //   target.id;
@@ -484,29 +486,30 @@ var renderSuggestions = function(element, inputText) {
   if (results.length != 0) {
     // render suggestions
     results.forEach(function(result) {
-      var noun = reverseMap[result];
-      switch (noun.type) {
+      var provider = reverseMap[result];
+      switch (provider.type) {
       case 'open':
-        //suggestionsSelect.innerHTML += '<li>Open ' + noun.name + '</li>';
+        //suggestionsSelect.innerHTML += '<li>Open ' + provider.name + '</li>';
         _createSuggestion(
           element,
           result,
-          noun.type,
-          'Open ' + noun.name);
+          provider.type,
+          'Open ' + provider.name);
         break;
       case 'config':
         _createSuggestion(
           element,
           result,
-          noun.type,
-          'config ' + noun.name);
+          provider.type,
+          'config ' + provider.name);
         break;
       default: //'search'
-        //suggestionsSelect.innerHTML += '<li>Search ' + restTerm + ' with ' + noun.name + '</li>';
+        //suggestionsSelect.innerHTML += '<li>Search ' + restTerm +
+        //  ' with ' + provider.name + '</li>';
         _createSuggestion(
           element,
-          result, noun.type,
-          'Search ' + restTerm + ' with ' + noun.name,
+          result, provider.type,
+          'Search ' + restTerm + ' with ' + provider.name,
           restTerm);
         break;
       }
