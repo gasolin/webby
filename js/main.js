@@ -266,27 +266,26 @@ var registerKeyboardHandlers = function() {
   });
 };
 
-var verbConfigHandler = {
+var verbOpenHandler = {
   runCommand: function(target) {
     var type = target.dataset.type;
     var id = target.id;
     var url = _getProvider(type, id).url;
     var embed = _getProvider(type, id).embed;
+    //console.log('open '+ url);
+
+    DialogManager.push({
+      speaker: 'user',
+      msg: template(adjPersona.actionOpen, {provider: decodeURI(id)})
+    });
+
     var response = '';
     if (embed) {
       response = template(adjPersona.showWidget, {url: url});
     } else {
       response = template(adjPersona.showLink,
         {url: url, provider: decodeURI(id)});
-      openLink(url);
     }
-
-    DialogManager.push({
-      speaker: 'user',
-      msg: template(adjPersona.actionConfig, {
-        provider: decodeURI(id)
-      })
-    });
     DialogManager.push({
       speaker: 'bot',
       msg: response
@@ -295,6 +294,44 @@ var verbConfigHandler = {
     if (embed) {
       searchfield.value = '';
       processInputs();
+    } else {
+      openLink(url);
+    }
+  }
+};
+
+var verbConfigHandler = {
+  runCommand: function(target) {
+    var type = target.dataset.type;
+    var id = target.id;
+    var url = _getProvider(type, id).url;
+    var embed = _getProvider(type, id).embed;
+
+    DialogManager.push({
+      speaker: 'user',
+      msg: template(adjPersona.actionConfig, {
+        provider: decodeURI(id)
+      })
+    });
+
+    var response = '';
+    if (embed) {
+      response = template(adjPersona.showWidget, {url: url});
+    } else {
+      response = template(adjPersona.showLink,
+        {url: url, provider: decodeURI(id)});
+    }
+
+    DialogManager.push({
+      speaker: 'bot',
+      msg: response
+    });
+
+    if (embed) {
+      searchfield.value = '';
+      processInputs();
+    } else {
+      openLink(url);
     }
   }
 };
@@ -306,30 +343,7 @@ var _executeCommand = function(target) {
 
   switch (type) {
   case 'open':
-    var url = _getProvider(type, id).url;
-    var embed = _getProvider(type, id).embed;
-    //console.log('open '+ url);
-
-    DialogManager.push({
-      speaker: 'user',
-      msg: template(adjPersona.actionOpen, {provider: decodeURI(target.id)})
-    });
-
-    var response = '';
-    if (embed) {
-      response = template(adjPersona.showWidget, {url: url});
-    } else {
-      response = template(adjPersona.showLink,
-        {url: url, app: decodeURI(target.id)});
-    }
-    DialogManager.push({
-      speaker: 'bot',
-      msg: response
-    });
-
-    if (!embed) {
-      openLink(url);
-    }
+    verbOpenHandler.runCommand(target);
     break;
   case 'config':
     verbConfigHandler.runCommand(target);
