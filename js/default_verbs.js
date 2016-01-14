@@ -71,10 +71,10 @@ var verbOpen = {
 
 var verbConfig = {
   actionVerb: 'config',
-  version: '0.4',
+  version: '0.5',
   providers: [{
     name: 'Addons',
-    url: 'widgets/app.html',
+    url: 'widgets/addons.html',
     embed: true
   }, {
     name: 'Report Issue',
