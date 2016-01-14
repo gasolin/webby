@@ -266,20 +266,17 @@ var registerKeyboardHandlers = function() {
   });
 };
 
-var _executeCommand = function(target) {
-  var type = target.dataset.type;
-  var id = target.id;
-  //console.log(target)
-
-  switch (type) {
-  case 'open':
+var verbOpenHandler = {
+  runCommand: function(target) {
+    var type = target.dataset.type;
+    var id = target.id;
     var url = _getProvider(type, id).url;
     var embed = _getProvider(type, id).embed;
     //console.log('open '+ url);
 
     DialogManager.push({
       speaker: 'user',
-      msg: template(adjPersona.actionOpen, {provider: decodeURI(target.id)})
+      msg: template(adjPersona.actionOpen, {provider: decodeURI(id)})
     });
 
     var response = '';
@@ -287,43 +284,62 @@ var _executeCommand = function(target) {
       response = template(adjPersona.showWidget, {url: url});
     } else {
       response = template(adjPersona.showLink,
-        {url: url, app: decodeURI(target.id)});
+        {url: url, provider: decodeURI(id)});
     }
     DialogManager.push({
       speaker: 'bot',
       msg: response
     });
 
-    if (!embed) {
+    if (embed) {
+      searchfield.value = '';
+      processInputs();
+    } else {
       openLink(url);
     }
-    break;
-  case 'config':
+  }
+};
+
+var verbConfigHandler = {
+  runCommand: function(target) {
+    var type = target.dataset.type;
+    var id = target.id;
     var url = _getProvider(type, id).url;
     var embed = _getProvider(type, id).embed;
-    var response = '';
-    if (embed) {
-      response = template(adjPersona.showWidget, {url: url});
-    } else {
-      response = template(adjPersona.showLink,
-        {url: url, provider: decodeURI(target.id)});
-      openLink(url);
-    }
 
     DialogManager.push({
       speaker: 'user',
       msg: template(adjPersona.actionConfig, {
-        provider: decodeURI(target.id)
+        provider: decodeURI(id)
       })
     });
+
+    var response = '';
+    if (embed) {
+      response = template(adjPersona.showWidget, {url: url});
+    } else {
+      response = template(adjPersona.showLink,
+        {url: url, provider: decodeURI(id)});
+    }
+
     DialogManager.push({
       speaker: 'bot',
       msg: response
     });
-    searchfield.value = '';
-    processInputs();
-    break;
-  default: // search
+
+    if (embed) {
+      searchfield.value = '';
+      processInputs();
+    } else {
+      openLink(url);
+    }
+  }
+};
+
+var verbSearchHandler = {
+  runCommand: function(target) {
+    var type = target.dataset.type;
+    var id = target.id;
     var input = target.dataset.key;
     // Not a valid URL, could be a search term
     if (UrlHelper.isNotURL(input)) {
@@ -332,18 +348,18 @@ var _executeCommand = function(target) {
       DialogManager.push({
         speaker: 'user',
         msg: template(adjPersona.actionSearch, {
-          verb: target.dataset.type,
+          verb: type,
           term: decodeURI(input),
-          provider: target.id
+          provider: id
         })
       });
       DialogManager.push({
         speaker: 'bot',
         msg: template(adjPersona.actionSearchReply, {
           url: url,
-          verb: target.dataset.type,
+          verb: type,
           term: decodeURI(input),
-          provider: target.id})
+          provider: id})
       });
       openLink(template(url, {term: input}));
     } else { // open page directly
@@ -357,6 +373,20 @@ var _executeCommand = function(target) {
       // console.log(input);
       openLink(input);
     }
+  }
+};
+
+var _executeCommand = function(target) {
+  //console.log(target);
+  switch (target.dataset.type) {
+  case 'open':
+    verbOpenHandler.runCommand(target);
+    break;
+  case 'config':
+    verbConfigHandler.runCommand(target);
+    break;
+  default: // search
+    verbSearchHandler.runCommand(target);
     break;
   }
 };
