@@ -376,7 +376,7 @@ var verbSearchHandler = {
   }
 };
 
-var _executeCommand = function(target) {
+var _runCommand = function(target) {
   //console.log(target);
   switch (target.dataset.type) {
   case 'open':
@@ -412,7 +412,7 @@ var tagHandler = function(evt) {
   if(evt.target) {
     var type = evt.target.dataset.type;
     if (type) {
-      _executeCommand(evt.target);
+      _runCommand(evt.target);
     } else {
       var verb = evt.target.dataset.key;
       searchfield.value = verb + ' ';
@@ -442,7 +442,7 @@ var clickHandler = function(evt) {
   var target = evt.target;
   // tip.textContent = 'tap the row should ' + target.dataset.type + ' ' +
   //   target.id;
-  _executeCommand(target);
+  _runCommand(target);
 };
 
 var resetUI = function() {
