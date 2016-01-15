@@ -297,6 +297,15 @@ var verbOpenHandler = {
     } else {
       openLink(url);
     }
+  },
+
+  //suggestionsSelect.innerHTML += '<li>Open ' + provider.name + '</li>';
+  createSuggestion: function(element, result, provider) {
+    _createSuggestion(
+      element,
+      result,
+      provider.type,
+      'Open ' + provider.name);
   }
 };
 
@@ -333,6 +342,14 @@ var verbConfigHandler = {
     } else {
       openLink(url);
     }
+  },
+
+  createSuggestion: function(element, result, provider) {
+    _createSuggestion(
+      element,
+      result,
+      provider.type,
+      'Config ' + provider.name);
   }
 };
 
@@ -373,6 +390,17 @@ var verbSearchHandler = {
       // console.log(input);
       openLink(input);
     }
+  },
+
+  //suggestionsSelect.innerHTML += '<li>Search ' + restTerm +
+  //  ' with ' + provider.name + '</li>';
+  createSuggestion: function(element, result, provider, restTerm) {
+    _createSuggestion(
+      element,
+      result,
+      provider.type,
+      'Search ' + restTerm + ' with ' + provider.name,
+      restTerm);
   }
 };
 
@@ -394,12 +422,12 @@ var _runCommand = function(target) {
 var _renderProviders = function(element, verb) {
   verbAddons.forEach(function(verbAddon) {
     if (verbAddon.actionVerb === verb) {
-      verbAddon.providers.forEach(function(provider) {
+      verbAddon.providers.forEach(function(revProvider) {
         _createSuggestion(
           element,
-          provider.name.toLowerCase(),
+          revProvider.name.toLowerCase(),
           verb,
-          verb + ' ' + provider.name);
+          verb + ' ' + revProvider.name);
       });
     }
   });
@@ -441,10 +469,10 @@ var clickHandler = function(evt) {
   // if (tip.classList.contains('hidden')) {
   //   tip.classList.remove('hidden');
   // }
-  var target = evt.target;
+  // var target = evt.target;
   // tip.textContent = 'tap the row should ' + target.dataset.type + ' ' +
   //   target.id;
-  _runCommand(target);
+  _runCommand(evt.target);
 };
 
 var resetUI = function() {
@@ -456,6 +484,7 @@ var resetUI = function() {
 };
 
 var _createSuggestion = function(parent, id, actionType, content, key) {
+  // console.log(id, actionType);
   var ele = document.createElement('li');
   ele.id = id;
   ele.dataset.type = actionType;
@@ -486,43 +515,29 @@ var renderSuggestions = function(element, inputText) {
   if (results.length != 0) {
     // render suggestions
     results.forEach(function(result) {
-      var provider = reverseMap[result];
-      switch (provider.type) {
+      var revProvider = reverseMap[result];
+      switch (revProvider.type) {
       case 'open':
-        //suggestionsSelect.innerHTML += '<li>Open ' + provider.name + '</li>';
-        _createSuggestion(
-          element,
-          result,
-          provider.type,
-          'Open ' + provider.name);
+        verbOpenHandler.createSuggestion(element, result, revProvider);
         break;
       case 'config':
-        _createSuggestion(
-          element,
-          result,
-          provider.type,
-          'config ' + provider.name);
+        verbConfigHandler.createSuggestion(element, result, revProvider);
         break;
       default: //'search'
-        //suggestionsSelect.innerHTML += '<li>Search ' + restTerm +
-        //  ' with ' + provider.name + '</li>';
-        _createSuggestion(
-          element,
-          result, provider.type,
-          'Search ' + restTerm + ' with ' + provider.name,
-          restTerm);
+        verbSearchHandler.createSuggestion(
+          element, result, revProvider, restTerm);
         break;
       }
     });
   } else { // search through default search provider
     //suggestionsSelect.innerHTML = '<li>' + 'Search ' + searchfield.value + '</li>';
-    var restTerm = inputText;
-    _createSuggestion(
+    var defaultSearchProvider =
+      verbSearch.providers[verbSearch.default].name.toLowerCase();
+    verbSearchHandler.createSuggestion(
       element,
-      verbSearch.providers[verbSearch.default].name.toLowerCase(),
-      'search',
-      'Search ' + restTerm,
-      restTerm);
+      defaultSearchProvider,
+      reverseMap[defaultSearchProvider],
+      inputText);
   }
   recalcSpatialNavigation();
 };
