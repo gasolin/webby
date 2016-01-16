@@ -31,30 +31,30 @@
  */
 var verbSearch = {
   actionVerb: 'search',
-  version: '0.5',
+  version: '0.6',
   providers: [{
     name: 'Google',
-    url: 'https://www.google.com/search?q={term}',
-    suggest: 'https://www.google.com/complete/search?client=firefox&q={term}'
+    url: 'https://www.google.com/search?q={searchTerms}',
+    suggest: 'https://www.google.com/complete/search?client=firefox&q={searchTerms}'
   }, {
     name: 'Yahoo',
-    url: 'https://search.yahoo.com/search?p={term}',
-    suggest: 'https://search.yahoo.com/sugg/ff?output=fxjson&command={term}'
+    url: 'https://search.yahoo.com/search?p={searchTerms}',
+    suggest: 'https://search.yahoo.com/sugg/ff?output=fxjson&command={searchTerms}'
   }, {
     name: 'Bing',
-    url: 'https://www.bing.com/search?form=OSDSRC&q={term}',
-    suggest: 'http://api.bing.com/osjson.aspx?form=OSDJAS&query={term}'
+    url: 'https://www.bing.com/search?form=OSDSRC&q={searchTerms}',
+    suggest: 'http://api.bing.com/osjson.aspx?form=OSDJAS&query={searchTerms}'
   }, {
     name: 'Wikipedia',
-    url: 'http://en.wikipedia.org/w/index.php?title=Special:Search&search={term}',
-    suggest: 'http://en.wikipedia.org/w/api.php?action=opensearch&search={term}'
+    url: 'http://en.wikipedia.org/w/index.php?title=Special:Search&search={searchTerms}',
+    suggest: 'http://en.wikipedia.org/w/api.php?action=opensearch&search={searchTerms}'
   }, {
     name: 'GitHub',
-    url: 'http://github.com/search?type=Everything&repo=&langOverride=&start_value=1&q={term}',
+    url: 'http://github.com/search?type=Everything&repo=&langOverride=&start_value=1&q={searchTerms}',
     suggest: ''
   }, {
     name: 'Translate',
-    url: 'http://translate.google.com/?q={term}',
+    url: 'http://translate.google.com/?q={searchTerms}',
     suggest: ''
   }],
   default: 0,
