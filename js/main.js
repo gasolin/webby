@@ -646,6 +646,7 @@ var init = function() {
 };
 
 // default personality
+// TODO: load personality locally
 adjPersona = defaultAdjStore;
 // load addon locally
 localforage.getItem(stoerKey, function(err, value) {
