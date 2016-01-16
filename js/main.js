@@ -361,13 +361,23 @@ var verbConfigHandler = {
   }
 };
 
+var _showTip = function(msg) {
+  if (tip.classList.contains('hidden')) {
+    tip.classList.remove('hidden');
+  }
+  tip.textContent = msg;
+};
+
 var verbSearchHandler = {
   runCommand: function(target) {
     var type = target.dataset.type;
     var id = target.id;
     var input = target.dataset.key;
+    // console.log(type, id, input);
     // Not a valid URL, could be a search term
-    if (UrlHelper.isNotURL(input)) {
+    if (!input) {
+      _showTip('please type more charactor to get result');
+    } else if (UrlHelper.isNotURL(input)) {
       var url = template(_getProvider(type, id).url, {term: input});
       //console.log('open ' + url + evt.target.dataset.key);
       DialogManager.push({
@@ -442,9 +452,6 @@ var _renderProviders = function(element, verb) {
 };
 
 var tagHandler = function(evt) {
-  if (tip.classList.contains('hidden')) {
-    tip.classList.remove('hidden');
-  }
   var target = evt.target;
   if(target) {
     // provider flatten
@@ -465,8 +472,8 @@ var tagHandler = function(evt) {
         // tip.textContent = 'tap the config label will show config list';
         break;
       default:
-        tip.textContent = 'tap the label should help you further scoping the ' +
-          'suggestions around ' + target.textContent;
+        _showTip('tap the label should help you further scoping the ' +
+          'suggestions around ' + target.textContent);
         break;
       }
     }
@@ -474,12 +481,9 @@ var tagHandler = function(evt) {
 };
 
 var clickHandler = function(evt) {
-  // if (tip.classList.contains('hidden')) {
-  //   tip.classList.remove('hidden');
-  // }
   // var target = evt.target;
-  // tip.textContent = 'tap the row should ' + target.dataset.type + ' ' +
-  //   target.id;
+  // _showTip('tap the row should ' + target.dataset.type + ' ' +
+  //   target.id);
   _runCommand(evt.target);
 };
 
