@@ -301,11 +301,15 @@ var verbOpenHandler = {
 
   //suggestionsSelect.innerHTML += '<li>Open ' + provider.name + '</li>';
   createSuggestion: function(element, result, provider) {
-    _createSuggestion(
-      element,
-      result,
-      provider.type,
-      'Open ' + provider.name);
+    if (result === 'open') {
+      _renderProviders(suggestionsSelect, 'open');
+    } else {
+      _createSuggestion(
+        element,
+        result,
+        provider.type,
+        'Open ' + provider.name);
+    }
   }
 };
 
@@ -345,11 +349,15 @@ var verbConfigHandler = {
   },
 
   createSuggestion: function(element, result, provider) {
-    _createSuggestion(
-      element,
-      result,
-      provider.type,
-      'Config ' + provider.name);
+    if (result === 'config') {
+      _renderProviders(suggestionsSelect, 'config');
+    } else {
+      _createSuggestion(
+        element,
+        result,
+        provider.type,
+        'Config ' + provider.name);
+    }
   }
 };
 
@@ -523,9 +531,10 @@ var renderSuggestions = function(element, inputText) {
       case 'config':
         verbConfigHandler.createSuggestion(element, result, revProvider);
         break;
-      default: //'search'
+      default: // search
         verbSearchHandler.createSuggestion(
           element, result, revProvider, restTerm);
+        // console.log('search through default provider');
         break;
       }
     });
