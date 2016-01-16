@@ -84,7 +84,9 @@ var queryInstantSuggestions = function(inputText) {
         // console.log(suggestUrl + encodeURI(verb));
         $.ajax({
           type: 'GET',
-          url: template(suggestUrl, {term: encodeURIComponent(verb)}),
+          url: template(suggestUrl, {
+            searchTerms: encodeURIComponent(verb)
+          }),
           dataType: 'jsonp'
         }).done(function(response) {
           //console.log(JSON.stringify(response));
@@ -106,7 +108,9 @@ var queryInstantSuggestions = function(inputText) {
           // console.log(suggestUrl + encodeURI(verb));
           $.ajax({
             type: 'GET',
-            url: template(suggestUrl, {term: encodeURIComponent(restTerm)}),
+            url: template(suggestUrl, {
+              searchTerms: encodeURIComponent(restTerm)
+            }),
             dataType: 'jsonp'
           }).done(function(response) {
             //console.log(JSON.stringify(response));
@@ -276,7 +280,9 @@ var verbOpenHandler = {
 
     DialogManager.push({
       speaker: 'user',
-      msg: template(adjPersona.actionOpen, {provider: decodeURI(id)})
+      msg: template(adjPersona.actionOpen, {
+        provider: decodeURI(id)
+      })
     });
 
     var response = '';
@@ -378,13 +384,15 @@ var verbSearchHandler = {
     if (!input) {
       _showTip('please type more charactor to get result');
     } else if (UrlHelper.isNotURL(input)) {
-      var url = template(_getProvider(type, id).url, {term: input});
+      var url = template(_getProvider(type, id).url, {
+        searchTerms: input
+      });
       //console.log('open ' + url + evt.target.dataset.key);
       DialogManager.push({
         speaker: 'user',
         msg: template(adjPersona.actionSearch, {
           verb: type,
-          term: decodeURI(input),
+          searchTerms: decodeURI(input),
           provider: id
         })
       });
@@ -393,10 +401,12 @@ var verbSearchHandler = {
         msg: template(adjPersona.actionSearchReply, {
           url: url,
           verb: type,
-          term: decodeURI(input),
+          searchTerms: decodeURI(input),
           provider: id})
       });
-      openLink(template(url, {term: input}));
+      openLink(template(url, {
+        searchTerms: input
+      }));
     } else { // open page directly
       // console.log('ori:' + input);
       input = input.replace('%3A%2F%2F', '://');
