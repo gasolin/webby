@@ -1,4 +1,4 @@
-/*globals $, defaultVerbStore, defaultAdjStore,
+/*globals $, defaultVerbStore, defaultAdjStore, defaultNounStore,
           verbSearch, localforage, UrlHelper, DialogManager */
 'use strict';
 
@@ -580,6 +580,7 @@ var processInputs = function() {
 // define all supported verbs
 var stoerKey = 'verbstore';
 var adjPersona;
+var nounPreference;
 var verbAddons = [];
 // the universal verb tags pool
 var searchPool = [];
@@ -648,6 +649,9 @@ var init = function() {
 // default personality
 // TODO: load personality locally
 adjPersona = defaultAdjStore;
+// default preference
+// TODO: load preference locally
+nounPreference = defaultNounStore;
 // load addon locally
 localforage.getItem(stoerKey, function(err, value) {
   if (err) {
