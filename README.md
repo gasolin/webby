@@ -6,11 +6,13 @@
 
 Webby is now available as a Firefox new tab extension. [Install here](https://addons.mozilla.org/en-US/firefox/addon/tabwebby/)
 
+Note the protoype is not stable yet, the syntax will changing and cause cached data obsolete. When you met issue, please run `config > config addons` and tap `RESET TO DEFAULT VERBS` to reset cached data to default values.
+
 ## Why webby
 
 The [Prototype](https://gasolin.github.io/webby) is able to:
  * **Open** installed app in new tab
- * (**Widget**) Open app inside of dialog (music, weather)
+ * (**Widget**) Open app inside of dialog (try type trmusic, weather)
  * **Search** through default search provider
  * **Search** through different search provider
  * User is **able to add/delete app/widget** in `config > addons`
@@ -26,10 +28,12 @@ Plan to do
 
 ## Webby Interaction
 
-Elements: order box, deacon box (order tags, instant search tags, suggestions), chat history
+Type commands and get results, no bullshit.
 
-* `Search` and `Open` are the default verbs, we don't need to type them manually.
+* `Search`, `Open` are the default verbs, we don't need to type them manually.
 * `Search providers` are exposed as default verbs. (ex: user could use `wikipedia <keyword>`/`w <keyword>` to search wikipedia directly)
+
+Elements: order box, deacon box (order tags, instant search tags, suggestions), chat history
 
 ### order-tag-suggestion interface
 
