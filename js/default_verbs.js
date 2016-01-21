@@ -113,6 +113,10 @@ var verbConfig = {
     url: 'widgets/addons.html',
     embed: true
   }, {
+    name: 'preferences',
+    url: 'widgets/pref.html',
+    embed: true
+  }, {
     name: 'Report Issue',
     url: 'https://github.com/gasolin/webby/issues'
   }, {
