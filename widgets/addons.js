@@ -34,8 +34,64 @@ localforage.getItem(stoerKey, function(err, value) {
           ul.appendChild(li);
         });
 
-        // enable user to add new app for open verb
-        if (verbAddon.actionVerb === 'open') {
+        // create manipulate functions
+        switch (verbAddon.actionVerb) {
+        case 'search': // enable user to add new search provider
+          // add new app
+          var providerAdd = document.createElement('a');
+          providerAdd.href = '#searchform';
+          providerAdd.textContent = 'Add new provider';
+          configs.appendChild(providerAdd);
+          var formProviderAdd = document.createElement('form');
+          formProviderAdd.id = 'searchform';
+          configs.appendChild(formProviderAdd);
+          providerAdd.addEventListener('click', function() {
+            formProviderAdd.innerHTML = '<label for="name">Name</label>' +
+              '<input class="form-control" id="name">' +
+              '<label for="url">URL</label>' +
+              '<input class="form-control" id="url">' +
+              '<label for="suggest">Suggestion</label>' +
+              '<input class="form-control" id="suggest">' +
+              '<button id="addprovider" class="btn btn-primary">' +
+              'Add Provider</button>';
+
+            formProviderAdd.addprovider.addEventListener('click', function() {
+              console.log(formProviderAdd.name.value + ' | ' +
+                formProviderAdd.url.value + ' | ' +
+                formProviderAdd.suggest.value);
+              if (formProviderAdd.name.value && formProviderAdd.url.value) {
+                addEntry(verbAddons, verbAddon, {
+                  name: formProviderAdd.name.value,
+                  url: formProviderAdd.url.value,
+                  suggest: formProviderAdd.suggest.value
+                });
+              }
+            });
+          });
+
+          // remove provider
+          var providerRm = document.createElement('a');
+          providerRm.href = '#removeProvider';
+          providerRm.textContent = 'Remove provider';
+          configs.appendChild(providerRm);
+          var ulProviderRm = document.createElement('ul');
+          ulProviderRm.id = 'removeProvider';
+          configs.appendChild(ulProviderRm);
+          providerRm.addEventListener('click', function() {
+            verbAddon.providers.forEach(function(provider, idx) {
+              var liProviderRm = document.createElement('li');
+              var aProviderRm = document.createElement('a');
+              aProviderRm.type = idx;
+              aProviderRm.textContent = provider.name;
+              aProviderRm.addEventListener('click', function(evt) {
+                removeEntry(verbAddons, verbAddon, evt.target);
+              });
+              liProviderRm.appendChild(aProviderRm);
+              ulProviderRm.appendChild(liProviderRm);
+            });
+          });
+          break;
+        case 'open': // enable user to add/remove app for open
           // add new app
           var linkAdd = document.createElement('a');
           linkAdd.href = '#openform';
@@ -60,11 +116,13 @@ localforage.getItem(stoerKey, function(err, value) {
                 formAdd.url.value + ' | ' +
                 formAdd.embed.value);
               var isEmbed = formAdd.embed.value === 'true' ? true : false;
-              addEntry(verbAddons, verbAddon, {
-                name: formAdd.name.value,
-                url: formAdd.url.value,
-                embed: isEmbed
-              });
+              if (formAdd.name.value && formAdd.url.value) {
+                addEntry(verbAddons, verbAddon, {
+                  name: formAdd.name.value,
+                  url: formAdd.url.value,
+                  embed: isEmbed
+                });
+              }
             });
           });
 
@@ -89,6 +147,9 @@ localforage.getItem(stoerKey, function(err, value) {
               ulRm.appendChild(liRm);
             });
           });
+          break;
+        default:
+          break;
         }
       });
     }
