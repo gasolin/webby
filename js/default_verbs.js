@@ -97,6 +97,10 @@ var verbOpen = {
     name: 'Weather',
     url: 'http://gasolin.github.io/accuwidget/',
     embed: true
+  }, {
+    name: '42goals',
+    url: 'http://42goals.com/goals/',
+    embed: true
   }],
   default: 0,
   indexing: 'both'
