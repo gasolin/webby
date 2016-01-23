@@ -587,8 +587,7 @@ var processInputs = function() {
 };
 
 // init start
-// define all supported verbs
-var stoerKey = 'verbstore';
+var verbStoreKey = 'verbstore';
 var adjPersona;
 var nounPreference;
 var verbAddons = [];
@@ -663,14 +662,14 @@ adjPersona = defaultAdjStore;
 // TODO: load preference locally
 nounPreference = defaultNounStore;
 // load addon locally
-localforage.getItem(stoerKey, function(err, value) {
+localforage.getItem(verbStoreKey, function(err, value) {
   if (err) {
     console.error(err);
   } else {
     verbAddons = JSON.parse(value);
-    if (!verbAddons) {
+    if (!verbAddons) { // define all supported verbs
       verbAddons = defaultVerbStore;
-      localforage.setItem(stoerKey,
+      localforage.setItem(verbStoreKey,
         JSON.stringify(defaultVerbStore))
         .then(init);
     } else {
