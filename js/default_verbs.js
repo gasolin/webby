@@ -67,40 +67,47 @@ var verbSearch = {
  */
 var verbOpen = {
   actionVerb: 'open',
-  version: '0.4',
+  version: '0.5',
   providers: [{
     name: 'Facebook',
-    url: 'http://www.facebook.com/'
+    url: 'http://www.facebook.com/',
+    type: 'site'
   }, {
     name: 'Twitter',
-    url: 'http://www.twitter.com/'
+    url: 'http://www.twitter.com/',
+    type: 'site'
   }, {
     name: 'Calendar',
-    url: 'http://calendar.google.com/'
+    url: 'http://calendar.google.com/',
+    type: 'site'
   }, {
     name: 'Email',
-    url: 'http://www.gmail.com/'
+    url: 'http://www.gmail.com/',
+    type: 'site'
   }, {
     name: 'Gallery',
-    url: 'http://www.flickr.com/'
+    url: 'http://www.flickr.com/',
+    type: 'site'
   }, {
     name: 'Music',
     url: 'http://douban.fm/partner/firefox',
-    embed: true
+    type: 'widget'
   }, {
     name: 'Tasks',
     url: 'https://mail.google.com/tasks/android',
+    type: 'site'
   }, {
     name: 'ShareDrop',
-    url: 'https://snapdrop.net/'
+    url: 'https://snapdrop.net/',
+    type: 'site'
   }, {
     name: 'Weather',
     url: 'http://gasolin.github.io/accuwidget/',
-    embed: true
+    type: 'widget'
   }, {
     name: '42goals',
     url: 'http://42goals.com/goals/',
-    embed: true
+    type: 'widget'
   }],
   default: 0,
   indexing: 'both'

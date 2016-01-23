@@ -105,22 +105,21 @@ localforage.getItem(stoerKey, function(err, value) {
               '<input class="form-control" id="name">' +
               '<label for="url">URL</label>' +
               '<input class="form-control" id="url">' +
-              '<select id="embed" class="form-control">' +
-              '<option value="true" selected>True</option>' +
-              '<option value="false">False</option>' +
+              '<select id="type" class="form-control">' +
+              '<option value="site" selected>Site</option>' +
+              '<option value="widget">Widget</option>' +
               '</select>' +
               '<button id="addapp" class="btn btn-primary">Add App</button>';
 
             formAdd.addapp.addEventListener('click', function() {
               console.log(formAdd.name.value + ' | ' +
                 formAdd.url.value + ' | ' +
-                formAdd.embed.value);
-              var isEmbed = formAdd.embed.value === 'true' ? true : false;
+                formAdd.type.value);
               if (formAdd.name.value && formAdd.url.value) {
                 addEntry(verbAddons, verbAddon, {
                   name: formAdd.name.value,
                   url: formAdd.url.value,
-                  embed: isEmbed
+                  type: formAdd.type.value
                 });
               }
             });
