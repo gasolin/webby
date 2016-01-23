@@ -108,6 +108,7 @@ localforage.getItem(verbStoreKey, function(err, value) {
               '<select id="type" class="form-control">' +
               '<option value="site" selected>Site</option>' +
               '<option value="widget">Widget</option>' +
+              '<option value="ifttt">IFTTT</option>' +
               '</select>' +
               '<button id="addapp" class="btn btn-primary">Add App</button>';
 

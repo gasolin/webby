@@ -276,11 +276,25 @@ var verbOpenHandler = {
     var id = target.id;
     var url = _getProvider(type, id).url;
     var isEmbed = false;
-    if (_getProvider(type, id).embed /* TODO: remove in 0.7 */ ||
-      _getProvider(type, id).type === 'widget') {
+    var isIFTTT = false;
+    var providerType = _getProvider(type, id).type;
+    if (providerType) {
+      switch(providerType) {
+      case 'widget':
+        isEmbed = true;
+        break;
+      case 'ifttt':
+        isIFTTT = true;
+        break;
+      default:
+        break;
+      }
+    }
+
+    /* TODO: remove in 0.7 */
+    if (_getProvider(type, id).embed) {
       isEmbed = true;
     }
-    console.log(isEmbed);
     //console.log('open '+ url);
 
     DialogManager.push({
@@ -290,23 +304,65 @@ var verbOpenHandler = {
       })
     });
 
-    var response = '';
+    var responseMsg = '';
     if (isEmbed) {
-      response = template(adjPersona.showWidget, {url: url});
-    } else {
-      response = template(adjPersona.showLink, {
-        url: url, provider: decodeURI(id)
+      responseMsg = template(adjPersona.showWidget, {url: url});
+      DialogManager.push({
+        speaker: 'bot',
+        msg: responseMsg
       });
-    }
-    DialogManager.push({
-      speaker: 'bot',
-      msg: response
-    });
 
-    if (isEmbed) {
+      searchfield.value = '';
+      processInputs();
+    } else if (isIFTTT) { //test with ifttt maker channel
+      $.ajax({
+        url: url,
+        type: 'GET',
+        dataType: 'jsonp',
+        // data: 'restTerm',
+      }).done(function(data) { //called when successful
+        console.log(data);
+        responseMsg = template(adjPersona.showWebhook, {
+          url: url,
+          name: _getProvider(type, id).name
+        });
+        DialogManager.push({
+          speaker: 'bot',
+          msg: responseMsg
+        });
+      }).fail(function(e) {
+        console.log('fail:' + JSON.stringify(e));
+        if (e.readyState === 4) {
+          responseMsg = template(adjPersona.showWebhook, {
+            url: url,
+            name: _getProvider(type, id).name
+          });
+        } else {
+          //called when there is an error
+          //console.log(e.message);
+          responseMsg = template(adjPersona.showWebhookFailed, {
+            name: _getProvider(type, id).name,
+            msg: e.message
+          });
+        }
+
+        DialogManager.push({
+          speaker: 'bot',
+          msg: responseMsg
+        });
+      });
+
       searchfield.value = '';
       processInputs();
     } else {
+      responseMsg = template(adjPersona.showLink, {
+        url: url, provider: decodeURI(id)
+      });
+      DialogManager.push({
+        speaker: 'bot',
+        msg: responseMsg
+      });
+
       openLink(url);
     }
   },
@@ -331,8 +387,22 @@ var verbConfigHandler = {
     var id = target.id;
     var url = _getProvider(type, id).url;
     var isEmbed = false;
-    if (_getProvider(type, id).embed /* TODO: remove in 0.7 */ ||
-      _getProvider(type, id).type === 'widget') {
+    var isHTTPGet = false;
+    var providerType = _getProvider(type, id).type;
+    if (providerType) {
+      switch(providerType) {
+      case 'widget':
+        isEmbed = true;
+        break;
+      case 'httpget':
+        isHTTPGet = true;
+      default:
+        break;
+      }
+    }
+
+    /* TODO: remove in 0.7 */
+    if (_getProvider(type, id).embed) {
       isEmbed = true;
     }
 

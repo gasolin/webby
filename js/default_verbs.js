@@ -118,21 +118,23 @@ var verbOpen = {
  */
 var verbConfig = {
   actionVerb: 'config',
-  version: '0.6',
+  version: '0.7',
   providers: [{
+    name: 'About',
+    url: 'https://github.com/gasolin/webby',
+    type: 'site'
+  }, {
     name: 'Addons',
     url: 'widgets/addons.html',
-    embed: true
+    type: 'widget'
   }, {
     name: 'preferences',
     url: 'widgets/pref.html',
-    embed: true
+    type: 'widget'
   }, {
     name: 'Report Issue',
-    url: 'https://github.com/gasolin/webby/issues'
-  }, {
-    name: 'About',
-    url: 'https://github.com/gasolin/webby'
+    url: 'https://github.com/gasolin/webby/issues',
+    type: 'site'
   }],
   default: 0,
   indexing: 'both'
