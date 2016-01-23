@@ -275,7 +275,12 @@ var verbOpenHandler = {
     var type = target.dataset.type;
     var id = target.id;
     var url = _getProvider(type, id).url;
-    var embed = _getProvider(type, id).embed;
+    var isEmbed = false;
+    if (_getProvider(type, id).embed /* TODO: remove in 0.7 */ ||
+      _getProvider(type, id).type === 'widget') {
+      isEmbed = true;
+    }
+    console.log(isEmbed);
     //console.log('open '+ url);
 
     DialogManager.push({
@@ -286,18 +291,19 @@ var verbOpenHandler = {
     });
 
     var response = '';
-    if (embed) {
+    if (isEmbed) {
       response = template(adjPersona.showWidget, {url: url});
     } else {
-      response = template(adjPersona.showLink,
-        {url: url, provider: decodeURI(id)});
+      response = template(adjPersona.showLink, {
+        url: url, provider: decodeURI(id)
+      });
     }
     DialogManager.push({
       speaker: 'bot',
       msg: response
     });
 
-    if (embed) {
+    if (isEmbed) {
       searchfield.value = '';
       processInputs();
     } else {
@@ -324,7 +330,11 @@ var verbConfigHandler = {
     var type = target.dataset.type;
     var id = target.id;
     var url = _getProvider(type, id).url;
-    var embed = _getProvider(type, id).embed;
+    var isEmbed = false;
+    if (_getProvider(type, id).embed /* TODO: remove in 0.7 */ ||
+      _getProvider(type, id).type === 'widget') {
+      isEmbed = true;
+    }
 
     DialogManager.push({
       speaker: 'user',
@@ -334,7 +344,7 @@ var verbConfigHandler = {
     });
 
     var response = '';
-    if (embed) {
+    if (isEmbed) {
       response = template(adjPersona.showWidget, {url: url});
     } else {
       response = template(adjPersona.showLink,
@@ -346,7 +356,7 @@ var verbConfigHandler = {
       msg: response
     });
 
-    if (embed) {
+    if (isEmbed) {
       searchfield.value = '';
       processInputs();
     } else {
