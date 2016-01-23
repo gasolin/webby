@@ -1,12 +1,12 @@
 /*globals localforage, defaultVerbStore */
 'use strict';
 
-var stoerKey = 'verbstore';
+var verbStoreKey = 'verbstore';
 var configs = document.getElementById('configs');
 var reset = document.getElementById('reset');
 var tip = document.getElementById('tip');
 
-localforage.getItem(stoerKey, function(err, value) {
+localforage.getItem(verbStoreKey, function(err, value) {
   if (err) {
     console.error(err);
   } else {
@@ -156,7 +156,7 @@ localforage.getItem(stoerKey, function(err, value) {
 });
 
 reset.addEventListener('click', function() {
-  localforage.setItem(stoerKey,
+  localforage.setItem(verbStoreKey,
     JSON.stringify(defaultVerbStore)).then(function() {
       if (tip.classList.contains('hidden')) {
         tip.classList.remove('hidden');
@@ -167,7 +167,7 @@ reset.addEventListener('click', function() {
 
 var addEntry = function(verbAddons, verbAddon, obj) {
   verbAddon.providers.push(obj);
-  localforage.setItem(stoerKey, JSON.stringify(verbAddons))
+  localforage.setItem(verbStoreKey, JSON.stringify(verbAddons))
   .then(function() {
     alert('App ' + obj.name +
       ' added, reload the page to access the new app');
@@ -178,7 +178,7 @@ var removeEntry = function(verbAddons, verbAddon, element) {
   var idx = element.type;
   console.log('remove ' + idx);
   verbAddon.providers.splice(idx, 1);
-  localforage.setItem(stoerKey, JSON.stringify(verbAddons))
+  localforage.setItem(verbStoreKey, JSON.stringify(verbAddons))
   .then(function() {
     confirm('App ' + element.textContent +
       ' removed, reload the page to access the new app');
