@@ -732,13 +732,13 @@ var migration = function(cachedVerbs) {
       if (cachedVerb.actionVerb === defaultVerb.actionVerb) {
         if (cachedVerb.version !== defaultVerb.version) {
           console.log(cachedVerb.actionVerb, cachedVerb.version,
-            '->', defaultVerb.version)
+            '->', defaultVerb.version);
           _showTip('verbs are updated and overwrited. ' +
             'Your have lost previous cached verb.');
           cachedVerb = defaultVerb;
         }
       }
-    })
+    });
   });
 };
 
