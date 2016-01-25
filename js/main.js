@@ -725,14 +725,15 @@ var init = function() {
   DialogManager.init(chatHistory, adjPersona);
 };
 
-var migration = function(value) {
+// get cached verbs or fallback to default verbs
+var buildVerbs = function(cachedVerbs) {
   return new Promise(function(resolve) {
-    verbAddons = value;
-    if (!verbAddons) { // define all supported verbs
+    if (!cachedVerbs) { // define all supported verbs
       verbAddons = defaultVerbStore;
       localforage.setItem(verbStoreKey,
         JSON.stringify(defaultVerbStore)).then(resolve);
     } else {
+      verbAddons = cachedVerbs;
       resolve();
     }
   });
@@ -749,7 +750,7 @@ localforage.getItem(verbStoreKey, function(err, value) {
   if (err) {
     console.error(err);
   } else {
-    migration(JSON.parse(value)).then(function() {
+    buildVerbs(JSON.parse(value)).then(function() {
       init();
     }).catch(function(err) {
       console.log('Migration failed');
