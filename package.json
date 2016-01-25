@@ -1,7 +1,7 @@
 {
   "name": "webby",
-  "version": "0.4.0",
-  "description": "place order to your deacon through the web",
+  "version": "0.5.0",
+  "description": "place order to your webby through the web",
   "main": "index.html",
   "scripts": {
     "test": "cd test && karma start --browsers Firefox --single-run",
