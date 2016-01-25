@@ -725,6 +725,19 @@ var init = function() {
   DialogManager.init(chatHistory, adjPersona);
 };
 
+var migration = function(value) {
+  return new Promise(function(resolve) {
+    verbAddons = value;
+    if (!verbAddons) { // define all supported verbs
+      verbAddons = defaultVerbStore;
+      localforage.setItem(verbStoreKey,
+        JSON.stringify(defaultVerbStore)).then(resolve);
+    } else {
+      resolve();
+    }
+  });
+};
+
 // default personality
 // TODO: load personality locally
 adjPersona = defaultAdjStore;
@@ -736,15 +749,12 @@ localforage.getItem(verbStoreKey, function(err, value) {
   if (err) {
     console.error(err);
   } else {
-    verbAddons = JSON.parse(value);
-    if (!verbAddons) { // define all supported verbs
-      verbAddons = defaultVerbStore;
-      localforage.setItem(verbStoreKey,
-        JSON.stringify(defaultVerbStore))
-        .then(init);
-    } else {
+    migration(JSON.parse(value)).then(function() {
       init();
-    }
+    }).catch(function(err) {
+      console.log('Migration failed');
+      throw err;
+    });
   }
 });
 // init end
