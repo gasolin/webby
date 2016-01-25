@@ -725,6 +725,23 @@ var init = function() {
   DialogManager.init(chatHistory, adjPersona);
 };
 
+// if any verb version is different, replace cached verb to default verb
+var migration = function(cachedVerbs) {
+  cachedVerbs.forEach(function(cachedVerb) {
+    defaultVerbStore.forEach(function(defaultVerb) {
+      if (cachedVerb.actionVerb === defaultVerb.actionVerb) {
+        if (cachedVerb.version !== defaultVerb.version) {
+          console.log(cachedVerb.actionVerb, cachedVerb.version,
+            '->', defaultVerb.version)
+          _showTip('verbs are updated and overwrited. ' +
+            'Your have lost previous cached verb.');
+          cachedVerb = defaultVerb;
+        }
+      }
+    })
+  });
+};
+
 // get cached verbs or fallback to default verbs
 var buildVerbs = function(cachedVerbs) {
   return new Promise(function(resolve) {
@@ -733,6 +750,7 @@ var buildVerbs = function(cachedVerbs) {
       localforage.setItem(verbStoreKey,
         JSON.stringify(defaultVerbStore)).then(resolve);
     } else {
+      migration(cachedVerbs);
       verbAddons = cachedVerbs;
       resolve();
     }
